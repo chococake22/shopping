@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>kr.project</groupId>
+	<artifactId>shopping</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>shopping</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>2.0.4.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- jstl 라이브러리 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+		<!-- mybatis (SQL Mapper 라이브러리) -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.6</version>
+		</dependency>
+		<!-- mybatis-spring (스프링과 MyBatis를 연결해준다)-->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<!--	DataSource에 필요한 클래스를 제공한다-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<!-- 스프링이랑 mybatis가 잘 연결되었는지 확인하기 위한 라이브러 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20220320</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.7</version>
+		</dependency>
+		<!-- 다중 파일 업로드  -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
