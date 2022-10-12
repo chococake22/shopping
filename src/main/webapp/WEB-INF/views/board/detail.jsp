@@ -11,23 +11,26 @@
 
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="container justify-content-center my-4">
-    <h1>글쓰기</h1>
-    <label for="title" class="form-label">주제</label>
-    <div class="mb-3">
-        <select class="form-select mb-3" aria-label=".form-select-lg example">
-            <option selected>선택하세요</option>
-            <option value="1">공지사항</option>
-            <option value="2">일반글</option>
-            <option value="3">기타</option>
-        </select>
-    </div>
+    <h1>상세보기</h1>
     <div class="mb-3">
         <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" placeholder="제목">
+        <input type="text" class="form-control" id="title" value="${boardVo.title}" placeholder="제목">
+    </div>
+    <div class="mb-3">
+        <label for="writer" class="form-label">작성자</label>
+        <input type="text" class="form-control" id="writer" value="${boardVo.writer}" placeholder="제목">
     </div>
     <div class="mb-3">
         <label for="content" class="form-label">내용</label>
-        <textarea class="form-control" id="content" rows="8" style="resize: none" placeholder="내용을 입력하세요."></textarea>
+        <input type="text" class="form-control" id="content" value="${boardVo.content}" placeholder="제목">
+    </div>
+    <div class="mb-3">
+        <label for="likeCount" class="form-label">좋아요</label>
+        <input type="text" class="form-control" id="likeCount" value="${boardVo.likeCount}" placeholder="제목">
+    </div>
+    <div class="mb-3">
+        <label for="click" class="form-label">조회수</label>
+        <input type="text" class="form-control" id="click" value="${boardVo.click}" placeholder="제목">
     </div>
     <div class="mb-3">
         <label for="files" class="form-label">파일첨부(최대 3개, 개당 1MB)</label>

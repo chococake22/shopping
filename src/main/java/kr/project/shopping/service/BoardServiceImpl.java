@@ -1,6 +1,10 @@
 package kr.project.shopping.service;
 
+import kr.project.shopping.domain.board.Board;
+import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.mapper.BoardMapper;
+import kr.project.shopping.vo.BoardDetailVo;
+import kr.project.shopping.vo.BoardListVo;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -12,23 +16,23 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
 
     @Override
-    public JSONObject SELECT_BOARD_DETAIL(Long boardIdx) {
-        return null;
+    public BoardDetailVo SELECT_BOARD_DETAIL(Long boardIdx) {
+        return boardMapper.SELECT_BOARD_DETAIL(boardIdx);
     }
 
     @Override
-    public int COUNT_BOARD_LIST(JSONObject json) {
-        return 0;
+    public int COUNT_BOARD_LIST(BoardSearchDto dto) {
+        return boardMapper.COUNT_BOARD_LIST(dto);
     }
 
     @Override
-    public List<JSONObject> LIST_BOARD(JSONObject json) {
-        return null;
+    public List<BoardListVo> SELECT_BOARD_LIST(BoardSearchDto dto) {
+        return boardMapper.SELECT_BOARD_LIST(dto);
     }
 
     @Override
@@ -38,18 +42,18 @@ public class BoardServiceImpl implements BoardService{
         String title = request.getParameter("title");
         String content = request.getParameter("content");
 
-        JSONObject json = new JSONObject();
-        json.put("boardType", boardType);
-        json.put("title", title);
-        json.put("content", content);
+        Board board = Board.builder()
+                .title(title)
+                .content(content)
+                .boardType(boardType)
+                .build();
 
-        System.out.println(boardType);
-        System.out.println(title);
-        System.out.println(content);
 
-        int boardIdx = boardMapper.INSERT_BOARD(json);
+        Long boardIdx = boardMapper.INSERT_BOARD(board);
 
-        return boardIdx;
+        System.out.println("등록 번호 : " + board.getBoardIdx());
+
+        return 13;
     }
 
     @Override

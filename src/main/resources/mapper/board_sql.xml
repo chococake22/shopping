@@ -3,16 +3,104 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.project.shopping.mapper.BoardMapper">
+    <sql id="BOARD_SEARCH_CONDITION">
+        WHERE
+            TB.board_idx != ''
+        <if test='boardType == "notice"'>
+            AND TB.board_type = 'notice'
+        </if>
+        <if test='boardType == "normal"'>
+            AND TB.board_type = 'normal'
+        </if>
+        <if test='boardType == "etc"'>
+            AND TB.board_type = 'etc'
+        </if>
 
-    <select id="SELECT_BOARD_DETAIL" parameterType="Long" resultType="JSON">
-        SELECT *
-        FROM TB_BOARD;
+        <choose>
+            <when test='keyword != ""'>
+                <if test="searchType == '' or searchType == null">
+                    AND (TB.title LIKE CONCAT('%', #{keyword} ,'%')
+                    OR TB.content LIKE CONCAT('%', #{keyword} ,'%')
+                    OR TU.name LIKE CONCAT('%', #{keyword} ,'%'))
+                </if>
+                <if test='searchType == "title"'>
+                    AND TB.title LIKE CONCAT('%', #{keyword} ,'%')
+                </if>
+                <if test='searchType == "content"'>
+                    AND TB.content LIKE CONCAT('%', #{keyword} ,'%')
+                </if>
+                <if test='searchType == "writer"'>
+                    AND TU.name LIKE CONCAT('%', #{keyword} ,'%')
+                </if>
+            </when>
+        </choose>
+
+        <if test="startDate != '' and endDate != ''">
+            AND TB.reg_dt BETWEEN DATE_FORMAT(#{startDate}, '%Y%m%d000000') AND DATE_FORMAT(#{endDate}, '%Y%m%d235959')
+        </if>
+        <if test="startDate != '' and endDate == ''">
+            AND DATE_FORMAT(TB.reg_dt, '%y%m%d%H%i%s') <![CDATA[>=]]> DATE_FORMAT(#{startDate}, '%Y%m%d235959')
+        </if>
+        <if test="startDate == '' and endDate != ''">
+            AND DATE_FORMAT(TB.reg_dt, '%y%m%d%H%i%s') <![CDATA[<=]]> DATE_FORMAT(#{endDate}, '%Y%m%d000000')
+        </if>
+    </sql>
+
+
+    <select id="SELECT_BOARD_DETAIL" parameterType="Long" resultType="BoardDetailVo">
+        SELECT
+            board_idx AS boardIdx,
+            title AS title,
+            content AS content,
+            DATE_FORMAT(TB.reg_dt, '%Y-%m-%d') AS regDt,
+            DATE_FORMAT(TB.mod_dt, '%Y-%m-%d') AS modDt,
+            CASE
+                WHEN board_type = 'notice' THEN '공지사항'
+                WHEN board_type = 'normal' THEN '일반글'
+                ELSE '기타'
+            END AS boardType,
+            TU.name AS writer,
+            TB.like_count AS likeCount,
+            TB.click AS click
+        FROM TB_BOARD TB
+            LEFT OUTER JOIN TB_USER TU ON TB.reg_idx = TU.user_idx
+        WHERE TB.board_idx = #{boardIdx}
     </select>
 
-    <insert id="INSERT_BOARD">
+    <select id="SELECT_BOARD_LIST" parameterType="BoardSearchDto" resultType="BoardListVo">
+        SELECT
+            board_idx AS boardIdx,
+            title AS title,
+            DATE_FORMAT(TB.reg_dt, '%Y-%m-%d') AS regDt,
+            CASE
+                WHEN board_type = 'notice' THEN '공지사항'
+                WHEN board_type = 'normal' THEN '일반글'
+                ELSE '기타'
+            END AS boardType,
+            TU.name AS writer,
+            TB.like_count AS likeCount,
+            TB.click AS click
+        FROM TB_BOARD TB
+            LEFT OUTER JOIN TB_USER TU ON TB.reg_idx = TU.user_idx
+        <include refid="BOARD_SEARCH_CONDITION"/>
+        ORDER BY
+            board_idx DESC
+        LIMIT
+             #{offset}, #{recordSize}
+    </select>
+
+    <select id="COUNT_BOARD_LIST" parameterType="BoardSearchDto" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM TB_BOARD TB
+            LEFT OUTER JOIN TB_USER TU ON TB.reg_idx = TU.user_idx
+        <include refid="BOARD_SEARCH_CONDITION"/>
+    </select>
+
+    <insert id="INSERT_BOARD" parameterType="Board">
         INSERT INTO TB_BOARD(title, content, reg_dt, mod_dt, board_type, reg_idx)
-        VALUES(#{title}, #{content}, DATE_FORMAT(now(), %Y%m%d%H%i%S), DATE_FORMAT(now(), %Y%m%d%H%i%S), #{boardType}, 1)
-        <selectKey resultType="int" keyProperty="last_insert_idx" order="AFTER">
+        VALUES(#{title}, #{content}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardType}, 1)
+        <selectKey resultType="Long" keyProperty="boardIdx" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>

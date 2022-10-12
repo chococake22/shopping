@@ -1,5 +1,6 @@
-package kr.project.shopping.domain.board;
+package kr.project.shopping.vo;
 
+import kr.project.shopping.domain.common.Page;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,17 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Board {
+public class BoardListVo extends Page {
 
     private Long boardIdx;
     private String title;
-    private String content;
-    private Long regIdx;
+    private String writer;
     private String regDt;
-    private String modDt;
     private String boardType;
     private int click;
     private int likeCount;
-
 
 }

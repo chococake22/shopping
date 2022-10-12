@@ -16,10 +16,10 @@
         <label for="boardType" class="form-label">주제</label>
         <div class="mb-3">
             <select class="form-select mb-3" id="boardType" name="boardType" aria-label=".form-select-lg example">
-                <option selected>선택하세요</option>
-                <option value="1">공지사항</option>
-                <option value="2">일반글</option>
-                <option value="3">기타</option>
+                <option selected>글 분류</option>
+                <option value="notice">공지사항</option>
+                <option value="normal">일반글</option>
+                <option value="etc">기타</option>
             </select>
         </div>
         <div class="mb-3">

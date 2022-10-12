@@ -1,6 +1,9 @@
 package kr.project.shopping.service;
 
 
+import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.vo.BoardDetailVo;
+import kr.project.shopping.vo.BoardListVo;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +13,11 @@ import java.util.List;
 @Component
 public interface BoardService {
 
-    public JSONObject SELECT_BOARD_DETAIL(Long boardIdx);
+    public BoardDetailVo SELECT_BOARD_DETAIL(Long boardIdx);
 
-    public int COUNT_BOARD_LIST(JSONObject json);
+    public int COUNT_BOARD_LIST(BoardSearchDto dto);
 
-    public List<JSONObject> LIST_BOARD(JSONObject json);
+    public List<BoardListVo> SELECT_BOARD_LIST(BoardSearchDto dto);
 
     public int INSERT_BOARD(HttpServletRequest request);
 

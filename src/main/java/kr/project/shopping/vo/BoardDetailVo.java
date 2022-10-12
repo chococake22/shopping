@@ -1,25 +1,22 @@
-package kr.project.shopping.domain.board;
+package kr.project.shopping.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Board {
+public class BoardDetailVo {
 
     private Long boardIdx;
     private String title;
     private String content;
-    private Long regIdx;
+    private String writer;
     private String regDt;
     private String modDt;
     private String boardType;
     private int click;
     private int likeCount;
-
 
 }
