@@ -1,4 +1,4 @@
-# 쇼핑몰 프로젝트
+# 쇼핑몰 프로젝트(진행중)
 
 ## 취지
 
@@ -13,7 +13,7 @@
  - Mybatis
  - Mysql 8.0
  - Javascript
- - JSP
+ - JSP(Bootstrap)
  - JQuery
  - Ajax
  
