@@ -11,18 +11,20 @@
 
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="container-fluid justify-content-center my-4">
-    <div class="container-fluid justify-content-center my-4 w-25 h-50">
+    <div class="container-fluid justify-content-center my-4 w-25 h-50" style="padding-top: 100px">
         <div>
-            <form>
-                <h1>로그인</h1>
-                <div class="mb-3">
-                    <input type="text" class="form-control" id="userId" placeholder="아이디(이메일)">
+            <form action="/login" method="post">
+                <div class="mb-3" style="text-align: center">
+                    <h1>로그인</h1>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="password" placeholder="비밀번호">
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디(이메일)">
                 </div>
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary">로그인</button>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+                </div>
+                <div class="mb-3" style="text-align: center">
+                    <button type="submit" class="btn btn-primary">로그인</button>
                     <button type="button" class="btn btn-light">돌아가기</button>
                 </div>
             </form>

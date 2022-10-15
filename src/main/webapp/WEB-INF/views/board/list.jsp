@@ -42,7 +42,7 @@
 <div class="container justify-content-center my-4">
     <div class="card">
         <div class="card-body">
-            <form action="/board/list" method="get" class="row g-4">
+            <form action="/board/list/search" method="post" id="searchForm" class="row g-4">
                 <h3>검색</h3>
                 <div class="col-md-2">
                     <select class="form-select mb-2" id="boardType" name="boardType"  aria-label=".form-select-lg example">
@@ -61,43 +61,41 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="startDate" name="startDate" class="form-control"  placeholder="시작일">
+                    <input type="text" id="startDate" name="startDate" value="${searchDto.startDate}" class="form-control"  placeholder="시작일">
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="endDate" name="endDate" class="form-control"  placeholder="종료일">
+                    <input type="text" id="endDate" name="endDate" value="${searchDto.endDate}" class="form-control" placeholder="종료일">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" id="keyword" name="keyword"  placeholder="검색어를 입력하세요.">
+                    <input type="text" class="form-control" id="keyword" name="keyword" value="${searchDto.keyword}" placeholder="검색어를 입력하세요.">
                 </div>
                 <div class="col-md-1">
-                    <button type="button" id="Btn_search" class="btn btn-primary justify-content-end">검색</button>
+                    <button type="submit" class="btn btn-primary justify-content-end">검색</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div class="d-flex flex-row justify-content-between my-4">
-        <h4>검색결과 <span>${totalCount}</span>건</h4>
+        <h4>검색결과 <span id="totalCount">${totalCount}</span>건</h4>
         <a href="/board/reg"><button type="button" class="btn btn-primary justify-content-end">등록</button></a>
     </div>
 
     <table class="table table-hover">
         <thead>
-        <tr>
-<%--            <th scope="col">선택</th>--%>
-            <th scope="col">번호</th>
-            <th scope="col">구분</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">작성일자</th>
-            <th scope="col">조회수</th>
-            <th scope="col">좋아요</th>
-        </tr>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">구분</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일자</th>
+                <th scope="col">조회수</th>
+                <th scope="col">좋아요</th>
+            </tr>
         </thead>
         <tbody>
         <c:forEach items="${boards}" var="board">
             <tr>
-<%--                <td><input class="form-check-input" type="checkbox" value="${board.boardIdx}" id="checkedBoard"></td>--%>
                 <td>${board.boardIdx}</td>
                 <td>${board.boardType}</td>
                 <td><a href="/board/detail/${board.boardIdx}">${board.title}</a></td>
@@ -117,26 +115,13 @@
 
     $('#Btn_search').click(function () {
 
-        var data = {
-            "searchType" : $('#searchType').val(),
-            "boardType" : $('#boardType').val(),
-            "startDate" : $('#startDate').val(),
-            "endDate" : $('#endDate').val(),
-            "keyword" : $('#keyword').val()
-        };
-
         $.ajax({
-            type: "GET",
-            url: "/board/list",
+            type: "post",
+            url: "/board/list/search",
             contentType: "application/json",
-            data: data,
+            data: dto,
             success: function (res) {
-                console.log(data.boardType)
-                $('input[name=boardType]').attr('value', data.boardType);
-                $('input[name=searchType]').attr('value', data.searchType);
-                $('input[name=startDate]').attr('value', data.startDate);
-                $('input[name=endDate]').attr('value', data.endDate);
-                $('input[name=keyword]').attr('value', data.keyword);
+
             },
             error: function (err) {
                 alert("실패");

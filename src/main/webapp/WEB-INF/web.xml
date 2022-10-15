@@ -6,5 +6,12 @@
           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 
+<!--    xml 설정을 읽을 수 있도록 경로를 설정-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/spring/*.xml
+        </param-value>
+    </context-param>
 
 </web-app>

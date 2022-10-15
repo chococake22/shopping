@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.project.shopping.mapper.UserMapper">
+    <insert id="INSERT_USER" parameterType="User">
+        INSERT INTO TB_USER(user_id, password, name, phone, email_yn, addr1, addr2, addr3, addr_detail, authority, reg_dt, addr_total)
+        VALUES(#{userId}, #{password}, #{name}, #{phone}, #{emailYn}, #{addr1}, #{addr2}, #{addr3}, #{addrDetail}, #{authority}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{addrTotal})
+        <selectKey resultType="Long" keyProperty="userIdx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="IF_USER_EXIST" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM TB_USER
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="SELECT_USER_BY_USERID" parameterType="String" resultType="USER">
+        SELECT *
+        FROM TB_USER
+        WHERE user_id = #{userId}
+    </select>
+</mapper>

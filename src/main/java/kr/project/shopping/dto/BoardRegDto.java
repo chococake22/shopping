@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardSearchDto extends Page {
+public class BoardRegDto {
 
     private String boardType;
-    private String searchType;
+    private String title;
+    private String content;
 
 }

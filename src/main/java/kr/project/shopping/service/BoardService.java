@@ -1,6 +1,7 @@
 package kr.project.shopping.service;
 
 
+import kr.project.shopping.dto.BoardRegDto;
 import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
@@ -19,9 +20,9 @@ public interface BoardService {
 
     public List<BoardListVo> SELECT_BOARD_LIST(BoardSearchDto dto);
 
-    public int INSERT_BOARD(HttpServletRequest request);
+    public Long INSERT_BOARD(HttpServletRequest request, BoardRegDto dto);
 
     public JSONObject UPDATE_BOARD(JSONObject json);
 
-    public JSONObject DELETE_BOARD(JSONObject json);
+    public void DELETE_BOARD(Long boardIdx);
 }

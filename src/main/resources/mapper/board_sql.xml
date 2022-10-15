@@ -39,10 +39,10 @@
             AND TB.reg_dt BETWEEN DATE_FORMAT(#{startDate}, '%Y%m%d000000') AND DATE_FORMAT(#{endDate}, '%Y%m%d235959')
         </if>
         <if test="startDate != '' and endDate == ''">
-            AND DATE_FORMAT(TB.reg_dt, '%y%m%d%H%i%s') <![CDATA[>=]]> DATE_FORMAT(#{startDate}, '%Y%m%d235959')
+            AND DATE_FORMAT(TB.reg_dt, '%y%m%d%H%i%s') <![CDATA[>=]]> DATE_FORMAT(#{startDate}, '%Y%m%d000000')
         </if>
         <if test="startDate == '' and endDate != ''">
-            AND DATE_FORMAT(TB.reg_dt, '%y%m%d%H%i%s') <![CDATA[<=]]> DATE_FORMAT(#{endDate}, '%Y%m%d000000')
+            AND DATE_FORMAT(TB.reg_dt, '%y%m%d%H%i%s') <![CDATA[<=]]> DATE_FORMAT(#{endDate}, '%Y%m%d235959')
         </if>
     </sql>
 
@@ -104,4 +104,8 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+    <delete id="DELETE_BOARD" parameterType="Long">
+        DELETE FROM TB_BOARD TB
+        WHERE TB.board_idx = #{boardIdx}
+    </delete>
 </mapper>

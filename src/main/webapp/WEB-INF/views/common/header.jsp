@@ -32,7 +32,7 @@
                     <a class="nav-link" style="color: white" href="/user/signup">회원가입</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white" href="/user/login">로그인</a>
+                    <a class="nav-link" style="color: white" href="/login">로그인</a>
                 </li>
             </ul>
         </div>

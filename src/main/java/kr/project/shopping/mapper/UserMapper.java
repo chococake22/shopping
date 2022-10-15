@@ -1,7 +1,9 @@
 package kr.project.shopping.mapper;
 
 import kr.project.shopping.domain.board.Board;
+import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.dto.UserSaveDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,17 +14,12 @@ import java.util.List;
 
 @Repository
 @Mapper
-public interface BoardMapper {
+public interface UserMapper {
 
-    BoardDetailVo SELECT_BOARD_DETAIL(Long boardIdx);
+    Long INSERT_USER(User user);
 
-    int COUNT_BOARD_LIST(BoardSearchDto dto);
+    int IF_USER_EXIST(String userId);
 
-    List<BoardListVo> SELECT_BOARD_LIST(BoardSearchDto dto);
+    public User SELECT_USER_BY_USERID(String userId);
 
-    Long INSERT_BOARD(Board board);
-
-    void UPDATE_BOARD(JSONObject json);
-
-    void DELETE_BOARD(Long boardIdx);
 }

@@ -1,6 +1,7 @@
 package kr.project.shopping.service;
 
 import kr.project.shopping.domain.board.Board;
+import kr.project.shopping.dto.BoardRegDto;
 import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.mapper.BoardMapper;
 import kr.project.shopping.vo.BoardDetailVo;
@@ -8,6 +9,7 @@ import kr.project.shopping.vo.BoardListVo;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
@@ -36,24 +39,29 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int INSERT_BOARD(HttpServletRequest request) {
+    public Long INSERT_BOARD(HttpServletRequest request, BoardRegDto dto) {
 
-        String boardType = request.getParameter("boardType");
-        String title = request.getParameter("title");
-        String content = request.getParameter("content");
+//        String boardType = request.getParameter("boardType");
+//        String title = request.getParameter("title");
+//        String content = request.getParameter("content");
+
+        System.out.println(dto.getTitle());
+        System.out.println(dto.getContent());
+        System.out.println(dto.getBoardType());
+
 
         Board board = Board.builder()
-                .title(title)
-                .content(content)
-                .boardType(boardType)
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .boardType(dto.getBoardType())
                 .build();
 
 
         Long boardIdx = boardMapper.INSERT_BOARD(board);
 
-        System.out.println("등록 번호 : " + board.getBoardIdx());
+        log.info("등록 번호 : {}",  board.getBoardIdx());
 
-        return 13;
+        return boardIdx;
     }
 
     @Override
@@ -62,7 +70,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public JSONObject DELETE_BOARD(JSONObject json) {
-        return null;
+    public void DELETE_BOARD(Long boardIdx) {
+        boardMapper.DELETE_BOARD(boardIdx);
     }
 }
