@@ -16,6 +16,8 @@
 
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
 
+        <typeAlias alias="PwdChangeDto" type="kr.project.shopping.dto.PwdChangeDto"/>
+
 
         <typeAlias alias="Json" type="org.json.JSONObject"/>
 

@@ -72,6 +72,10 @@
 
     $(document).ready(function () {
 
+        $('#chkPwdMsg').html("비밀번호는 8~15자리의 문자, 숫자, 특수문자 조합");
+            document.getElementById('chkPwdMsg').style.color='red';
+
+
         $("#userId").change(function () {
 
             var data = {
@@ -112,17 +116,24 @@
 
             var password1 = $('#password').val();
             var password2 = $('#chkPwd').val();
+            var regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 
-            if ((password1 == password2) && (password1 != "" && password2 != "")) {
-                $('#chkPwdMsg').html("동일한 비밀번호입니다.");
-                document.getElementById('chkPwdMsg').style.color='blue';
+            if ((password1 == password2) && (password1 != "" && password2 != "") && (regExp.test(password1) && regExp.test(password2))) {
+
+                    console.log("된다")
+                    $('#chkPwdMsg').html("사용 가능한 비밀번호입니다.");
+                    document.getElementById('chkPwdMsg').style.color='blue';
+
+
+
             } else if(password1 == "" && password2 == "") {
-                $('#chkPwdMsg').html("비밀번호를 입력하세요");
+                $('#chkPwdMsg').html("비밀번호는 8~15자리의 문자, 숫자, 특수문자 조합");
                 document.getElementById('chkPwdMsg').style.color='red';
             } else {
-                $('#chkPwdMsg').html("두 비밀번호가 다릅니다.");
+                $('#chkPwdMsg').html("두 비밀번호가 다르거나 조건에 맞지 않습니다.");
                 document.getElementById('chkPwdMsg').style.color='red';
             }
+
         })
 
 
@@ -140,7 +151,8 @@
             }
 
             if (password1 !== password2) {
-                alert("두 비밀번호가 다릅니다.");
+                alert("비밀번호가 올바르지 않습니다.");
+                return;
             }
 
             if (name == "") {
@@ -154,7 +166,7 @@
                 "name" : $('#name').val(),
                 "addr" : $('#addr').val(),
                 "addrDetail" : $('#addrDetail').val(),
-                "emailYn" : $('#emailYn').val(),
+                "emailYn" : $("input:checkbox[id='emailYn']").is("checked") == true ? "Y": "N",
                 "authority" : $('#authority').val()
             }
 

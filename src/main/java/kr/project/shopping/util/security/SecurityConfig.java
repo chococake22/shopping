@@ -1,4 +1,4 @@
-package kr.project.shopping.util;
+package kr.project.shopping.util.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -7,9 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -34,11 +33,11 @@ public class SecurityConfig {
         http
                 .csrf().disable();
 
-
         http
                 .authorizeRequests()
 //                .antMatchers("/board/**").authenticated()
 //                .antMatchers("/user/**").authenticated()
+                .antMatchers("/user/signup", "/login").anonymous()
                 .anyRequest().permitAll();
 
         http
@@ -53,10 +52,15 @@ public class SecurityConfig {
 
         http
                 .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .and()
                 .httpBasic().disable();
+
+        http
+                .exceptionHandling()
+                .accessDeniedPage("/WEB-INF/views/error/error.jsp");
 
         return http.build();
     }

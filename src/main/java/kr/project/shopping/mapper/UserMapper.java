@@ -3,6 +3,7 @@ package kr.project.shopping.mapper;
 import kr.project.shopping.domain.board.Board;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.dto.PwdChangeDto;
 import kr.project.shopping.dto.UserSaveDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
@@ -22,4 +23,5 @@ public interface UserMapper {
 
     public User SELECT_USER_BY_USERID(String userId);
 
+    void UPDATE_PWD(PwdChangeDto dto);
 }

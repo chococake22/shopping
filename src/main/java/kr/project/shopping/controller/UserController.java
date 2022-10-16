@@ -1,12 +1,20 @@
 package kr.project.shopping.controller;
 
 
+import kr.project.shopping.domain.user.User;
+import kr.project.shopping.dto.PwdChangeDto;
 import kr.project.shopping.dto.UserSaveDto;
 import kr.project.shopping.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,5 +57,27 @@ public class UserController {
         map.put("userId", userId);
 
         return map;
+    }
+
+    // 마이페이지
+    @GetMapping("/mypage")
+    public String mypage(Model model, Principal principal) {
+
+
+
+        System.out.println("로그인한 사용자는 : " + principal.getName());
+        User selectedUser = userService.SELECT_USER_BY_USERID(principal.getName());
+
+        model.addAttribute("user", selectedUser);
+
+        return "user/mypage";
+
+    }
+
+    // 비밀번호 변경
+    @PostMapping("change/password")
+    @ResponseBody
+    public Map<String, Object> changePwd(PwdChangeDto dto) {
+        return userService.UPDATE_PWD(dto);
     }
 }

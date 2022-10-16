@@ -1,31 +1,40 @@
 package kr.project.shopping.service;
 
 import kr.project.shopping.domain.user.User;
+import kr.project.shopping.dto.PwdChangeDto;
 import kr.project.shopping.dto.UserSaveDto;
 import kr.project.shopping.mapper.UserMapper;
+import kr.project.shopping.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CommonUtil commonUtil;
 
     public Long INSERT_USER(UserSaveDto dto) {
 
         User user = null;
 
         try {
+
+            if (commonUtil.isEmail(dto) == false) {
+                throw new RuntimeException("이메일 형식이 맞지 않습니다.");
+            }
+
             if (IF_USER_EXIST(dto.getUserId()) > 0) {
                 throw new RuntimeException("이미 존재하는 아이디입니다.");
             }
-
-            if (dto.getEmailYn() == null) {
-                dto.setEmailYn("N");
-            };
 
             // 주소 나누기
             String[] addrs = dto.getAddr().split(" ");
@@ -45,7 +54,7 @@ public class UserServiceImpl implements UserService {
                     .build();
 
         } catch (Exception e) {
-            throw new RuntimeException("오류가 발생했습니다.");
+            e.printStackTrace();
         }
 
         return userMapper.INSERT_USER(user);
@@ -58,5 +67,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public User SELECT_USER_BY_USERID(String userId) {
         return userMapper.SELECT_USER_BY_USERID(userId);
+    }
+
+    @Override
+    public Map<String, Object> UPDATE_PWD(PwdChangeDto dto) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        log.info("비밀번호 변경할 아이디 : {} ", dto.getUserId());
+
+        try {
+            User user = SELECT_USER_BY_USERID(dto.getUserId());
+
+            if (!bCryptPasswordEncoder.matches(dto.getBeforePwd(), user.getPassword())) {
+                System.out.println("1");
+                throw new RuntimeException("비밀번호가 틀립니다.");
+            }
+
+            if (!dto.getNewPwd().equals(dto.getNewPwdChk())) {
+                System.out.println("2");
+                throw new RuntimeException("두 비밀번호가 다릅니다.");
+            }
+
+            dto.setNewPwd(bCryptPasswordEncoder.encode(dto.getNewPwd()));
+
+            userMapper.UPDATE_PWD(dto);
+            map.put("msg", "비밀번호가 변경되었습니다.");
+
+        } catch (Exception e) {
+            map.put("msg", "실패했습니다.");
+        }
+
+        return map;
     }
 }

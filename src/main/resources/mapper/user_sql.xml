@@ -22,4 +22,9 @@
         FROM TB_USER
         WHERE user_id = #{userId}
     </select>
+    <update id="UPDATE_PWD" parameterType="PwdChangeDto">
+        UPDATE TB_USER
+        SET password = #{newPwd}
+        WHERE user_id = #{userId}
+    </update>
 </mapper>

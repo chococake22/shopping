@@ -1,4 +1,4 @@
-package kr.project.shopping.util;
+package kr.project.shopping.util.security;
 
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.service.UserServiceImpl;
