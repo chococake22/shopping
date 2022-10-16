@@ -74,18 +74,14 @@ public class UserServiceImpl implements UserService {
 
         Map<String, Object> map = new HashMap<>();
 
-        log.info("비밀번호 변경할 아이디 : {} ", dto.getUserId());
-
         try {
             User user = SELECT_USER_BY_USERID(dto.getUserId());
 
             if (!bCryptPasswordEncoder.matches(dto.getBeforePwd(), user.getPassword())) {
-                System.out.println("1");
                 throw new RuntimeException("비밀번호가 틀립니다.");
             }
 
             if (!dto.getNewPwd().equals(dto.getNewPwdChk())) {
-                System.out.println("2");
                 throw new RuntimeException("두 비밀번호가 다릅니다.");
             }
 
