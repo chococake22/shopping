@@ -60,6 +60,7 @@
                 ELSE '기타'
             END AS boardType,
             TU.name AS writer,
+            TB.reg_idx AS regIdx,
             TB.like_count AS likeCount,
             TB.click AS click
         FROM TB_BOARD TB
@@ -88,7 +89,6 @@
         LIMIT
              #{offset}, #{recordSize}
     </select>
-
     <select id="COUNT_BOARD_LIST" parameterType="BoardSearchDto" resultType="int">
         SELECT
             COUNT(*)
@@ -99,13 +99,18 @@
 
     <insert id="INSERT_BOARD" parameterType="Board">
         INSERT INTO TB_BOARD(title, content, reg_dt, mod_dt, board_type, reg_idx)
-        VALUES(#{title}, #{content}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardType}, 1)
+        VALUES(#{title}, #{content}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardType}, #{regIdx})
         <selectKey resultType="Long" keyProperty="boardIdx" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+
     <delete id="DELETE_BOARD" parameterType="Long">
         DELETE FROM TB_BOARD TB
         WHERE TB.board_idx = #{boardIdx}
     </delete>
+    <insert id="INSERT_BOARD_FILE" parameterType="BoardFile">
+        INSERT INTO TB_BOARD_FILE(file_name, file_path, reg_idx, reg_dt, board_idx)
+        VALUES(#{fileName}, #{filePath}, #{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardIdx})
+    </insert>
 </mapper>

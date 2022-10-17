@@ -21,7 +21,7 @@ public interface UserMapper {
 
     int IF_USER_EXIST(String userId);
 
-    public User SELECT_USER_BY_USERID(String userId);
+    User SELECT_USER_BY_USERID(String userId);
 
     void UPDATE_PWD(PwdChangeDto dto);
 }

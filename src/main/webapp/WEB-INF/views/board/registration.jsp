@@ -16,7 +16,7 @@
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="container justify-content-center my-4">
     <h1>글쓰기</h1>
-    <form action="/board/save" method="post" enctype="multipart/form-data">
+    <form id="form_submit" action="/board/save" method="post" enctype="multipart/form-data">
         <label for="boardType" class="form-label">주제</label>
         <div class="mb-3">
             <select class="form-select mb-3" id="boardType" name="boardType" aria-label=".form-select-lg example">
@@ -35,8 +35,12 @@
             <textarea class="form-control" id="content" name="content" rows="8" style="resize: none" placeholder="내용을 입력하세요."></textarea>
         </div>
         <div class="mb-3">
-            <label for="files" class="form-label">파일첨부(최대 3개, 개당 1MB)</label>
-            <input class="form-control" type="file" name="files" id="files" multiple>
+            <p style="display: inline-block">파일첨부(최대 3개, 개당 1MB)</p>
+            <input type="button" value="추가" onclick="fn_file()">
+            <div id="fileDiv">
+                <div id="fileBox">
+                </div>
+            </div>
         </div>
         <div class="mb-3">
             <button type="button" onclick="Btn_submit()"  class="btn btn-primary">등록</button>
@@ -49,41 +53,77 @@
 
 <script type="text/javascript">
 
-    function Btn_submit() {
-        var boardType = $("#boardType").val();
+        var i = 1;
 
-        if (boardType === "") {
-            alert("주제를 선택하세요.");
+        function fn_file() {
+
+            if (i >= 4) {
+                alert("파일 첨부는 최대 3개까지 가능합니다.")
+                return;
+            }
+
+            var str = '<div style="margin-bottom: 10px; id="fileBox' + i + '">' +
+                '<input type="file" style="display: inline; width: 500px; margin-right: 10px;" class="form-control" name="files" id="files' + i + '">' +
+                '<input type="button" style="display: inline" value="삭제" onclick="fn_delete_file(this.id)" id="delete' + i + '">' +
+                '</div>';
+            $('#fileDiv').append(str);
+            i++;
         }
 
-        let dto = {
-            "boardType" : $('#boardType').val(),
-            "title" : $('#title').val(),
-            "content" : $('#content').val()
-        };
-
-        console.log($('#boardType').val());
-        console.log($('#title').val());
-        console.log($('#content').val());
-
-
-        $.ajax({
-            type: "POST",
-            url: "save",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(dto),
-            success: function (res) {
-                console.log(res.boardIdx);
-                alert("등록되었습니다.")
-                window.location = "/board/list"
-            },
-            error: function (err) {
-
-
+        function fn_delete_file(id) {
+            const div = document.getElementById(id);
+            console.log(id)
+            div.parentElement.remove();
+            if (i > 1) {
+                i--;
             }
-        })
-    };
+        }
+
+        function Btn_submit() {
+            var boardType = $("#boardType").val();
+            var title = $("#title").val();
+            var content = $("#content").val().replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+            if (boardType === "") {
+                alert("주제를 선택하세요.");
+            }
+
+            const maxSize = 1024 * 1024;
+
+            for (let a = 1; a < i; a++) {
+                let id = "files" + String(a);
+                const size = document.getElementById(id).files[0].size;
+                if (size > maxSize) {
+                    alert(a + "번째 파일이 1MB를 초과합니다.");
+                }
+            }
+
+            var form = $('#form_submit')[0];
+            var formData = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                url: "save",
+                enctype: "multipart/form-data",
+                processData : false,
+                contentType : false,
+                cache: false,
+                data: formData,
+                success: function (res) {
+                    console.log(res.boardIdx);
+                    alert("등록되었습니다.")
+                    window.location = "/board/list"
+                },
+                error: function (err) {
+
+                }
+            })
+        }
+
+
+
+
+
 
 
 

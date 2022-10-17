@@ -38,7 +38,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/kakao/logout">카카오 로그아웃</a>
+                            <a href="/logout/kakao">카카오 로그아웃</a>
                         </li>
                     </ul>
                 </div>

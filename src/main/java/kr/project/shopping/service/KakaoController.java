@@ -159,7 +159,7 @@ public class KakaoController {
     }
 
 
-    @GetMapping("/kakao/logout")
+    @GetMapping("/logout/kakao")
     public String logout(HttpSession session) {
 
         String access_Token = (String) session.getAttribute("access_token");
@@ -169,6 +169,7 @@ public class KakaoController {
             kakaoLogout(access_Token);
             session.removeAttribute("access_token");
             session.removeAttribute("nickname");
+            session.invalidate();
         } else {
             System.out.println("access_Token is null");
         }

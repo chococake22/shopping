@@ -1,8 +1,9 @@
 package kr.project.shopping.controller;
 
 
+import kr.project.shopping.domain.board.Board;
 import kr.project.shopping.domain.common.Page;
-import kr.project.shopping.dto.BoardRegDto;
+import kr.project.shopping.dto.BoardSaveDto;
 import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.service.BoardServiceImpl;
 import kr.project.shopping.vo.BoardDetailVo;
@@ -13,9 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,19 +45,9 @@ public class BoardController {
         dto.setEndDate("");
         dto.setKeyword("");
 
-
-        System.out.println("---------------------");
-        System.out.println("searchType : " + dto.getSearchType());
-        System.out.println("boardType : " + dto.getBoardType());
-        System.out.println("startDate : " + dto.getStartDate());
-        System.out.println("endDate : " + dto.getEndDate());
-        System.out.println("keyword : " + dto.getKeyword());
-
         int totalCount = boardService.COUNT_BOARD_LIST(dto);
         Page pagination = new Page(nowPage, totalCount);
         dto.setOffset(pagination.getOffset());
-
-        System.out.println("전체 개수 : " + totalCount);
 
         List<BoardListVo> boards = boardService.SELECT_BOARD_LIST(dto);
 
@@ -73,17 +64,7 @@ public class BoardController {
     @PostMapping("/list/search")
     public String searchBoardList(BoardSearchDto dto, Model model, @RequestParam(required = false) Integer nowPage) {
 
-        System.out.println("---------------------");
-        System.out.println("searchType : " + dto.getSearchType());
-        System.out.println("boardType : " + dto.getBoardType());
-        System.out.println("startDate : " + dto.getStartDate());
-        System.out.println("endDate : " + dto.getEndDate());
-        System.out.println("keyword : " + dto.getKeyword());
-
         int totalCount = boardService.COUNT_BOARD_LIST(dto);
-
-        System.out.println("현재 페이지 : " + dto.getNowPage());
-
 
         if (dto.getNowPage() == 0) {
             dto.setNowPage(1);
@@ -114,14 +95,33 @@ public class BoardController {
 
     @PostMapping("/save")
     @ResponseBody
-    public Map<String, Object> saveBoard(HttpServletRequest request, @RequestBody BoardRegDto dto, @RequestParam(required = false) List<MultipartFile> files) {
+    public Map<String, Object> saveBoard(HttpServletRequest request, BoardSaveDto dto,
+                                         @RequestParam(value = "files", required = false) List<MultipartFile> files, Principal principal) {
 
-        Long boardIdx = boardService.INSERT_BOARD(request, dto);
         Map<String, Object> map = new HashMap<>();
-        map.put("boardIdx", boardIdx);
 
+        try {
+
+            Long boardIdx = boardService.INSERT_BOARD(request, dto, principal);
+
+            BoardDetailVo boardDetailVo = boardService.SELECT_BOARD_DETAIL(boardIdx);
+
+
+            System.out.println(boardDetailVo.getRegIdx());
+            boardService.INSERT_BOARD_FILE(boardIdx, files, boardDetailVo.getRegIdx());
+            map.put("boardIdx", boardIdx);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return map;
     }
+
+//    @PostMapping("/save/file")
+//    @ResponseBody
+//    public Map<String, Object> saveBoardFiles(Long boardIdx, @RequestParam(required = false) List<MultipartFile> files) {
+//
+//    }
 
 
     @GetMapping("/reg")

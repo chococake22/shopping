@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class BoardDetailVo {
 
     private Long boardIdx;
+    private Long regIdx;
     private String title;
     private String content;
     private String writer;

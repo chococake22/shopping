@@ -13,6 +13,7 @@
         <typeAlias alias="BoardDetailVo" type="kr.project.shopping.vo.BoardDetailVo"/>
         <typeAlias alias="BoardListVo" type="kr.project.shopping.vo.BoardListVo"/>
         <typeAlias alias="BoardSearchDto" type="kr.project.shopping.dto.BoardSearchDto"/>
+        <typeAlias alias="BoardFile" type="kr.project.shopping.domain.board.BoardFile"/>
 
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
 

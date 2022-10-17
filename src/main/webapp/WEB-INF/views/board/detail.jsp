@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -16,35 +17,49 @@
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="container justify-content-center my-4">
     <h1>상세보기</h1>
-    <div class="mb-3">
-        <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" value="${boardVo.title}" placeholder="제목">
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3">
+                <h3 id="title">${boardVo.title}</h3>
+
+                <div class="d-flex justify-content-between">
+                    <div class="d-inline">
+                        <span id="writer">${boardVo.writer}</span>
+                    </div>
+                    <div class="d-inline d-flex justify-content-start">
+                        <a id="update" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_update()">수정</a>
+                        <a id="delete" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_delete()">삭제</a>
+                        <p id="likeCount" style="margin-left: 20px">좋아요 <span>${boardVo.likeCount}</span></p>
+                        <p id="click" style="margin-left: 20px">조회수 <span>${boardVo.click}</span></p>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: -20px;">
+            <div class="mb-3">
+                <p id="content">${fn:replace(boardVo.content, cn, br)}</p>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="writer" class="form-label">작성자</label>
-        <input type="text" class="form-control" id="writer" value="${boardVo.writer}" placeholder="제목">
+
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="mb-3">
+                <h5>첨부파일</h5>
+                <c:forEach items="${files}" var="file">
+                    <a href=""></a>
+                </c:forEach>
+
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="content" class="form-label">내용</label>
-        <input type="text" class="form-control" id="content" value="${boardVo.content}" placeholder="제목">
-    </div>
-    <div class="mb-3">
-        <label for="likeCount" class="form-label">좋아요</label>
-        <input type="text" class="form-control" id="likeCount" value="${boardVo.likeCount}" placeholder="제목">
-    </div>
-    <div class="mb-3">
-        <label for="click" class="form-label">조회수</label>
-        <input type="text" class="form-control" id="click" value="${boardVo.click}" placeholder="제목">
-    </div>
-    <div class="mb-3">
-        <label for="files" class="form-label">파일첨부(최대 3개, 개당 1MB)</label>
-        <input class="form-control" type="file" id="files" multiple>
-    </div>
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary">수정</button>
-        <button type="button" onclick="fn_delete()" class="btn btn-light">삭제</button>
+    <div class="mt-3">
+
     </div>
     <input type="hidden" id="boardIdx" name="boardIdx" value="${boardVo.boardIdx}">
+
+
+
 </div>
 
 <jsp:include page="../common/footer.jsp"></jsp:include>
