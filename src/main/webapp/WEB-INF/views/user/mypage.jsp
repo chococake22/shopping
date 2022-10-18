@@ -4,8 +4,8 @@
 <html>
 <head>
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/resources/static/bootstrap-5.1.3-dist/css/bootstrap.min.css">
+    <script src="/resources/static/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -74,45 +74,7 @@
 </div>
 
 <jsp:include page="../common/footer.jsp"></jsp:include>
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $('#fn_change_pwd_check').click(function () {
-
-            var userId = $('#userId').val();
-            var beforePwd = $('#beforePwd').val();
-            var newPwd = $('#newPwd').val();
-            var newPwdChk = $('#newPwdChk').val();
-
-            var data = {
-                "userId" : userId,
-                "beforePwd" : beforePwd,
-                "newPwd" : newPwd,
-                "newPwdChk" : newPwdChk,
-            }
-
-            if(newPwd != newPwdChk) {
-                alert("두 비밀번호가 다릅니다.")
-            }
-
-            $.ajax({
-                type : 'post',
-                url : "change/password",
-                data : data,
-                success : function (res) {
-                    alert(res.msg)
-                    $('#staticBackdrop').closed;
-                },
-                error : function (err) {
-                    alert(err.msg)
-                }
-            })
-        })
-    })
-
-</script>
+<script src="/resources/static/js/user/mypage.js"></script>
 
 <%--카카오 주소 API--%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

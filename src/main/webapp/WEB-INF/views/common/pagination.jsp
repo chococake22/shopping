@@ -41,8 +41,6 @@
         form.appendChild(obj);
 
         form.submit();
-
     }
-
 </script>
 
