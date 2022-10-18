@@ -78,7 +78,9 @@
 
     <div class="d-flex flex-row justify-content-between my-4">
         <h4>검색결과 <span id="totalCount">${totalCount}</span>건</h4>
-        <a href="/board/reg"><button type="button" class="btn btn-primary justify-content-end">등록</button></a>
+        <c:if test="${user != null}">
+            <a href="/board/reg"><button type="button" class="btn btn-primary justify-content-end">등록</button></a>
+        </c:if>
     </div>
 
     <table class="table table-hover">

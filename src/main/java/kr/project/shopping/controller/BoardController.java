@@ -2,20 +2,30 @@ package kr.project.shopping.controller;
 
 
 import kr.project.shopping.domain.board.Board;
+import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.domain.common.Page;
+import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.BoardSaveDto;
 import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.service.BoardServiceImpl;
+import kr.project.shopping.service.UserServiceImpl;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +38,13 @@ import java.util.Map;
 public class BoardController {
 
     private final BoardServiceImpl boardService;
+    private final UserServiceImpl userService;
 
     @GetMapping("/list")
     public Map<String, Object> getBoardList(@RequestParam(required = false, value = "nowPage") Integer nowPage,
                                             Model model,
-                                            HttpServletRequest request,
-                                            BoardSearchDto dto) {
+                                            BoardSearchDto dto,
+                                            Principal principal) {
 
         if (nowPage == null) {
             nowPage = 1;
@@ -58,11 +69,22 @@ public class BoardController {
         map.put("totalCount", totalCount);
         map.put("pagination", pagination);
 
+        User user = null;
+        // 로그인이 되어있는 경우
+        if (principal != null) {
+            user = userService.SELECT_USER_BY_USERID(principal.getName());
+            map.put("user", user.getName());
+        } else {
+            map.put("user", null);
+        }
+
         return map;
     }
 
     @PostMapping("/list/search")
-    public String searchBoardList(BoardSearchDto dto, Model model, @RequestParam(required = false) Integer nowPage) {
+    public String searchBoardList(BoardSearchDto dto, Model model,
+                                  @RequestParam(required = false) Integer nowPage,
+                                  Principal principal) {
 
         int totalCount = boardService.COUNT_BOARD_LIST(dto);
 
@@ -80,15 +102,34 @@ public class BoardController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("pagination", pagination);
 
+        User user = null;
+        // 로그인이 되어있는 경우
+        if (principal != null) {
+            user = userService.SELECT_USER_BY_USERID(principal.getName());
+            model.addAttribute("user", user.getName());
+        } else {
+            model.addAttribute("user", null);
+        }
+
         return "board/list";
     }
 
     @GetMapping("/detail/{boardIdx}")
-    public String getBoardDetail(@PathVariable Long boardIdx, Model model) {
+    public String getBoardDetail(@PathVariable Long boardIdx, Model model, Principal principal) {
 
         BoardDetailVo boardVo = boardService.SELECT_BOARD_DETAIL(boardIdx);
+        List<BoardFile> files = boardService.SELECT_BOARD_FILES(boardIdx);
+        boardService.CLICK_COUNT(boardIdx);
+
+        User user = null;
+        // 로그인이 되어있는 경우
+        if (principal != null) {
+            user = userService.SELECT_USER_BY_USERID(principal.getName());
+            model.addAttribute("user", user.getName());
+        }
 
         model.addAttribute("boardVo", boardVo);
+        model.addAttribute("files", files);
 
         return "board/detail";
     }
@@ -103,11 +144,8 @@ public class BoardController {
         try {
 
             Long boardIdx = boardService.INSERT_BOARD(request, dto, principal);
-
             BoardDetailVo boardDetailVo = boardService.SELECT_BOARD_DETAIL(boardIdx);
 
-
-            System.out.println(boardDetailVo.getRegIdx());
             boardService.INSERT_BOARD_FILE(boardIdx, files, boardDetailVo.getRegIdx());
             map.put("boardIdx", boardIdx);
 
@@ -116,13 +154,6 @@ public class BoardController {
         }
         return map;
     }
-
-//    @PostMapping("/save/file")
-//    @ResponseBody
-//    public Map<String, Object> saveBoardFiles(Long boardIdx, @RequestParam(required = false) List<MultipartFile> files) {
-//
-//    }
-
 
     @GetMapping("/reg")
     public String getRegBoardPage() {
@@ -147,5 +178,31 @@ public class BoardController {
         }
 
         return map;
+    }
+
+    @GetMapping("/file/download")
+    public void fileDown(@RequestParam Long boardFileIdx, HttpServletResponse response) throws IOException {
+
+        BoardFile boardFile = boardService.SELECT_BOARD_FILE(boardFileIdx);
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode((String) boardFile.getSaveName(), "UTF-8") + "\";");
+        response.setHeader("Content-Transfer-Encoding", "binary");
+        response.setHeader("Content-Type", "application/download; utf-8");
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+
+        FileInputStream fis = null;
+
+        try {
+            fis = new FileInputStream(boardFile.getFilePath());
+            FileCopyUtils.copy(fis, response.getOutputStream());
+            response.getOutputStream().flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        fis.close();
+
     }
 }

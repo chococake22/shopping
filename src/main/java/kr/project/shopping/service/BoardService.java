@@ -1,6 +1,7 @@
 package kr.project.shopping.service;
 
 
+import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.dto.BoardSaveDto;
 import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.vo.BoardDetailVo;
@@ -28,5 +29,11 @@ public interface BoardService {
 
     public void DELETE_BOARD(Long boardIdx);
 
-    void INSERT_BOARD_FILE(Long boardIdx, List<MultipartFile> files, Long regIdx);
+    public void INSERT_BOARD_FILE(Long boardIdx, List<MultipartFile> files, Long regIdx);
+
+    public List<BoardFile> SELECT_BOARD_FILES(Long boardIdx);
+
+    public BoardFile SELECT_BOARD_FILE(Long boardFileIdx);
+
+    public void CLICK_COUNT(Long boardIdx);
 }

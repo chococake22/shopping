@@ -110,7 +110,24 @@
         WHERE TB.board_idx = #{boardIdx}
     </delete>
     <insert id="INSERT_BOARD_FILE" parameterType="BoardFile">
-        INSERT INTO TB_BOARD_FILE(file_name, file_path, reg_idx, reg_dt, board_idx)
-        VALUES(#{fileName}, #{filePath}, #{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardIdx})
+        INSERT INTO TB_BOARD_FILE(file_name, file_path, reg_idx, reg_dt, board_idx, uuid, save_name)
+        VALUES(#{fileName}, #{filePath}, #{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardIdx}, #{uuid}, #{saveName})
     </insert>
+    <select id="SELECT_BOARD_FILES" parameterType="Long" resultType="BoardFile">
+        SELECT
+            *
+        FROM TB_BOARD_FILE
+        WHERE board_idx = #{boardIdx}
+    </select>
+    <select id="SELECT_BOARD_FILE" parameterType="Long" resultType="BoardFile">
+        SELECT
+            *
+        FROM TB_BOARD_FILE
+        WHERE board_file_idx = #{boardFileIdx}
+    </select>
+    <update id="CLICK_COUNT" parameterType="Long">
+        UPDATE TB_BOARD
+        SET click = click + 1
+        WHERE board_idx = #{boardIdx}
+    </update>
 </mapper>

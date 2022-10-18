@@ -28,4 +28,10 @@ public interface BoardMapper {
     void DELETE_BOARD(Long boardIdx);
 
     void INSERT_BOARD_FILE(BoardFile boardFile);
+
+    List<BoardFile> SELECT_BOARD_FILES(Long boardIdx);
+
+    BoardFile SELECT_BOARD_FILE(Long boardFileIdx);
+
+    void CLICK_COUNT(Long boardIdx);
 }

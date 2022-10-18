@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -70,11 +72,10 @@ public class BoardServiceImpl implements BoardService {
 
             board = Board.builder()
                     .title(dto.getTitle())
-                    .content(dto.getContent())
+                    .content(dto.getContent().replace("\r\n","<br>"))   // 줄바꿈 처리
                     .boardType(dto.getBoardType())
                     .regIdx(user.getUserIdx())
                     .build();
-
 
             boardMapper.INSERT_BOARD(board);
 
@@ -82,8 +83,6 @@ public class BoardServiceImpl implements BoardService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
         return board.getBoardIdx();
     }
@@ -101,15 +100,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void INSERT_BOARD_FILE(Long boardIdx, List<MultipartFile> files, Long regIdx) {
 
-        final String[] exts = {"jpg", "jpeg", "bmp", "pdf", "txt", "png"};
+        final String[] exts = {"jpg", "jpeg", "bmp", "pdf", "txt", "png", "hwp", "xls", "pptx", "doc", "gif"};
         ArrayList<String> extArr = new ArrayList<>(Arrays.asList(exts));
 
         try {
-
             if (files != null) {
                 for (MultipartFile file : files) {
 
                     String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+
+                    String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
 
                     if(!extArr.contains(ext)) {
                         throw new RuntimeException("유효하지 않은 확장자입니다.");
@@ -119,15 +119,20 @@ public class BoardServiceImpl implements BoardService {
                         throw new RuntimeException("파일 크기는 최대 1MB입니다.");
                     }
 
+                    UUID uuid = UUID.randomUUID();
+
                     BoardFile boardFile = BoardFile.builder()
                             .fileName(file.getOriginalFilename())
+                            .saveName(uuid.toString() + " " + file.getOriginalFilename())
                             .filePath(getFullPath(file.getOriginalFilename()))
                             .regIdx(regIdx)
                             .boardIdx(boardIdx)
+                            .uuid(uuid.toString())
                             .build();
 
                     // 파일 전송
-                    file.transferTo(new File(getFullPath(file.getOriginalFilename())));
+                    File saveFile = new File(getFullPath(uuid.toString() + file.getOriginalFilename()));
+                    file.transferTo(saveFile);
 
                     // DB 저장
                     boardMapper.INSERT_BOARD_FILE(boardFile);
@@ -137,5 +142,20 @@ public class BoardServiceImpl implements BoardService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<BoardFile> SELECT_BOARD_FILES(Long boardIdx) {
+         return boardMapper.SELECT_BOARD_FILES(boardIdx);
+    }
+
+    @Override
+    public BoardFile SELECT_BOARD_FILE(Long boardFileIdx) {
+        return boardMapper.SELECT_BOARD_FILE(boardFileIdx);
+    }
+
+    @Override
+    public void CLICK_COUNT(Long boardIdx) {
+        boardMapper.CLICK_COUNT(boardIdx);
     }
 }

@@ -31,18 +31,9 @@
                     <button type="button" class="btn btn-light">돌아가기</button>
                 </div>
                 <div class="mb-3">
-                    <ul>
-                        <li onclick="kakaoLogin()">
-                            <a href="javascript:void(0)">
-                                <span>카카오 로그인</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/logout/kakao">카카오 로그아웃</a>
-                        </li>
-                    </ul>
+                    <span ><img src="/resources/images/kakao_login_large_wide.png"  onclick="kakaoLogin()" style="width: 300px; margin-left: 5px; cursor: pointer;"/></span>
+                    <a href="https://kauth.kakao.com/oauth/logout?client_id=5496be38ca50070af71eab2dcbc6ec26&logout_redirect_uri=http://localhost:8080/logout/kakao">로그아웃</a>
                 </div>
-
             </form>
         </div>
     </div>

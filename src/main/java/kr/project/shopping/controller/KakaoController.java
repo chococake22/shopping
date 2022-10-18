@@ -1,4 +1,4 @@
-package kr.project.shopping.service;
+package kr.project.shopping.controller;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

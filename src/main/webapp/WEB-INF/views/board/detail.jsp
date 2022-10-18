@@ -27,8 +27,11 @@
                         <span id="writer">${boardVo.writer}</span>
                     </div>
                     <div class="d-inline d-flex justify-content-start">
-                        <a id="update" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_update()">수정</a>
-                        <a id="delete" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_delete()">삭제</a>
+                        <c:if test="${!user.isEmpty() && boardVo.writer == user}">
+                            <a id="update" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_update()">수정</a>
+                            <a id="delete" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_delete()">삭제</a>
+                        </c:if>
+
                         <p id="likeCount" style="margin-left: 20px">좋아요 <span>${boardVo.likeCount}</span></p>
                         <p id="click" style="margin-left: 20px">조회수 <span>${boardVo.click}</span></p>
                     </div>
@@ -41,25 +44,22 @@
         </div>
     </div>
 
-
+    <c:if test="${!files.isEmpty()}">
     <div class="card mt-3">
         <div class="card-body">
             <div class="mb-3">
                 <h5>첨부파일</h5>
                 <c:forEach items="${files}" var="file">
-                    <a href=""></a>
+                    <a href="/board/file/download?boardFileIdx=${file.boardFileIdx}">${file.fileName}</a><br>
                 </c:forEach>
-
             </div>
         </div>
     </div>
+    </c:if>
     <div class="mt-3">
 
     </div>
     <input type="hidden" id="boardIdx" name="boardIdx" value="${boardVo.boardIdx}">
-
-
-
 </div>
 
 <jsp:include page="../common/footer.jsp"></jsp:include>

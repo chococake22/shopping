@@ -13,10 +13,12 @@ public class BoardFile {
 
     private Long boardFileIdx;
     private String fileName;
+    private String saveName;
     private String filePath;
     private Long regIdx;
     private String regDt;
     private Long boardIdx;
+    private String uuid;
 
 
 }
