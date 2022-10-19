@@ -4,6 +4,7 @@ $(document).ready(function () {
         document.getElementById('chkPwdMsg').style.color='red';
 
 
+
     $("#userId").change(function () {
 
         var data = {
@@ -114,10 +115,6 @@ $(document).ready(function () {
     })
 
 })
-
-
-
-
 
 
 window.onload = function(){

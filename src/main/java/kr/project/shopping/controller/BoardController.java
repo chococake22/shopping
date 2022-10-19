@@ -1,16 +1,18 @@
 package kr.project.shopping.controller;
 
 
-import kr.project.shopping.domain.board.Board;
 import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.domain.common.Page;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.BoardSaveDto;
 import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.dto.BoardUpdateDto;
 import kr.project.shopping.service.BoardServiceImpl;
+import kr.project.shopping.service.CommentServiceImpl;
 import kr.project.shopping.service.UserServiceImpl;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
+import kr.project.shopping.vo.CommentListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,9 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
@@ -39,6 +39,7 @@ public class BoardController {
 
     private final BoardServiceImpl boardService;
     private final UserServiceImpl userService;
+    private final CommentServiceImpl commentService;
 
     @GetMapping("/list")
     public Map<String, Object> getBoardList(@RequestParam(required = false, value = "nowPage") Integer nowPage,
@@ -128,8 +129,13 @@ public class BoardController {
             model.addAttribute("user", user.getName());
         }
 
+        List<CommentListVo> comments = commentService.SELECT_COMMENT_LIST(boardIdx);
+        Long count = commentService.COUNT_COMMENT_LIST(boardIdx);
+
         model.addAttribute("boardVo", boardVo);
         model.addAttribute("files", files);
+        model.addAttribute("comments", comments);
+        model.addAttribute("count", count);
 
         return "board/detail";
     }
@@ -160,11 +166,6 @@ public class BoardController {
         return "board/registration";
     }
 
-    @PostMapping("/reg")
-    public String saveBoard() {
-        return "redirect:/board/list";
-    }
-
     @PostMapping("/delete/{boardIdx}")
     @ResponseBody
     public Map<String,Object> deleteBoard(@PathVariable Long boardIdx) {
@@ -179,6 +180,32 @@ public class BoardController {
 
         return map;
     }
+
+    @GetMapping("/update/{boardIdx}")
+    public String updateBoard(@PathVariable Long boardIdx, Model model) {
+        BoardDetailVo board = boardService.SELECT_BOARD_DETAIL(boardIdx);
+
+        if (board.getBoardType().equals("공지사항")) {
+            board.setBoardType("notice");
+        } else if (board.getBoardType().equals("일반글")) {
+            board.setBoardType("normal");
+        } else {
+            board.setBoardType("etc");
+        }
+
+        board.setContent(board.getContent().replace("<br>","\r\n"));
+
+        model.addAttribute("boardVo", board);
+        model.addAttribute("boardIdx", boardIdx);
+        return "board/update";
+    }
+
+    @PostMapping("/update")
+    public String updateBoardChk(BoardUpdateDto dto) {
+        boardService.UPDATE_BOARD(dto);
+        return "redirect:/board/list";
+    }
+
 
     @GetMapping("/file/download")
     public void fileDown(@RequestParam Long boardFileIdx, HttpServletResponse response) throws IOException {

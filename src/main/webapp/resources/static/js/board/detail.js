@@ -18,3 +18,31 @@ function fn_delete() {
         }
     })
 }
+
+
+$('#fn_comment_save').click(function () {
+
+        console.log($('#boardIdx').val());
+
+        var dto = {
+            "commentContent" : $('#comment').val(),
+            "boardIdx" : $('#boardIdx').val()
+        }
+
+        $.ajax({
+            url: '/comment/save',
+            method: 'POST',
+            data: dto,
+            success: function (res) {
+                alert(res.msg)
+
+                var content = $('#comment').val();
+                var str = '<h1>' + content + '</h1>';
+                $('#commentDiv').append(str);
+            },
+            error: function (err) {
+                console.log("댓글 작성 실패")
+            }
+
+        })
+})

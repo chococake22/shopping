@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.project.shopping.mapper.CommentMapper">
+
+    <select id="SELECT_COMMENT_LIST" parameterType="Long" resultType="CommentListVo">
+        SELECT
+            TC.comment_content AS commentContent,
+            DATE_FORMAT(TC.reg_dt, '%Y-%m-%d') AS regDt,
+            TU.name AS writer
+        FROM TB_COMMENT TC
+                 LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
+        WHERE board_idx = #{boardIdx}
+    </select>
+    <select id="COUNT_COMMENT_LIST" parameterType="Long" resultType="Long">
+        SELECT
+            COUNT(*)
+        FROM TB_COMMENT TC
+                 LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
+        WHERE board_idx = #{boardIdx}
+    </select>
+    <insert id="INSERT_COMMENT" parameterType="CommentSaveDto">
+        INSERT INTO TB_COMMENT(comment_content, reg_dt, mod_dt, board_idx, reg_idx)
+        VALUES(#{commentContent}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardIdx}, #{regIdx})
+    </insert>
+
+
+</mapper>

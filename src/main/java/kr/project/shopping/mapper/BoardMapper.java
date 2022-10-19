@@ -3,10 +3,10 @@ package kr.project.shopping.mapper;
 import kr.project.shopping.domain.board.Board;
 import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.dto.BoardUpdateDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
 import org.apache.ibatis.annotations.Mapper;
-import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public interface BoardMapper {
 
     Long INSERT_BOARD(Board board);
 
-    void UPDATE_BOARD(JSONObject json);
+    void UPDATE_BOARD(BoardUpdateDto board);
 
     void DELETE_BOARD(Long boardIdx);
 

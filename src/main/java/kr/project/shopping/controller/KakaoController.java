@@ -40,7 +40,6 @@ public class KakaoController {
                              Model model, HttpSession session) {
 
         String accessToken = getAccessToken(code);
-
         HashMap<String, Object> userInfo = getUserInfo(accessToken);
         System.out.println("accessToken : " + accessToken);
         session.setAttribute("access_token", accessToken);

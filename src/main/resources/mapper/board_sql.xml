@@ -130,4 +130,12 @@
         SET click = click + 1
         WHERE board_idx = #{boardIdx}
     </update>
+    <update id="UPDATE_BOARD" parameterType="BoardUpdateDto">
+        UPDATE TB_BOARD
+        SET
+            board_type = #{boardType},
+            title = #{title},
+            content = #{content}
+        WHERE board_idx = #{boardIdx}
+    </update>
 </mapper>

@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 public class Comment {
 
     private String commentIdx;
-    private String content;
+    private String commentContent;
     private Long regIdx;
+    private Long boardIdx;
     private String regDt;
     private String modDt;
     private String boardType;

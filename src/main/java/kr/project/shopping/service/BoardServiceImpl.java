@@ -5,6 +5,7 @@ import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.BoardSaveDto;
 import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.dto.BoardUpdateDto;
 import kr.project.shopping.mapper.BoardMapper;
 import kr.project.shopping.mapper.UserMapper;
 import kr.project.shopping.vo.BoardDetailVo;
@@ -88,8 +89,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public JSONObject UPDATE_BOARD(JSONObject json) {
-        return null;
+    public void UPDATE_BOARD(BoardUpdateDto dto) {
+
+        dto.setContent(dto.getContent().replace("\r\n","<br>"));
+        boardMapper.UPDATE_BOARD(dto);
+
     }
 
     @Override

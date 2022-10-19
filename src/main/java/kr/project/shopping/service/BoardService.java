@@ -4,6 +4,7 @@ package kr.project.shopping.service;
 import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.dto.BoardSaveDto;
 import kr.project.shopping.dto.BoardSearchDto;
+import kr.project.shopping.dto.BoardUpdateDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ public interface BoardService {
 
     public Long INSERT_BOARD(HttpServletRequest request, BoardSaveDto dto, Principal principal);
 
-    public JSONObject UPDATE_BOARD(JSONObject json);
+    public void UPDATE_BOARD(BoardUpdateDto dto);
 
     public void DELETE_BOARD(Long boardIdx);
 

@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="/resources/static/css/common.css">
 </head>
 <body>
 
 <jsp:include page="../common/header.jsp"></jsp:include>
-<div class="container justify-content-center my-4" style="width: 300px">
+<div class="container justify-content-center" style="width: 300px">
     <form action="" method="post">
         <div class="mb-3" style="text-align: center">
             <h1>마이페이지</h1>

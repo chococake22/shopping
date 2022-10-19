@@ -12,11 +12,12 @@
     <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
     <script src="/resources/static/js/common/datapicker.js"></script>
+    <link rel="stylesheet" href="/resources/static/css/common.css">
 </head>
 <body>
 
 <jsp:include page="../common/header.jsp"></jsp:include>
-<div class="container justify-content-center my-4">
+<div class="container justify-content-center">
     <div class="card">
         <div class="card-body">
             <form action="/board/list/search" method="post" id="searchForm" class="row g-4">
