@@ -64,7 +64,7 @@
     </div>
     </c:if>
     <input type="hidden" id="boardIdx" name="boardIdx" value="${boardVo.boardIdx}">
-    <h3 style="margin-top: 100px;">댓글 <span>${count}</span>개</h3>
+    <h3 style="margin-top: 100px;" >댓글 <span>${count}</span>개</h3>
     <div class="card mt-3">
         <div class="mt-3">
             <div class="form-floating d-flex justify-content-center" style="margin-top: 10px; width: 95%; height: 120px;">
@@ -76,17 +76,21 @@
 
         </div>
     </div>
-    <c:forEach items="${comments}" var="comment">
-        <div class="card mt-3" id="commentDiv">
-            <div class="card-body">
-                <div class="d-inline">
-                    <span style="margin-right: 30px;">${comment.writer}</span>
-                    <span style="font-size: 12px;">${comment.regDt}</span><br>
-                    <p style="font-size: 12px;">${comment.commentContent}</p> <br>
+    <div class="card mt-3" id="commentDiv" style="border: none;">
+        <div id="commentDiv2">
+        <c:forEach items="${comments}" var="comment">
+            <div class="card mt-3" >
+                <div class="card-body">
+                    <div class="d-inline">
+                        <span style="margin-right: 30px;">${comment.writer}</span>
+                        <span style="font-size: 12px;">${comment.regDt}</span>
+                        <p style="font-size: 12px;">${comment.commentContent}</p>
+                    </div>
                 </div>
             </div>
+        </c:forEach>
         </div>
-    </c:forEach>
+    </div>
 </div>
 
 <jsp:include page="../common/footer.jsp"></jsp:include>

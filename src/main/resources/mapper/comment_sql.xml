@@ -7,11 +7,21 @@
     <select id="SELECT_COMMENT_LIST" parameterType="Long" resultType="CommentListVo">
         SELECT
             TC.comment_content AS commentContent,
-            DATE_FORMAT(TC.reg_dt, '%Y-%m-%d') AS regDt,
+            DATE_FORMAT(TC.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
             TU.name AS writer
         FROM TB_COMMENT TC
                  LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
         WHERE board_idx = #{boardIdx}
+        ORDER BY TC.comment_idx DESC
+    </select>
+    <select id="SELECT_COMMENT_DETAIL" parameterType="Long" resultType="CommentDetailVo">
+        SELECT
+            TC.comment_content AS commentContent,
+            DATE_FORMAT(TC.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
+            TU.name AS writer
+        FROM TB_COMMENT TC
+                 LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
+        WHERE comment_idx = #{commentIdx}
     </select>
     <select id="COUNT_COMMENT_LIST" parameterType="Long" resultType="Long">
         SELECT
@@ -23,6 +33,9 @@
     <insert id="INSERT_COMMENT" parameterType="CommentSaveDto">
         INSERT INTO TB_COMMENT(comment_content, reg_dt, mod_dt, board_idx, reg_idx)
         VALUES(#{commentContent}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{boardIdx}, #{regIdx})
+        <selectKey resultType="Long" keyProperty="commentIdx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
 

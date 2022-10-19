@@ -1,4 +1,4 @@
-package kr.project.shopping.dto;
+package kr.project.shopping.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentSaveDto {
+public class CommentDetailVo {
 
     private Long commentIdx;
-    private Long boardIdx;
-    private Long regIdx;
     private String commentContent;
+    private String writer;
+    private String regDt;
 
 }

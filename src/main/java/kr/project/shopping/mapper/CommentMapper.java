@@ -7,6 +7,7 @@ import kr.project.shopping.dto.BoardUpdateDto;
 import kr.project.shopping.dto.CommentSaveDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
+import kr.project.shopping.vo.CommentDetailVo;
 import kr.project.shopping.vo.CommentListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -22,5 +23,7 @@ public interface CommentMapper {
     Long INSERT_COMMENT(CommentSaveDto dto);
 
     Long COUNT_COMMENT_LIST(Long boardIdx);
+
+    CommentDetailVo SELECT_COMMENT_DETAIL(Long commentIdx);
 
 }

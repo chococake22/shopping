@@ -2,6 +2,7 @@ package kr.project.shopping.controller;
 
 import kr.project.shopping.dto.CommentSaveDto;
 import kr.project.shopping.service.CommentServiceImpl;
+import kr.project.shopping.vo.CommentDetailVo;
 import kr.project.shopping.vo.CommentListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -36,14 +37,44 @@ public class CommentController {
     @PostMapping("/save")
     @ResponseBody
     public Map<String, Object> saveComment(CommentSaveDto dto, Principal principal) {
-        Long commentIdx = commentService.INSERT_COMMENT(dto, principal);
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("msg", "성공");
+        try {
+            Long commentIdx = commentService.INSERT_COMMENT(dto, principal);
+            CommentDetailVo comment = commentService.SELECT_COMMENT_DETAIL(dto.getCommentIdx());
+
+            map.put("msg", "성공");
+            map.put("comment", comment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return map;
     }
 
 
+    @GetMapping("/list/load/{boardIdx}")
+    @ResponseBody
+    public String getCommentListLoad(@PathVariable Long boardIdx, Model model) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        String msg = "ok";
+
+        System.out.println("되는건가요");
+
+        try {
+            List<CommentListVo> comments = commentService.SELECT_COMMENT_LIST(boardIdx);
+            Long count = commentService.COUNT_COMMENT_LIST(boardIdx);
+
+            map.put("comments", comments);
+            map.put("count", count);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return msg;
+    }
 }

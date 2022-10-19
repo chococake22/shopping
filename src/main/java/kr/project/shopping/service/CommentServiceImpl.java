@@ -4,6 +4,7 @@ import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.BoardSearchDto;
 import kr.project.shopping.dto.CommentSaveDto;
 import kr.project.shopping.mapper.CommentMapper;
+import kr.project.shopping.vo.CommentDetailVo;
 import kr.project.shopping.vo.CommentListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,10 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public Long COUNT_COMMENT_LIST(Long boardIdx) {
         return commentMapper.COUNT_COMMENT_LIST(boardIdx);
+    }
+
+    @Override
+    public CommentDetailVo SELECT_COMMENT_DETAIL(Long commentIdx) {
+        return commentMapper.SELECT_COMMENT_DETAIL(commentIdx);
     }
 }

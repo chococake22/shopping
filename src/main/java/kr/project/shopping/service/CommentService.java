@@ -8,6 +8,7 @@ import kr.project.shopping.dto.BoardUpdateDto;
 import kr.project.shopping.dto.CommentSaveDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
+import kr.project.shopping.vo.CommentDetailVo;
 import kr.project.shopping.vo.CommentListVo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,4 +25,6 @@ public interface CommentService {
     public Long INSERT_COMMENT(CommentSaveDto dto, Principal principal);
 
     Long COUNT_COMMENT_LIST(Long boardIdx);
+
+    CommentDetailVo SELECT_COMMENT_DETAIL(Long commentIdx);
 }

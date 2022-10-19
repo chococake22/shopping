@@ -22,7 +22,10 @@ function fn_delete() {
 
 $('#fn_comment_save').click(function () {
 
-        console.log($('#boardIdx').val());
+        if( $('#comment').val() == "" ) {
+            alert("내용을 입력하세요.")
+            return;
+        }
 
         var dto = {
             "commentContent" : $('#comment').val(),
@@ -34,11 +37,28 @@ $('#fn_comment_save').click(function () {
             method: 'POST',
             data: dto,
             success: function (res) {
-                alert(res.msg)
 
-                var content = $('#comment').val();
-                var str = '<h1>' + content + '</h1>';
+                console.log(res.comment.writer)
+                console.log(res.comment.regDt)
+                console.log(res.comment.commentContent)
+
+                var writer = res.comment.writer
+                var regDt = res.comment.regDt
+                var commentContent = res.comment.commentContent
+
+                var str = '<div class="card mt-3" >' +
+                                '<div class="card-body">' +
+                                    '<div class="d-inline">' +
+                                        '<span style="margin-right: 30px;">' + writer + '</span>' +
+                                        '<span style="font-size: 12px;">' + regDt + '</span><br>' +
+                                        '<p style="font-size: 12px;">' + commentContent + '</p><br>' +
+                                    '</div>' +
+                                '</div>' +
+                          '</div>'
                 $('#commentDiv').append(str);
+
+                $('#commentDiv').load("/comment/list/load/" + $('#boardIdx').val() + " #commentDiv2");
+
             },
             error: function (err) {
                 console.log("댓글 작성 실패")

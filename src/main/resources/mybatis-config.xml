@@ -17,6 +17,7 @@
         <typeAlias alias="BoardFile" type="kr.project.shopping.domain.board.BoardFile"/>
         <typeAlias alias="CommentListVo" type="kr.project.shopping.vo.CommentListVo"/>
         <typeAlias alias="CommentSaveDto" type="kr.project.shopping.dto.CommentSaveDto"/>
+        <typeAlias alias="CommentDetailVo" type="kr.project.shopping.vo.CommentDetailVo"/>
 
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
 
