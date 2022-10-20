@@ -28,6 +28,7 @@ public class CommentController {
         Long count = commentService.COUNT_COMMENT_LIST(boardIdx);
 
         model.addAttribute("comments", comments);
+        model.addAttribute("count", count);
 
         return "board/detail/{boardIdx}";
 
@@ -43,9 +44,16 @@ public class CommentController {
         try {
             Long commentIdx = commentService.INSERT_COMMENT(dto, principal);
             CommentDetailVo comment = commentService.SELECT_COMMENT_DETAIL(dto.getCommentIdx());
+            List<CommentListVo> comments =  commentService.SELECT_COMMENT_LIST(dto.getBoardIdx());
+            Long count =  commentService.COUNT_COMMENT_LIST(dto.getBoardIdx());
+
+            System.out.println(count);
 
             map.put("msg", "성공");
             map.put("comment", comment);
+            map.put("comments", comments);
+            map.put("count", count);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +63,6 @@ public class CommentController {
 
 
     @GetMapping("/list/load/{boardIdx}")
-    @ResponseBody
     public String getCommentListLoad(@PathVariable Long boardIdx, Model model) {
 
         Map<String, Object> map = new HashMap<>();
