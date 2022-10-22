@@ -62,6 +62,10 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .accessDeniedPage("/WEB-INF/views/error/error.jsp");
 
+        http
+                .headers()
+                .frameOptions().sameOrigin();
+
         return http.build();
     }
 

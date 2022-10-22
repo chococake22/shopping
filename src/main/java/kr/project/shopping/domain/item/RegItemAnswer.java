@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class regItemQuestion {
+public class RegItemAnswer {
 
-    private Long regItemQuesIdx;
+    private Long regItemAnsIdx;
     private String title;
     private String content;
     private Long regIdx;
     private String regDt;
-    private Long regItemIdx;
+    private Long regItemQuesIdx;
 
 }

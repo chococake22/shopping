@@ -22,13 +22,14 @@ public class CommentController {
     private final CommentServiceImpl commentService;
 
     @GetMapping("/list/{boardIdx}")
-    public String getCommentList(@PathVariable Long boardIdx, Model model) {
+    public String getCommentList(@PathVariable Long boardIdx, Model model, Principal principal) {
 
         List<CommentListVo> comments = commentService.SELECT_COMMENT_LIST(boardIdx);
         Long count = commentService.COUNT_COMMENT_LIST(boardIdx);
 
         model.addAttribute("comments", comments);
         model.addAttribute("count", count);
+        
 
         return "board/detail/{boardIdx}";
 
@@ -53,6 +54,7 @@ public class CommentController {
             map.put("comment", comment);
             map.put("comments", comments);
             map.put("count", count);
+
 
         } catch (Exception e) {
             e.printStackTrace();

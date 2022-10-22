@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class regItem {
+public class RegItem {
 
     private Long RegItemIdx;
     private String itemName;

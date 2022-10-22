@@ -34,7 +34,7 @@ public class BoardServiceImpl implements BoardService {
     private final BoardMapper boardMapper;
     private final UserMapper userMapper;
 
-    @Value("${file.upload.path}")
+    @Value("${file.upload.path.board}")
     private String fileDir;
 
     @Value("${file.upload.size}")

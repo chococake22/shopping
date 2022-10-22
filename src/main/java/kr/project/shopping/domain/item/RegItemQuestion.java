@@ -4,17 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class buyNote {
+@Data
+public class RegItemQuestion {
 
-    private Long buyNoteIdx;
-    private Long regIdx;
-    private String regDt;
-    private String modDt;
+    private Long regItemQuesIdx;
     private String title;
     private String content;
-    private Double score;
-    private String regItemIdx;
+    private Long regIdx;
+    private String regDt;
+    private Long regItemIdx;
+
 }

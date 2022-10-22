@@ -13,7 +13,7 @@
                     <a class="nav-link active" style="color: white" aria-current="page" href="/">HOME</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" style="color: white" style="color: white"  aria-current="page" href="#">물건사기</a>
+                    <a class="nav-link active" style="color: white" style="color: white"  aria-current="page" href="/shop/list">물건사기</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" style="color: white" href="/board/list">게시판</a>
