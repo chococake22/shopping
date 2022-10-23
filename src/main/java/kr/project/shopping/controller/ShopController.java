@@ -2,27 +2,16 @@ package kr.project.shopping.controller;
 
 
 import com.google.gson.JsonObject;
-import kr.project.shopping.domain.board.BoardFile;
-import kr.project.shopping.domain.common.Page;
-import kr.project.shopping.domain.item.RegItemFile;
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.BoardSaveDto;
-import kr.project.shopping.dto.BoardSearchDto;
-import kr.project.shopping.dto.BoardUpdateDto;
-import kr.project.shopping.service.BoardServiceImpl;
-import kr.project.shopping.service.CommentServiceImpl;
+import kr.project.shopping.dto.RegItemSaveDto;
+import kr.project.shopping.service.ShopServiceImpl;
 import kr.project.shopping.service.UserServiceImpl;
-import kr.project.shopping.vo.BoardDetailVo;
-import kr.project.shopping.vo.BoardListVo;
-import kr.project.shopping.vo.CommentListVo;
+import kr.project.shopping.vo.RegItemDetailVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.*;
 
@@ -44,6 +30,7 @@ import java.util.*;
 public class ShopController {
 
     private final UserServiceImpl userService;
+    private final ShopServiceImpl shopService;
 
     @Value("${file.upload.path.shop}")
     private String fileDir;
@@ -80,8 +67,6 @@ public class ShopController {
 
             response.setContentType("application/json");
 
-            System.out.println(file.getOriginalFilename());
-
             String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 
             String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -116,13 +101,11 @@ public class ShopController {
             InputStream fileStream = file.getInputStream();
             FileUtils.copyInputStreamToFile(fileStream, saveFile);
 
-            System.out.println("savedFileName : " + savedFileName);
-
+            // 사진이 임시로 저장되어있는 곳을 url로 가져온다.
             json.addProperty("url", "/summernoteImage/"  + savedFileName);
             json.addProperty("filename", savedFileName);
             json.addProperty("responseCode", "success");
 
-            System.out.println(fileDir  + savedFileName);
 
         } catch (Exception e) {
             FileUtils.deleteQuietly(saveFile); // 저장된 파일 삭제하기
@@ -130,6 +113,36 @@ public class ShopController {
             e.printStackTrace();
         }
         return json;
-
     }
+
+    @PostMapping("/save")
+    @ResponseBody
+    public Map<String, Object> saveRegItem(HttpServletRequest request, RegItemSaveDto dto,
+                                         @RequestParam(value = "file", required = false) MultipartFile file, Principal principal) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+
+            // 상품 저장
+            Long regItemIdx = shopService.INSERT_REG_ITEM(request, dto, principal);
+
+            // 상품 정보 가져오기
+            RegItemDetailVo regItemDetailVo = shopService.SELECT_REG_ITEM_DETAIL(regItemIdx);
+
+            System.out.println(regItemDetailVo);
+            System.out.println(file);
+            System.out.println(regItemDetailVo.getRegIdx());
+
+            // 썸네일 사진 저장
+            shopService.INSERT_REG_ITEM_THUMBNAIL(regItemDetailVo.getRegIdx(), file, regItemDetailVo.getRegIdx());
+            map.put("regItemIdx", regItemIdx);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
 }

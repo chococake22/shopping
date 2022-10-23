@@ -59,5 +59,56 @@
 
 <script src="/resources/static/js/board/registration.js"></script>
 
+<script>
+    function Btn_submit() {
+        var boardType = $("#boardType").val();
+        var title = $("#title").val();
+        var content = $('#content').val().replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+        if (boardType === "") {
+            alert("주제를 선택하세요.");
+        }
+
+        const maxSize = 1024 * 1024;
+
+        for (let a = 1; a < i; a++) {
+            let id = "files" + String(a);
+
+            const ext = String(document.getElementById(id).files[0].type).split("/");
+            if($.inArray(ext[1], ['bmp' , 'jpg',  'png', 'jpeg', 'gif']) == -1) {
+                alert(ext[1] + "는 허용되지 않는 확장자입니다.")
+                return;
+            }
+
+            const size = document.getElementById(id).files[0].size;
+            if (size > maxSize) {
+                alert(a + "번째 파일이 1MB를 초과합니다.");
+                return;
+            }
+        }
+
+        var form = $('#form_submit')[0];
+        var formData = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            url: "save",
+            enctype: "multipart/form-data",
+            processData : false,
+            contentType : false,
+            cache: false,
+            data: formData,
+            success: function (res) {
+                console.log(res.boardIdx);
+                alert("등록되었습니다.")
+                window.location = "/board/list"
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+</script>
+
 </body>
 </html>

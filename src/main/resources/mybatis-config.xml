@@ -19,6 +19,10 @@
         <typeAlias alias="CommentSaveDto" type="kr.project.shopping.dto.CommentSaveDto"/>
         <typeAlias alias="CommentDetailVo" type="kr.project.shopping.vo.CommentDetailVo"/>
 
+        <typeAlias alias="RegItemSaveDto" type="kr.project.shopping.dto.RegItemSaveDto"/>
+        <typeAlias alias="RegItemDetailVo" type="kr.project.shopping.vo.RegItemDetailVo"/>
+        <typeAlias alias="RegItemThumbSaveDto" type="kr.project.shopping.dto.RegItemThumbSaveDto"/>
+
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
 
         <typeAlias alias="PwdChangeDto" type="kr.project.shopping.dto.PwdChangeDto"/>

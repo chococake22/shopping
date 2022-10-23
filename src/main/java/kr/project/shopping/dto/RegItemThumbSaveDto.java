@@ -1,4 +1,4 @@
-package kr.project.shopping.domain.item;
+package kr.project.shopping.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegItemFile {
+public class RegItemThumbSaveDto {
 
-    private Long boardFileIdx;
     private String fileName;
-    private String saveName;
     private String filePath;
     private Long regIdx;
-    private String modDt;
-    private String regDt;
     private Long regItemIdx;
     private String uuid;
+
+
+
+
 
 }

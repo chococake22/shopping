@@ -26,52 +26,57 @@
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="container justify-content-center">
     <h1>상품 등록하기</h1>
-    <form id="form_submit" action="/board/save" method="post" enctype="multipart/form-data">
+    <form id="form_submit" action="/shop/reg" method="post" enctype="multipart/form-data">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="mb-3" style="text-align : center;">
+                    <img id="preview" width="300px" height="300px">
+                    <p>대표 이미지를 선택하세요.</p>
+                </div>
+                <div class="mb-3">
+                    <div>
+                        <input type="file" class="form-control"  id="file" name="file" placeholder="대표이미지를 고르세요.">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="mb-3">
-            <select class="form-select mb-3" id="boardType" name="boardType" aria-label=".form-select-lg example">
+            <select class="form-select mb-3" id="itemType" name="itemType" aria-label=".form-select-lg example">
                 <option value="" selected>상품분류</option>
-                <option value="notice">여성패션</option>
-                <option value="normal">남성패션</option>
-                <option value="etc">액세서리</option>
-                <option value="etc">화장품/미용</option>
-                <option value="etc">가구/인테리어</option>
-                <option value="etc">식품</option>
-                <option value="etc">출산/유아동</option>
-                <option value="etc">반려동물용품</option>
-                <option value="etc">생활/주방용품</option>
-                <option value="etc">가전</option>
-                <option value="etc">디지털</option>
-                <option value="etc">컴퓨터</option>
-                <option value="etc">스포츠/레저</option>
-                <option value="etc">건강/의료용품</option>
-                <option value="etc">자동차/공구</option>
-                <option value="etc">취미/문구/악기</option>
-                <option value="etc">여행</option>
-                <option value="etc">E쿠폰/티켓</option>
-                <option value="etc">정기구독</option>
+                <option value="1">여성패션</option>
+                <option value="2">남성패션</option>
+                <option value="3">액세서리</option>
+                <option value="4">화장품/미용</option>
+                <option value="5">가구/인테리어</option>
+                <option value="6">식품</option>
+                <option value="7">출산/유아동</option>
+                <option value="8">반려동물용품</option>
+                <option value="9">생활/주방용품</option>
+                <option value="10">가전</option>
+                <option value="11">디지털</option>
+                <option value="12">컴퓨터</option>
+                <option value="13">스포츠/레저</option>
+                <option value="14">건강/의료용품</option>
+                <option value="15">자동차/공구</option>
+                <option value="16">취미/문구/악기</option>
+                <option value="17">여행</option>
+                <option value="18">E쿠폰/티켓</option>
+                <option value="19">정기구독</option>
             </select>
         </div>
         <div class="mb-3">
-            <input type="text" class="form-control" id="title" name="title" placeholder="상품명을 입력하세요.">
+            <input type="text" class="form-control" id="itemName" name="itemName" placeholder="상품명을 입력하세요.">
         </div>
         <div class="mb-3">
             <input type="text" class="form-control" id="itemCount" name="itemCount" placeholder="판매 수량을 입력하세요.">
         </div>
         <div class="mb-3">
-            <textarea class="summernote" id="summernote" name="summernote"></textarea>
+            <textarea class="summernote" id="itemInfo" name="itemInfo"></textarea>
 
         </div>
         <div class="mb-3">
-            <p style="display: inline-block">파일첨부(최대 3개, 개당 1MB)</p>
-            <input type="button" value="추가" onclick="fn_file()">
-            <div id="fileDiv">
-                <div id="fileBox">
-                </div>
-            </div>
-        </div>
-        <div class="mb-3">
             <button type="button" onclick="Btn_submit()"  class="btn btn-primary">등록</button>
-            <button type="button" id="test" onclick="saveContent()" class="btn btn-primary">test</button>
 <%--            <button type="button" onclick="Btn_submit()" class="btn btn-light">취소</button>--%>
         </div>
     </form>
@@ -81,8 +86,10 @@
 
 <script src="/resources/static/js/board/registration.js"></script>
 <script>
+
+// textarea에 이미지 올리기
 $(document).ready(function () {
-    $('#summernote').summernote({
+    $('.summernote').summernote({
         height: 450,
         lang: "ko-KR",
         minHeight: null,
@@ -116,18 +123,90 @@ function summernoteImageUpload(file, el) {
             console.log("summernoteContent : " + json.url);
             console.log(json.filename);
 
-            setTimeout(function () {
-                $('#summernote').summernote('insertImage', json.url, json.filename);
-            }, 4000);
+
+            $(el).summernote('insertImage', json.url, json.filename);
+            $(el).append('<li><img src="' + json.url + '"width="480" height="auto"/></li>');
+
             // $(el).summernote('el.insertImage', json.url, json.filename);
 
-
             // html 가져오기
-            var markupStr = $('#summernote').summernote('code');
+            var markupStr = $('.summernote').summernote('code');
+            console.log(markupStr)
         }
 
     });
 }
+
+// 썸네일 올리기
+$(function() {
+    $("#file").on('change', function(){
+        readURL(this);
+    });
+});
+
+
+function readURL(input) {
+
+    if(input.files && input.files[0]) {
+
+        console.log("썸네일 추가")
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#preview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        document.getElementById('preview').src = "";
+    }
+};
+
+function Btn_submit() {
+    var itemType = $("#itemType").val();
+    var itemName = $("#itemName").val();
+    var itemCount = $("#itemCount").val();
+    var itemInfo = $('#itemInfo').val().replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+    if (itemType === "") {
+        alert("카테고리를 선택하세요.");
+    }
+
+    const maxSize = 1024 * 1024;
+
+    const ext = String(document.getElementById('file').files[0].type).split("/");
+    if($.inArray(ext[1], ['bmp' , 'jpg', 'png', 'jpeg', 'gif']) == -1) {
+        alert(ext[1] + "는 허용되지 않는 확장자입니다.")
+        return;
+    }
+
+    const size = document.getElementById('file').files[0].size;
+    if (size > maxSize) {
+        alert("파일이 1MB를 초과합니다.");
+        return;
+    }
+
+    var form = $('#form_submit')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        type: "POST",
+        url: "save",
+        enctype: "multipart/form-data",
+        processData : false,
+        contentType : false,
+        cache: false,
+        data: formData,
+        success: function (res) {
+            alert("등록되었습니다.")
+            window.location = "/shop/list"
+        },
+        error: function (err) {
+
+        }
+    })
+}
+
+
+
 </script>
 </body>
 </html>

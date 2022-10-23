@@ -148,7 +148,6 @@ public class BoardController {
         Map<String, Object> map = new HashMap<>();
 
         try {
-
             Long boardIdx = boardService.INSERT_BOARD(request, dto, principal);
             BoardDetailVo boardDetailVo = boardService.SELECT_BOARD_DETAIL(boardIdx);
 

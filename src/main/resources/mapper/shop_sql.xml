@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.project.shopping.mapper.ShopMapper">
+
+    <insert id="INSERT_REG_ITEM" parameterType="RegItemSaveDto">
+        INSERT INTO TB_REG_ITEM(item_name, item_count, item_price, item_info, item_type, reg_dt, reg_idx)
+        VALUES(#{itemName}, #{itemCount}, #{itemPrice}, #{itemInfo}, #{itemType}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regIdx})
+        <selectKey resultType="Long" keyProperty="regItemIdx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="SELECT_REG_ITEM_DETAIL" parameterType="Long" resultType="RegItemDetailVo">
+        SELECT *
+        FROM TB_REG_ITEM
+        WHERE reg_item_idx = #{regItemIdx}
+    </select>
+    <insert id="INSERT_REG_ITEM_THUMBNAIL" parameterType="RegItemThumbSaveDto">
+        INSERT INTO TB_REG_ITEM_THUMBNAIL(file_name, file_path, reg_idx, reg_dt, mod_dt, reg_item_idx, uuid)
+        VALUES(#{fileName}, #{filePath}, #{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regItemIdx}, #{uuid})
+    </insert>
+
+
+</mapper>
