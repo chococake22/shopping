@@ -18,6 +18,8 @@ public class RegItemSaveDto {
     private int itemCount;
     private String itemName;
     private int itemPrice;
+    private String delivery;
+    private String madeCorp;
 
 
 

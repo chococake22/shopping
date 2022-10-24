@@ -18,5 +18,8 @@ public class RegItemDetailVo {
     private String itemType;
     private String itemName;
     private int itemCount;
+    private int itemPrice;
     private String uuidExt;
+    private String delivery;
+    private String madeCorp;
 }

@@ -4,8 +4,8 @@
 
 <mapper namespace="kr.project.shopping.mapper.ShopMapper">
     <insert id="INSERT_REG_ITEM" parameterType="RegItemSaveDto">
-        INSERT INTO TB_REG_ITEM(item_name, item_count, item_price, item_info, item_type, reg_dt, reg_idx)
-        VALUES(#{itemName}, #{itemCount}, #{itemPrice}, #{itemInfo}, #{itemType}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regIdx})
+        INSERT INTO TB_REG_ITEM(item_name, item_count, item_price, item_info, item_type, reg_dt, reg_idx, made_corp, delivery)
+        VALUES(#{itemName}, #{itemCount}, #{itemPrice}, #{itemInfo}, #{itemType}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regIdx}, #{madeCorp}, #{delivery})
         <selectKey resultType="Long" keyProperty="regItemIdx" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -22,7 +22,10 @@
             TRI.item_name AS itemName,
             TRI.item_count AS itemCount,
             TRI.click_count AS clickCount,
-            TRIT.uuid_ext AS uuidExt
+            TRIT.uuid_ext AS uuidExt,
+            TRI.made_corp AS madeCorp,
+            TRI.delivery AS delivery,
+            TRI.item_price AS itemPrice
         FROM TB_REG_ITEM TRI
                  LEFT OUTER JOIN TB_REG_ITEM_THUMBNAIL TRIT ON TRI.reg_item_idx = TRIT.reg_item_idx
                  LEFT OUTER JOIN TB_USER TU ON TRI.reg_idx = TU.user_idx

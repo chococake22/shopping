@@ -40,37 +40,57 @@
                 </div>
             </div>
         </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="mb-3">
+                    <select class="form-select mb-3" id="itemType" name="itemType" aria-label=".form-select-lg example">
+                        <option value="" selected>상품분류</option>
+                        <option value="1">여성패션</option>
+                        <option value="2">남성패션</option>
+                        <option value="3">액세서리</option>
+                        <option value="4">화장품/미용</option>
+                        <option value="5">가구/인테리어</option>
+                        <option value="6">식품</option>
+                        <option value="7">출산/유아동</option>
+                        <option value="8">반려동물용품</option>
+                        <option value="9">생활/주방용품</option>
+                        <option value="10">가전</option>
+                        <option value="11">디지털</option>
+                        <option value="12">컴퓨터</option>
+                        <option value="13">스포츠/레저</option>
+                        <option value="14">건강/의료용품</option>
+                        <option value="15">자동차/공구</option>
+                        <option value="16">취미/문구/악기</option>
+                        <option value="17">여행</option>
+                        <option value="18">E쿠폰/티켓</option>
+                        <option value="19">정기구독</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="itemName" name="itemName" placeholder="상품명을 입력하세요.">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="madeCorp" name="madeCorp" placeholder="제조사를 입력하세요.">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="itemPrice" name="itemPrice" placeholder="가격을 입력하세요.">
+                </div>
+                <script>
 
-        <div class="mb-3">
-            <select class="form-select mb-3" id="itemType" name="itemType" aria-label=".form-select-lg example">
-                <option value="" selected>상품분류</option>
-                <option value="1">여성패션</option>
-                <option value="2">남성패션</option>
-                <option value="3">액세서리</option>
-                <option value="4">화장품/미용</option>
-                <option value="5">가구/인테리어</option>
-                <option value="6">식품</option>
-                <option value="7">출산/유아동</option>
-                <option value="8">반려동물용품</option>
-                <option value="9">생활/주방용품</option>
-                <option value="10">가전</option>
-                <option value="11">디지털</option>
-                <option value="12">컴퓨터</option>
-                <option value="13">스포츠/레저</option>
-                <option value="14">건강/의료용품</option>
-                <option value="15">자동차/공구</option>
-                <option value="16">취미/문구/악기</option>
-                <option value="17">여행</option>
-                <option value="18">E쿠폰/티켓</option>
-                <option value="19">정기구독</option>
-            </select>
+
+
+
+                </script>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="itemCount" name="itemCount" placeholder="판매 수량을 입력하세요.">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="delivery" name="delivery" placeholder="배송정보를 입력하세요.">
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" id="itemName" name="itemName" placeholder="상품명을 입력하세요.">
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" id="itemCount" name="itemCount" placeholder="판매 수량을 입력하세요.">
-        </div>
+
+
         <div class="mb-3">
             <textarea class="summernote" id="itemInfo" name="itemInfo"></textarea>
 

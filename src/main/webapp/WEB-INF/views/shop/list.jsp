@@ -54,7 +54,6 @@
             </div>
         </div>
         </c:forEach>
-
     </div>
     <jsp:include page="../common/pagination.jsp"></jsp:include>
 </div>

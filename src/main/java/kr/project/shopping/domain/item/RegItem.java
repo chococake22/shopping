@@ -19,5 +19,7 @@ public class RegItem {
     private String regDt;
     private Long regIdx;
     private String avgScore;
+    private String delivery;
+    private String madeCorp;
 
 }
