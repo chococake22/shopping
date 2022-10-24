@@ -1,13 +1,13 @@
 #contentBox {
-    border: black 1px solid;
     display: grid;
-    grid-template-rows: repeat(5, 450px);
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(0, 450px);
+    grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 40px;
+    grid-row-gap: 40px;
     place-items: center;
 }
 
 #contentBox .card {
-    width: 300px;
+    width: 320px;
     height: 400px;
 }

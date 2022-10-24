@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegItemDetailVo {
+public class RegItemListVo {
 
     private Long regItemIdx;
     private Long regIdx;
     private String regDt;
     private String writer;
-    private int clickCount;
     private String itemInfo;
     private String itemType;
     private String itemName;
     private int itemCount;
+    private int clickCount;
     private String uuidExt;
 }

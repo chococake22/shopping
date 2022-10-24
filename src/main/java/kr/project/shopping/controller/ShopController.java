@@ -7,11 +7,13 @@ import kr.project.shopping.dto.RegItemSaveDto;
 import kr.project.shopping.service.ShopServiceImpl;
 import kr.project.shopping.service.UserServiceImpl;
 import kr.project.shopping.vo.RegItemDetailVo;
+import kr.project.shopping.vo.RegItemListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,13 +45,37 @@ public class ShopController {
     }
 
     @GetMapping("/list")
-    public String getItemList() {
+    public String getItemList(Model model, Principal principal) {
+
+        List<RegItemListVo> list = shopService.SELECT_REG_ITEM_LIST();
+
+        model.addAttribute("list", list);
+
+        System.out.println(principal != null);
+
+        if (principal != null) {
+            model.addAttribute("user", principal.getName());
+        } else {
+            model.addAttribute("user", null);
+        }
+
+
         return "shop/list";
     }
 
     @GetMapping("/reg")
     public String getItemSave() {
         return "shop/registration";
+    }
+
+    @GetMapping("/detail/{regItemIdx}")
+    public String getItemDetail(@PathVariable Long regItemIdx, Model model) {
+
+        RegItemDetailVo item = shopService.SELECT_REG_ITEM_DETAIL(regItemIdx);
+
+        model.addAttribute("item", item);
+
+        return "shop/detail";
     }
 
 
@@ -86,14 +112,6 @@ public class ShopController {
 
             String savedFileName = uuid + "." + ext;
 
-//            RegItemFile regItemFile = RegItemFile.builder()
-//                    .fileName(file.getOriginalFilename())
-//                    .saveName(uuid.toString() + " " + file.getOriginalFilename())
-//                    .filePath(getFullPath(file.getOriginalFilename()))
-//                    .regIdx(user.getUserIdx())
-//                    .uuid(uuid.toString())
-//                    .build();
-
             // 저장경로에 맞는 파일 생성
             saveFile = new File(getFullPath(savedFileName));
 
@@ -128,14 +146,13 @@ public class ShopController {
             Long regItemIdx = shopService.INSERT_REG_ITEM(request, dto, principal);
 
             // 상품 정보 가져오기
-            RegItemDetailVo regItemDetailVo = shopService.SELECT_REG_ITEM_DETAIL(regItemIdx);
+            RegItemDetailVo regItemDetailVo = shopService.SELECT_REG_ITEM_DETAIL(dto.getRegItemIdx());
 
             System.out.println(regItemDetailVo);
             System.out.println(file);
-            System.out.println(regItemDetailVo.getRegIdx());
 
             // 썸네일 사진 저장
-            shopService.INSERT_REG_ITEM_THUMBNAIL(regItemDetailVo.getRegIdx(), file, regItemDetailVo.getRegIdx());
+            shopService.INSERT_REG_ITEM_THUMBNAIL(regItemDetailVo.getRegItemIdx(), file, regItemDetailVo.getRegIdx());
             map.put("regItemIdx", regItemIdx);
 
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.RegItemSaveDto;
 import kr.project.shopping.mapper.ShopMapper;
 import kr.project.shopping.vo.RegItemDetailVo;
+import kr.project.shopping.vo.RegItemListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -62,17 +64,12 @@ public class ShopServiceImpl implements ShopService{
         final String[] exts = {"jpg", "jpeg", "bmp", "png", "gif"};
         ArrayList<String> extArr = new ArrayList<>(Arrays.asList(exts));
 
-        System.out.println("file : " + file.getOriginalFilename());
-
         try {
             if (file != null) {
 
                 String ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 
                 String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-                System.out.println(originalFilename);
-
-                System.out.println(ext);
 
                 if(!extArr.contains(ext)) {
                     throw new RuntimeException("유효하지 않은 확장자입니다.");
@@ -91,10 +88,11 @@ public class ShopServiceImpl implements ShopService{
                         .regIdx(regIdx)
                         .regItemIdx(regItemIdx)
                         .uuid(uuid.toString())
+                        .uuidExt(uuid.toString() + "." + ext)
                         .build();
 
                 // 파일 전송
-                File saveFile = new File(getFullPath(uuid.toString() + file.getOriginalFilename()));
+                File saveFile = new File(getFullPath(uuid.toString() + "." + ext));
                 file.transferTo(saveFile);
 
                 // DB 저장
@@ -105,5 +103,12 @@ public class ShopServiceImpl implements ShopService{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<RegItemListVo> SELECT_REG_ITEM_LIST() {
+        List<RegItemListVo> list = shopMapper.SELECT_REG_ITEM_LIST();
+
+        return list;
     }
 }

@@ -3,7 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.project.shopping.mapper.ShopMapper">
-
     <insert id="INSERT_REG_ITEM" parameterType="RegItemSaveDto">
         INSERT INTO TB_REG_ITEM(item_name, item_count, item_price, item_info, item_type, reg_dt, reg_idx)
         VALUES(#{itemName}, #{itemCount}, #{itemPrice}, #{itemInfo}, #{itemType}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regIdx})
@@ -13,14 +12,43 @@
     </insert>
 
     <select id="SELECT_REG_ITEM_DETAIL" parameterType="Long" resultType="RegItemDetailVo">
-        SELECT *
-        FROM TB_REG_ITEM
-        WHERE reg_item_idx = #{regItemIdx}
+        SELECT
+            TRI.reg_item_idx AS regItemIdx,
+            TRI.reg_idx AS regIdx,
+            DATE_FORMAT(TRI.reg_dt, '%Y-%m-%d') AS regDt,
+            TU.name AS writer,
+            TRI.item_info AS itemInfo,
+            TRI.item_type AS itemType,
+            TRI.item_name AS itemName,
+            TRI.item_count AS itemCount,
+            TRI.click_count AS clickCount,
+            TRIT.uuid_ext AS uuidExt
+        FROM TB_REG_ITEM TRI
+                 LEFT OUTER JOIN TB_REG_ITEM_THUMBNAIL TRIT ON TRI.reg_item_idx = TRIT.reg_item_idx
+                 LEFT OUTER JOIN TB_USER TU ON TRI.reg_idx = TU.user_idx
+        WHERE TRI.reg_item_idx = #{regItemIdx}
+
     </select>
     <insert id="INSERT_REG_ITEM_THUMBNAIL" parameterType="RegItemThumbSaveDto">
-        INSERT INTO TB_REG_ITEM_THUMBNAIL(file_name, file_path, reg_idx, reg_dt, mod_dt, reg_item_idx, uuid)
-        VALUES(#{fileName}, #{filePath}, #{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regItemIdx}, #{uuid})
+        INSERT INTO TB_REG_ITEM_THUMBNAIL(file_name, file_path, reg_idx, reg_dt, mod_dt, reg_item_idx, uuid, uuid_ext)
+        VALUES(#{fileName}, #{filePath}, #{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{regItemIdx}, #{uuid}, #{uuidExt})
     </insert>
-
-
+    <select id="SELECT_REG_ITEM_LIST" resultType="RegItemListVo">
+        SELECT
+            TRI.reg_item_idx AS regItemIdx,
+            TRI.reg_idx AS regIdx,
+            DATE_FORMAT(TRI.reg_dt, '%Y-%m-%d') AS regDt,
+            TU.name AS writer,
+            TRI.item_info AS itemInfo,
+           TRI.item_type AS itemType,
+           TRI.item_name AS itemName,
+           TRI.item_count AS itemCount,
+            TRI.click_count AS clickCount,
+           TRIT.uuid_ext AS uuidExt
+        FROM
+            TB_REG_ITEM TRI
+        LEFT OUTER JOIN TB_REG_ITEM_THUMBNAIL TRIT ON TRI.reg_item_idx = TRIT.reg_item_idx
+        LEFT OUTER JOIN TB_USER TU ON TRI.reg_idx = TU.user_idx
+        ORDER BY TRI.reg_item_idx DESC
+    </select>
 </mapper>

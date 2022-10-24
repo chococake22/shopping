@@ -39,7 +39,6 @@
                             <a id="update" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" href="/board/update/${boardVo.boardIdx}">수정</a>
                             <a id="delete" style="margin-left: 20px; color: gray; cursor: pointer; text-decoration-line: underline" onclick="fn_delete()">삭제</a>
                         </c:if>
-
                         <p id="likeCount" style="margin-left: 20px">좋아요 <span>${boardVo.likeCount}</span></p>
                         <p id="click" style="margin-left: 20px">조회수 <span>${boardVo.click}</span></p>
                     </div>

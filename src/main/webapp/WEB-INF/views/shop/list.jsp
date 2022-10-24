@@ -12,93 +12,49 @@
 
     <script src="/resources/static/js/common/datapicker.js"></script>
     <link rel="stylesheet" href="/resources/static/css/common.css">
+    <style>
+        .itemName {
+            width: 100%;
+            height: 70px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+            margin-bottom: 10px;
+        }
+        /*#listContainer {*/
+        /*    height: 100%;*/
+        /*}*/
+    </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
 <div class="container justify-content-center">
-    <h1>물건사기</h1>
-    <a href="/shop/reg"><button type="button" class="btn btn-primary justify-content-end">상품등록</button></a>
+    <div class="container d-flex justify-content-between">
+        <div class="d-inline justify-content-start">
+            <h1>물건사기</h1>
+        </div>
+        <div class="justify-content-end">
+            <c:if test="${user != null}">
+                <a href="/shop/reg"><button type="button" class="btn btn-primary justify-content-end">상품등록</button></a>
+            </c:if>
+        </div>
+    </div>
     <div id="contentBox">
+        <c:forEach items="${list}" var="item">
         <div class="card">
-            <img src="..." class="card-img-top" alt="...">
+            <a href="/shop/detail/${item.regItemIdx}"><img src="/summernoteImage/${item.uuidExt}" width="300px" height="200px" class="card-img-top"></a>
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="/shop/detail/${item.regItemIdx}"><div class="itemName">${item.itemName}</div></a>
+                <div class="d-inline d-flex justify-content-between">
+                    <p style="color: gray; font-size: 12px;">${item.writer}</p>
+                    <p style="color: gray; font-size: 12px;">${item.regDt}</p>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
+        </c:forEach>
+
     </div>
     <jsp:include page="../common/pagination.jsp"></jsp:include>
 </div>

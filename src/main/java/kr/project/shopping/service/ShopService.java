@@ -9,6 +9,7 @@ import kr.project.shopping.dto.RegItemSaveDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
 import kr.project.shopping.vo.RegItemDetailVo;
+import kr.project.shopping.vo.RegItemListVo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,5 +25,7 @@ public interface ShopService {
     RegItemDetailVo SELECT_REG_ITEM_DETAIL(Long regItemIdx);
 
     void INSERT_REG_ITEM_THUMBNAIL(Long regItemIdx, MultipartFile file, Long regIdx);
+
+    List<RegItemListVo> SELECT_REG_ITEM_LIST();
 
 }

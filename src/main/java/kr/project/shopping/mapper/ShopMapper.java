@@ -10,6 +10,7 @@ import kr.project.shopping.dto.RegItemThumbSaveDto;
 import kr.project.shopping.vo.BoardDetailVo;
 import kr.project.shopping.vo.BoardListVo;
 import kr.project.shopping.vo.RegItemDetailVo;
+import kr.project.shopping.vo.RegItemListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,8 @@ public interface ShopMapper {
     RegItemDetailVo SELECT_REG_ITEM_DETAIL(Long regItemIdx);
 
     void INSERT_REG_ITEM_THUMBNAIL(RegItemFile regItemFile);
+
+    List<RegItemListVo> SELECT_REG_ITEM_LIST();
 
 
 }

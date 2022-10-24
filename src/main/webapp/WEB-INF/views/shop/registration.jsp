@@ -168,6 +168,7 @@ function Btn_submit() {
 
     if (itemType === "") {
         alert("카테고리를 선택하세요.");
+        return;
     }
 
     const maxSize = 1024 * 1024;

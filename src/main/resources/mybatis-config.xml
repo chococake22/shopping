@@ -22,6 +22,7 @@
         <typeAlias alias="RegItemSaveDto" type="kr.project.shopping.dto.RegItemSaveDto"/>
         <typeAlias alias="RegItemDetailVo" type="kr.project.shopping.vo.RegItemDetailVo"/>
         <typeAlias alias="RegItemThumbSaveDto" type="kr.project.shopping.dto.RegItemThumbSaveDto"/>
+        <typeAlias alias="RegItemListVo" type="kr.project.shopping.vo.RegItemListVo"/>
 
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
 

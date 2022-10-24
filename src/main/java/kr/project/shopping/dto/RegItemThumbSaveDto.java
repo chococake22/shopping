@@ -16,6 +16,7 @@ public class RegItemThumbSaveDto {
     private Long regIdx;
     private Long regItemIdx;
     private String uuid;
+    private String uuidExt;
 
 
 

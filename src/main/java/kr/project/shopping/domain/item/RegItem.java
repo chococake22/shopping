@@ -13,6 +13,7 @@ public class RegItem {
     private String itemName;
     private int itemCount;
     private int itemPrice;
+    private int clickCount;
     private String itemInfo;
     private String itemType;
     private String regDt;

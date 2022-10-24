@@ -20,5 +20,6 @@ public class RegItemFile {
     private String regDt;
     private Long regItemIdx;
     private String uuid;
+    private String uuidExt;
 
 }
