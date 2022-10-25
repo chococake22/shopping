@@ -50,6 +50,7 @@
                 <div class="d-inline d-flex justify-content-between">
                     <p style="color: gray; font-size: 12px;">${item.writer}</p>
                     <p style="color: gray; font-size: 12px;">${item.regDt}</p>
+                    <p style="color: gray; font-size: 12px;">${item.itemPrice}</p>
                 </div>
             </div>
         </div>

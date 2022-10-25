@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>구매하기</title>
     <link rel="stylesheet" href="/resources/static/bootstrap-5.1.3-dist/css/bootstrap.min.css">
     <script src="/resources/static/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h3 id="totalPrice"></h3><span>원</span>
+                                <h3 id="totalPrice"><fmt:formatNumber value="${item.itemPrice}" pattern="#,###"/></h3><h3 style="margin-left: -10px;">원</h3>
                                 <div class="d-inline">
                                     <a href="/shop/reg"><button type="button" class="btn btn-success">구매하기</button></a>
                                 </div>
@@ -163,16 +163,44 @@
         </div>
     </div>
     <input type="hidden" id="regItemIdx" name="regItemIdx" value="${item.regItemIdx}">
-    <jsp:include page="../board/comment.jsp"></jsp:include>
+    <jsp:include page="../shop/buynote.jsp"></jsp:include>
 </div>
 
 <jsp:include page="../common/footer.jsp"></jsp:include>
 <script type="text/javascript" src="/resources/static/js/shop/detail.js"></script>
+<script type="text/javascript">
 
-<script>
+
+
+    $('#buyCount').on("propertychange change paste input", function () {
+
+        if (document.getElementById('buyCount').value == "") {
+            alert("최소 주문 수량은 1개입니다.")
+            document.getElementById('buyCount').value++;
+            return;
+        }
+
+        const buyCount = document.getElementById('buyCount').value;
+        if (buyCount > ${item.itemCount}) {
+            alert("수량을 초과했습니다.")
+            document.getElementById('buyCount').value = ${item.itemCount}
+            return;
+        }
+
+        var itemPrice = ${item.itemPrice};
+        var result = itemPrice * buyCount
+        document.getElementById('totalPrice').innerText = result.toLocaleString('ko-KR')
+    })
+
+
     $('.input-number-increment').click(function() {
+
         var $input = $(this).parents('.input-number-group').find('.input-number');
         var val = parseInt($input.val(), 10);
+        if (val > (${item.itemCount} - 1)) {
+            alert("수량을 초과했습니다.")
+            return;
+        }
         $input.val(val + 1);
 
         var buyCount = $('#buyCount').val();
@@ -183,8 +211,15 @@
     });
 
     $('.input-number-decrement').click(function() {
+
         var $input = $(this).parents('.input-number-group').find('.input-number');
         var val = parseInt($input.val(), 10);
+
+        if (val <= 1) {
+            alert("최소 주문 수량은 1개입니다.")
+            return;
+        }
+
         $input.val(val - 1);
 
         var buyCount = $('#buyCount').val();
@@ -192,7 +227,8 @@
         var result = itemPrice * buyCount
         document.getElementById('totalPrice').innerText = result.toLocaleString('ko-KR')
 
-    })
+    });
+
 </script>
 
 </body>

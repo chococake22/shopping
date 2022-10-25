@@ -1,9 +1,9 @@
 package kr.project.shopping.controller;
 
-import kr.project.shopping.dto.CommentSaveDto;
-import kr.project.shopping.service.CommentServiceImpl;
-import kr.project.shopping.vo.CommentDetailVo;
-import kr.project.shopping.vo.CommentListVo;
+import kr.project.shopping.dto.comment.CommentSaveDto;
+import kr.project.shopping.service.comment.CommentServiceImpl;
+import kr.project.shopping.vo.comment.CommentDetailVo;
+import kr.project.shopping.vo.comment.CommentListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +32,6 @@ public class CommentController {
         
 
         return "board/detail/{boardIdx}";
-
-
     }
 
     @PostMapping("/save")

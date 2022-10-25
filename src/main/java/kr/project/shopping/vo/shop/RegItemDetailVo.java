@@ -1,4 +1,4 @@
-package kr.project.shopping.vo;
+package kr.project.shopping.vo.shop;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

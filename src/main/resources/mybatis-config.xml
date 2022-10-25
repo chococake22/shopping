@@ -10,23 +10,28 @@
     <typeAliases>
 
         <typeAlias alias="Board" type="kr.project.shopping.domain.board.Board"/>
-        <typeAlias alias="BoardDetailVo" type="kr.project.shopping.vo.BoardDetailVo"/>
-        <typeAlias alias="BoardListVo" type="kr.project.shopping.vo.BoardListVo"/>
-        <typeAlias alias="BoardSearchDto" type="kr.project.shopping.dto.BoardSearchDto"/>
-        <typeAlias alias="BoardUpdateDto" type="kr.project.shopping.dto.BoardUpdateDto"/>
+        <typeAlias alias="BoardDetailVo" type="kr.project.shopping.vo.board.BoardDetailVo"/>
+        <typeAlias alias="BoardListVo" type="kr.project.shopping.vo.board.BoardListVo"/>
+        <typeAlias alias="BoardSearchDto" type="kr.project.shopping.dto.board.BoardSearchDto"/>
+        <typeAlias alias="BoardUpdateDto" type="kr.project.shopping.dto.board.BoardUpdateDto"/>
         <typeAlias alias="BoardFile" type="kr.project.shopping.domain.board.BoardFile"/>
-        <typeAlias alias="CommentListVo" type="kr.project.shopping.vo.CommentListVo"/>
-        <typeAlias alias="CommentSaveDto" type="kr.project.shopping.dto.CommentSaveDto"/>
-        <typeAlias alias="CommentDetailVo" type="kr.project.shopping.vo.CommentDetailVo"/>
 
-        <typeAlias alias="RegItemSaveDto" type="kr.project.shopping.dto.RegItemSaveDto"/>
-        <typeAlias alias="RegItemDetailVo" type="kr.project.shopping.vo.RegItemDetailVo"/>
-        <typeAlias alias="RegItemThumbSaveDto" type="kr.project.shopping.dto.RegItemThumbSaveDto"/>
-        <typeAlias alias="RegItemListVo" type="kr.project.shopping.vo.RegItemListVo"/>
+        <typeAlias alias="CommentListVo" type="kr.project.shopping.vo.comment.CommentListVo"/>
+        <typeAlias alias="CommentSaveDto" type="kr.project.shopping.dto.comment.CommentSaveDto"/>
+        <typeAlias alias="CommentDetailVo" type="kr.project.shopping.vo.comment.CommentDetailVo"/>
+
+        <typeAlias alias="RegItemSaveDto" type="kr.project.shopping.dto.shop.RegItemSaveDto"/>
+        <typeAlias alias="RegItemThumbSaveDto" type="kr.project.shopping.dto.shop.RegItemThumbSaveDto"/>
+        <typeAlias alias="RegItemDetailVo" type="kr.project.shopping.vo.shop.RegItemDetailVo"/>
+        <typeAlias alias="RegItemListVo" type="kr.project.shopping.vo.shop.RegItemListVo"/>
+
+        <typeAlias alias="BuyNoteListVo" type="kr.project.shopping.vo.shop.BuyNoteListVo"/>
+        <typeAlias alias="BuyNoteSaveDto" type="kr.project.shopping.dto.shop.BuyNoteSaveDto"/>
+        <typeAlias alias="BuyNoteDetailVo" type="kr.project.shopping.vo.shop.BuyNoteDetailVo"/>
 
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
 
-        <typeAlias alias="PwdChangeDto" type="kr.project.shopping.dto.PwdChangeDto"/>
+        <typeAlias alias="PwdChangeDto" type="kr.project.shopping.dto.user.PwdChangeDto"/>
 
 
         <typeAlias alias="Json" type="org.json.JSONObject"/>

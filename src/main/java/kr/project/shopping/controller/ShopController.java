@@ -3,11 +3,13 @@ package kr.project.shopping.controller;
 
 import com.google.gson.JsonObject;
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.RegItemSaveDto;
-import kr.project.shopping.service.ShopServiceImpl;
-import kr.project.shopping.service.UserServiceImpl;
-import kr.project.shopping.vo.RegItemDetailVo;
-import kr.project.shopping.vo.RegItemListVo;
+import kr.project.shopping.dto.shop.BuyNoteSaveDto;
+import kr.project.shopping.dto.shop.RegItemSaveDto;
+import kr.project.shopping.service.shop.ShopServiceImpl;
+import kr.project.shopping.service.user.UserServiceImpl;
+import kr.project.shopping.vo.shop.BuyNoteListVo;
+import kr.project.shopping.vo.shop.RegItemDetailVo;
+import kr.project.shopping.vo.shop.RegItemListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -51,14 +53,11 @@ public class ShopController {
 
         model.addAttribute("list", list);
 
-        System.out.println(principal != null);
-
         if (principal != null) {
             model.addAttribute("user", principal.getName());
         } else {
             model.addAttribute("user", null);
         }
-
 
         return "shop/list";
     }
@@ -69,11 +68,21 @@ public class ShopController {
     }
 
     @GetMapping("/detail/{regItemIdx}")
-    public String getItemDetail(@PathVariable Long regItemIdx, Model model) {
+    public String getItemDetail(@PathVariable Long regItemIdx, Model model, Principal principal) {
 
         RegItemDetailVo item = shopService.SELECT_REG_ITEM_DETAIL(regItemIdx);
+        List<BuyNoteListVo> buyNotes = shopService.SELECT_BUY_NOTE_LIST(regItemIdx);
+        Long count = shopService.COUNT_BUY_NOTE_LIST(regItemIdx);
 
         model.addAttribute("item", item);
+        model.addAttribute("buyNotes", buyNotes);
+        model.addAttribute("count", count);
+
+        if (principal != null) {
+            model.addAttribute("user", principal.getName());
+        } else {
+            model.addAttribute("user", null);
+        }
 
         return "shop/detail";
     }
@@ -160,6 +169,48 @@ public class ShopController {
         }
         return map;
     }
+
+    // 상품후기 리스트 조회
+    @GetMapping("/list/{regItemIdx}")
+    public String getBuyNoteList(@PathVariable Long regItemIdx, Model model, Principal principal) {
+
+        List<BuyNoteListVo> buyNotes = shopService.SELECT_BUY_NOTE_LIST(regItemIdx);
+        Long count = shopService.COUNT_BUY_NOTE_LIST(regItemIdx);
+
+        model.addAttribute("buyNotes", buyNotes);
+        model.addAttribute("count", count);
+
+        return "shop/detail/{regItemIdx}";
+    }
+
+    @PostMapping("/save/buynote")
+    @ResponseBody
+    public Map<String, Object> saveBuyNote(HttpServletRequest request, BuyNoteSaveDto dto,
+                                           @RequestParam(value = "file", required = false) MultipartFile file, Principal principal) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+
+            // 상품 저장
+            shopService.INSERT_BUY_NOTE(request, dto, principal);
+            shopService.SELECT_BUY_NOTE_DETAIL(dto.getRegItembuyNoteIdx());
+
+            List<BuyNoteListVo> buyNotes = shopService.SELECT_BUY_NOTE_LIST(dto.getRegItemIdx());
+            Long count = shopService.COUNT_BUY_NOTE_LIST(dto.getRegItemIdx());
+
+            // 썸네일 사진 저장
+//            shopService.INSERT_REG_ITEM_THUMBNAIL(regItemDetailVo.getRegItemIdx(), file, regItemDetailVo.getRegIdx());
+            map.put("buyNoteIdx", dto.getRegItembuyNoteIdx());
+            map.put("buyNotes", buyNotes);
+            map.put("count", count);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 
 
 }

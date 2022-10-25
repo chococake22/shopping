@@ -1,18 +1,17 @@
-package kr.project.shopping.service;
+package kr.project.shopping.service.board;
 
 import kr.project.shopping.domain.board.Board;
 import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.BoardSaveDto;
-import kr.project.shopping.dto.BoardSearchDto;
-import kr.project.shopping.dto.BoardUpdateDto;
+import kr.project.shopping.dto.board.BoardSaveDto;
+import kr.project.shopping.dto.board.BoardSearchDto;
+import kr.project.shopping.dto.board.BoardUpdateDto;
 import kr.project.shopping.mapper.BoardMapper;
 import kr.project.shopping.mapper.UserMapper;
-import kr.project.shopping.vo.BoardDetailVo;
-import kr.project.shopping.vo.BoardListVo;
+import kr.project.shopping.vo.board.BoardDetailVo;
+import kr.project.shopping.vo.board.BoardListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

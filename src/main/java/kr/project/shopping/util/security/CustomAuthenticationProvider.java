@@ -1,8 +1,7 @@
 package kr.project.shopping.util.security;
 
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.service.UserServiceImpl;
-import kr.project.shopping.service.UserServiceLoad;
+import kr.project.shopping.service.user.UserServiceLoad;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

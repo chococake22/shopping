@@ -1,13 +1,12 @@
-package kr.project.shopping.service;
+package kr.project.shopping.service.board;
 
 
 import kr.project.shopping.domain.board.BoardFile;
-import kr.project.shopping.dto.BoardSaveDto;
-import kr.project.shopping.dto.BoardSearchDto;
-import kr.project.shopping.dto.BoardUpdateDto;
-import kr.project.shopping.vo.BoardDetailVo;
-import kr.project.shopping.vo.BoardListVo;
-import org.json.JSONObject;
+import kr.project.shopping.dto.board.BoardSaveDto;
+import kr.project.shopping.dto.board.BoardSearchDto;
+import kr.project.shopping.dto.board.BoardUpdateDto;
+import kr.project.shopping.vo.board.BoardDetailVo;
+import kr.project.shopping.vo.board.BoardListVo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 

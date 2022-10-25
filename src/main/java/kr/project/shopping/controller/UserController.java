@@ -2,9 +2,9 @@ package kr.project.shopping.controller;
 
 
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.PwdChangeDto;
-import kr.project.shopping.dto.UserSaveDto;
-import kr.project.shopping.service.UserServiceImpl;
+import kr.project.shopping.dto.user.PwdChangeDto;
+import kr.project.shopping.dto.user.UserSaveDto;
+import kr.project.shopping.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

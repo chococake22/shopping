@@ -1,4 +1,4 @@
-package kr.project.shopping.vo;
+package kr.project.shopping.vo.shop;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,7 @@ public class RegItemListVo {
     private String regDt;
     private String writer;
     private String itemInfo;
+    private int itemPrice;
     private String itemType;
     private String itemName;
     private int itemCount;

@@ -16,7 +16,7 @@
         <security:authentication-provider user-service-ref="userSerivceImpl"/>
     </security:authentication-manager>
 
-    <bean id="userAuthProvider" class="kr.project.shopping.service.UserServiceImpl"></bean>
+    <bean id="userAuthProvider" class="kr.project.shopping.service.user.UserServiceImpl"></bean>
 
 
     <security:http>

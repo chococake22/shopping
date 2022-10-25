@@ -1,11 +1,11 @@
-package kr.project.shopping.service;
+package kr.project.shopping.service.comment;
 
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.BoardSearchDto;
-import kr.project.shopping.dto.CommentSaveDto;
+import kr.project.shopping.dto.comment.CommentSaveDto;
 import kr.project.shopping.mapper.CommentMapper;
-import kr.project.shopping.vo.CommentDetailVo;
-import kr.project.shopping.vo.CommentListVo;
+import kr.project.shopping.service.user.UserServiceImpl;
+import kr.project.shopping.vo.comment.CommentDetailVo;
+import kr.project.shopping.vo.comment.CommentListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +30,7 @@ public class CommentServiceImpl implements CommentService{
 
         User user = userService.SELECT_USER_BY_USERID(principal.getName());
         dto.setRegIdx(user.getUserIdx());
+        dto.setCommentContent(dto.getCommentContent().replace("<br>","\r\n"));
         return commentMapper.INSERT_COMMENT(dto);
 
     }

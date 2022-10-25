@@ -1,4 +1,4 @@
-package kr.project.shopping.vo;
+package kr.project.shopping.vo.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentListVo {
+public class CommentDetailVo {
 
     private Long commentIdx;
     private String commentContent;

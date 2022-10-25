@@ -1,11 +1,15 @@
-package kr.project.shopping.service;
+package kr.project.shopping.service.shop;
 
 import kr.project.shopping.domain.item.RegItemFile;
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.RegItemSaveDto;
+import kr.project.shopping.dto.shop.BuyNoteSaveDto;
+import kr.project.shopping.service.user.UserServiceImpl;
+import kr.project.shopping.vo.shop.BuyNoteDetailVo;
+import kr.project.shopping.vo.shop.BuyNoteListVo;
+import kr.project.shopping.dto.shop.RegItemSaveDto;
 import kr.project.shopping.mapper.ShopMapper;
-import kr.project.shopping.vo.RegItemDetailVo;
-import kr.project.shopping.vo.RegItemListVo;
+import kr.project.shopping.vo.shop.RegItemDetailVo;
+import kr.project.shopping.vo.shop.RegItemListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -105,10 +109,37 @@ public class ShopServiceImpl implements ShopService{
         }
     }
 
+
+
     @Override
     public List<RegItemListVo> SELECT_REG_ITEM_LIST() {
         List<RegItemListVo> list = shopMapper.SELECT_REG_ITEM_LIST();
 
         return list;
+    }
+
+    @Override
+    public List<BuyNoteListVo> SELECT_BUY_NOTE_LIST(Long regItemIdx) {
+        return shopMapper.SELECT_BUY_NOTE_LIST(regItemIdx);
+    }
+
+    @Override
+    public Long COUNT_BUY_NOTE_LIST(Long regItemIdx) {
+        return shopMapper.COUNT_BUY_NOTE_LIST(regItemIdx);
+    }
+
+    public Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal) {
+
+        User user = userService.SELECT_USER_BY_USERID(principal.getName());
+
+        dto.setRegIdx(user.getUserIdx());
+        dto.setContent(dto.getContent().replace("<br>","\r\n"));
+
+        return shopMapper.INSERT_BUY_NOTE(dto);
+    }
+
+    @Override
+    public BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItembuyNoteIdx) {
+        return shopMapper.SELECT_BUY_NOTE_DETAIL(regItembuyNoteIdx);
     }
 }

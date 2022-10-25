@@ -1,4 +1,4 @@
-package kr.project.shopping.dto;
+package kr.project.shopping.dto.shop;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardUpdateDto {
+public class BuyNoteSaveDto {
 
-    private Long boardIdx;
-    private String boardType;
+    private Long regItembuyNoteIdx;
     private String title;
     private String content;
+    private String score;
+    private Long regItemIdx;
+    private Long regIdx;
 
 }

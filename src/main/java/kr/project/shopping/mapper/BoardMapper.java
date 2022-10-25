@@ -2,10 +2,10 @@ package kr.project.shopping.mapper;
 
 import kr.project.shopping.domain.board.Board;
 import kr.project.shopping.domain.board.BoardFile;
-import kr.project.shopping.dto.BoardSearchDto;
-import kr.project.shopping.dto.BoardUpdateDto;
-import kr.project.shopping.vo.BoardDetailVo;
-import kr.project.shopping.vo.BoardListVo;
+import kr.project.shopping.dto.board.BoardSearchDto;
+import kr.project.shopping.dto.board.BoardUpdateDto;
+import kr.project.shopping.vo.board.BoardDetailVo;
+import kr.project.shopping.vo.board.BoardListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

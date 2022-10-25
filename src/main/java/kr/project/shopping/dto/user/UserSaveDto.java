@@ -1,4 +1,4 @@
-package kr.project.shopping.dto;
+package kr.project.shopping.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

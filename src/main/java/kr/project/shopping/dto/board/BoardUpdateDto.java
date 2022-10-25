@@ -1,6 +1,5 @@
-package kr.project.shopping.dto;
+package kr.project.shopping.dto.board;
 
-import kr.project.shopping.domain.common.Page;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardSearchDto extends Page {
+public class BoardUpdateDto {
 
+    private Long boardIdx;
     private String boardType;
-    private String searchType;
+    private String title;
+    private String content;
 
 }

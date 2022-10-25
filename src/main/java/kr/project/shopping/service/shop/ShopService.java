@@ -1,28 +1,27 @@
-package kr.project.shopping.mapper;
+package kr.project.shopping.service.shop;
 
-import kr.project.shopping.domain.item.RegItemFile;
+
 import kr.project.shopping.dto.shop.BuyNoteSaveDto;
 import kr.project.shopping.vo.shop.BuyNoteDetailVo;
 import kr.project.shopping.vo.shop.BuyNoteListVo;
 import kr.project.shopping.dto.shop.RegItemSaveDto;
 import kr.project.shopping.vo.shop.RegItemDetailVo;
 import kr.project.shopping.vo.shop.RegItemListVo;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
-@Repository
-@Mapper
-public interface ShopMapper {
+@Component
+public interface ShopService {
 
-    Long INSERT_REG_ITEM(RegItemSaveDto dto);
+    Long INSERT_REG_ITEM(HttpServletRequest request, RegItemSaveDto dto, Principal principal);
 
     RegItemDetailVo SELECT_REG_ITEM_DETAIL(Long regItemIdx);
 
-    void INSERT_REG_ITEM_THUMBNAIL(RegItemFile regItemFile);
+    void INSERT_REG_ITEM_THUMBNAIL(Long regItemIdx, MultipartFile file, Long regIdx);
 
     List<RegItemListVo> SELECT_REG_ITEM_LIST();
 
@@ -30,7 +29,7 @@ public interface ShopMapper {
 
     Long COUNT_BUY_NOTE_LIST(Long regItemIdx);
 
-    Long INSERT_BUY_NOTE(BuyNoteSaveDto dto);
+    Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal);
 
     BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItembuyNoteIdx);
 }

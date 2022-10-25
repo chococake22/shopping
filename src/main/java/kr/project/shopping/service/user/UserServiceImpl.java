@@ -1,8 +1,8 @@
-package kr.project.shopping.service;
+package kr.project.shopping.service.user;
 
 import kr.project.shopping.domain.user.User;
-import kr.project.shopping.dto.PwdChangeDto;
-import kr.project.shopping.dto.UserSaveDto;
+import kr.project.shopping.dto.user.PwdChangeDto;
+import kr.project.shopping.dto.user.UserSaveDto;
 import kr.project.shopping.mapper.UserMapper;
 import kr.project.shopping.util.CommonUtil;
 import lombok.RequiredArgsConstructor;

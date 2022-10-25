@@ -43,9 +43,10 @@
             DATE_FORMAT(TRI.reg_dt, '%Y-%m-%d') AS regDt,
             TU.name AS writer,
             TRI.item_info AS itemInfo,
-           TRI.item_type AS itemType,
-           TRI.item_name AS itemName,
-           TRI.item_count AS itemCount,
+            TRI.item_type AS itemType,
+            TRI.item_name AS itemName,
+            TRI.item_count AS itemCount,
+            TRI.item_price AS itemPrice,
             TRI.click_count AS clickCount,
            TRIT.uuid_ext AS uuidExt
         FROM
@@ -53,5 +54,46 @@
         LEFT OUTER JOIN TB_REG_ITEM_THUMBNAIL TRIT ON TRI.reg_item_idx = TRIT.reg_item_idx
         LEFT OUTER JOIN TB_USER TU ON TRI.reg_idx = TU.user_idx
         ORDER BY TRI.reg_item_idx DESC
+    </select>
+
+    <select id="SELECT_BUY_NOTE_LIST" parameterType="Long" resultType="BuyNoteListVo">
+        SELECT
+            TRIBN.reg_item_buy_note_idx AS regItemBuyNoteIdx,
+            TRIBN.reg_idx AS regIdx,
+            TU.name AS writer,
+            DATE_FORMAT(TRIBN.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
+            TRIBN.title AS title,
+            TRIBN.content AS content,
+            TRIBN.reg_item_idx AS regItemIdx
+        FROM TB_REG_ITEM_BUY_NOTE TRIBN
+            LEFT OUTER JOIN TB_USER TU ON TRIBN.reg_idx = TU.user_idx
+        WHERE TRIBN.reg_item_idx = #{regItemIdx}
+        ORDER BY TRIBN.reg_item_buy_note_idx DESC
+    </select>
+    <select id="COUNT_BUY_NOTE_LIST" parameterType="Long" resultType="Long">
+        SELECT COUNT(*)
+        FROM TB_REG_ITEM_BUY_NOTE TRIBN
+                 LEFT OUTER JOIN TB_USER TB ON TRIBN.reg_idx = TB.user_idx
+        WHERE TRIBN.reg_item_idx = #{regItemIdx}
+    </select>
+    <insert id="INSERT_BUY_NOTE" parameterType="BuyNoteSaveDto">
+        INSERT INTO TB_REG_ITEM_BUY_NOTE(reg_idx, reg_dt, mod_dt, title, content, score, reg_item_idx)
+        VALUES(#{regIdx}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{title}, #{content}, #{score}, #{regItemIdx})
+        <selectKey resultType="Long" keyProperty="regItembuyNoteIdx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <select id="SELECT_BUY_NOTE_DETAIL" parameterType="Long" resultType="BuyNoteDetailVo">
+        SELECT
+            TRIBN.reg_item_buy_note_idx AS regItemBuyNoteIdx,
+            TRIBN.reg_idx AS regIdx,
+            DATE_FORMAT(TRIBN.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
+            TRIBN.title AS title,
+            TRIBN.content AS content,
+            TRIBN.reg_item_idx AS regItemIdx,
+            TU.name AS writer
+        FROM TB_REG_ITEM_BUY_NOTE TRIBN
+                 LEFT OUTER JOIN TB_USER TU ON TRIBN.reg_idx = TU.user_idx
+        WHERE TRIBN.reg_item_buy_note_idx = #{regItemBuyNoteIdx}
     </select>
 </mapper>

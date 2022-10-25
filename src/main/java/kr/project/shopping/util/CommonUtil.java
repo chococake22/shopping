@@ -1,6 +1,6 @@
 package kr.project.shopping.util;
 
-import kr.project.shopping.dto.UserSaveDto;
+import kr.project.shopping.dto.user.UserSaveDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
