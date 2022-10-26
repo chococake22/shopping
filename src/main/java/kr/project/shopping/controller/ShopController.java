@@ -53,6 +53,7 @@ public class ShopController {
 
         model.addAttribute("list", list);
 
+
         if (principal != null) {
             model.addAttribute("user", principal.getName());
         } else {
@@ -79,7 +80,8 @@ public class ShopController {
         model.addAttribute("count", count);
 
         if (principal != null) {
-            model.addAttribute("user", principal.getName());
+            User user = userService.SELECT_USER_BY_USERID(principal.getName());
+            model.addAttribute("user", user.getName());
         } else {
             model.addAttribute("user", null);
         }
@@ -186,7 +188,7 @@ public class ShopController {
     @PostMapping("/save/buynote")
     @ResponseBody
     public Map<String, Object> saveBuyNote(HttpServletRequest request, BuyNoteSaveDto dto,
-                                           @RequestParam(value = "file", required = false) MultipartFile file, Principal principal) {
+                                           Principal principal) {
 
         Map<String, Object> map = new HashMap<>();
 

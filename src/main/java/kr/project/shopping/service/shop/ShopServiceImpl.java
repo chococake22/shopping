@@ -133,8 +133,6 @@ public class ShopServiceImpl implements ShopService{
         User user = userService.SELECT_USER_BY_USERID(principal.getName());
 
         dto.setRegIdx(user.getUserIdx());
-        dto.setContent(dto.getContent().replace("<br>","\r\n"));
-
         return shopMapper.INSERT_BUY_NOTE(dto);
     }
 

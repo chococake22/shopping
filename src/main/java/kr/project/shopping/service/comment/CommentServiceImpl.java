@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService{
 
         User user = userService.SELECT_USER_BY_USERID(principal.getName());
         dto.setRegIdx(user.getUserIdx());
-        dto.setCommentContent(dto.getCommentContent().replace("<br>","\r\n"));
+//        dto.setCommentContent(dto.getCommentContent().replace("<br>","\r\n"));
         return commentMapper.INSERT_COMMENT(dto);
 
     }

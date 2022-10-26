@@ -27,8 +27,8 @@
             TRI.delivery AS delivery,
             TRI.item_price AS itemPrice
         FROM TB_REG_ITEM TRI
-                 LEFT OUTER JOIN TB_REG_ITEM_THUMBNAIL TRIT ON TRI.reg_item_idx = TRIT.reg_item_idx
-                 LEFT OUTER JOIN TB_USER TU ON TRI.reg_idx = TU.user_idx
+             LEFT OUTER JOIN TB_REG_ITEM_THUMBNAIL TRIT ON TRI.reg_item_idx = TRIT.reg_item_idx
+             LEFT OUTER JOIN TB_USER TU ON TRI.reg_idx = TU.user_idx
         WHERE TRI.reg_item_idx = #{regItemIdx}
 
     </select>
@@ -93,7 +93,7 @@
             TRIBN.reg_item_idx AS regItemIdx,
             TU.name AS writer
         FROM TB_REG_ITEM_BUY_NOTE TRIBN
-                 LEFT OUTER JOIN TB_USER TU ON TRIBN.reg_idx = TU.user_idx
+             LEFT OUTER JOIN TB_USER TU ON TRIBN.reg_idx = TU.user_idx
         WHERE TRIBN.reg_item_buy_note_idx = #{regItemBuyNoteIdx}
     </select>
 </mapper>

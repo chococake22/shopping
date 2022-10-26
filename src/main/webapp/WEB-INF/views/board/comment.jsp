@@ -47,9 +47,11 @@
         }
 
         var dto = {
-            "commentContent" : $('#comment').val(),
+            "commentContent" : $('#comment').val().replace(/(?:\r\n|\r|\n)/g, '<br>'),
             "boardIdx" : $('#boardIdx').val()
         }
+
+        console.log(dto.commentContent);
 
         $.ajax({
             url: '/comment/save',
