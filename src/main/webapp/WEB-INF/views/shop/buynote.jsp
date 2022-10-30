@@ -66,7 +66,7 @@
                         <div class="d-flex d-inline">
                             <p style="margin-right: 30px;">${buyNote.title}</p>
                             <c:if test="${user == buyNote.writer}">
-                                <a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>
+                                <img src="/resources/images/cancel.png" onclick="fn_buyNote_delete(${buyNote.regItemBuyNoteIdx})" style="cursor: pointer;" width="20px;" height="20px;">
                             </c:if>
                         </div>
                         <div class="d-inline">
@@ -117,72 +117,73 @@
             document.getElementById('commentDiv').replaceChildren();
 
             var list = res.buyNotes;
+            var userValue = '<c:out value="${user}"/>';
+            <%--<c:forEach items="${buyNotes}" var="buyNote">--%>
+            <%--console.log("${buyNote.writer}");--%>
+            <%--console.log("${buyNote.writer}" == userValue);--%>
+            <%--</c:forEach>--%>
 
 
-                    var userValue = '<c:out value="${user}"/>';
-                    <%--<c:forEach items="${buyNotes}" var="buyNote">--%>
-                    <%--console.log("${buyNote.writer}");--%>
-                    <%--console.log("${buyNote.writer}" == userValue);--%>
-                    <%--</c:forEach>--%>
+        <%--$('#commentDiv')--%>
+        <%--    .append($(--%>
+        <%--        <c:forEach items="${buyNotes}" var="buyNote" varStatus="status">--%>
+        <%--            '<div class="card mt-3">' +--%>
+        <%--                '<div class="card-body">' +--%>
+        <%--                    '<div class="d-flex d-inline">' +--%>
+        <%--                        '<p style="margin-right: 30px;">' + '${buyNote.title}' + '</p>' +--%>
+        <%--                        <c:if test="${user == buyNote.writer}">--%>
+        <%--                            '<a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>' +--%>
+        <%--                        </c:if>--%>
+        <%--                    '</div>' +--%>
+        <%--                    '<div class="d-inline">' +--%>
+        <%--                    '<span style="margin-right: 30px; color: darkgray; font-size: 13px;">' + '${buyNote.writer}' + '</span>' +--%>
+        <%--                    '</div>' +--%>
+        <%--                    '<span style="font-size: 12px; color: darkgray;">' + '${buyNote.regDt}' + '</span>' +--%>
+        <%--                    '<div style="margin-top: 20px;">' +--%>
+        <%--                        '<p style="font-size: 12px;">' + '${buyNote.content}' + '</p>' +--%>
+        <%--                    '</div>' +--%>
+        <%--                '</div>' +--%>
+        <%--            '</div>'--%>
+        <%--        <c:if test="${!status.last}">--%>
+        <%--            +--%>
+        <%--        </c:if>--%>
 
 
-        $('#commentDiv')
-            .append($(
-                <c:forEach items="${buyNotes}" var="buyNote">
-                    '<div class="card mt-3">' +
-                        '<div class="card-body">' +
-                            '<div class="d-flex d-inline">' +
-                                '<p style="margin-right: 30px;">' + ${buyNote.title} + '</p>' +
-                                <c:if test="${user == buyNote.writer}">
-                                    '<a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>' +
-                                </c:if>
+        <%--        </c:forEach>--%>
+        <%--    ));--%>
+
+
+
+
+            $.each(list, function(idx, val) {
+
+                var userValue = '<c:out value="${user}"/>';
+                var str = '<img src="/resources/images/cancel.png" onclick="fn_buyNote_delete(${buyNote.regItemBuyNoteIdx})" width="20px;" height="20px;">';
+
+                $('#commentDiv')
+                    .append($('<div class="card mt-3" >' +
+                            '<div class="card-body">' +
+                                '<div class="d-flex d-inline">' +
+                                    '<p style="margin-right: 30px;">' + val.title + '</p>' +
+                                    (userValue == val.writer ? str : '') +
+                                    // '<a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>' +
+                                '</div>' +
+                                '<div class="d-inline">' +
+                                    '<span style="margin-right: 30px; color: darkgray; font-size: 13px;">' + val.writer + '</span>' +
+                                '</div>' +
+                                '<span style="font-size: 12px; color: darkgray;">' + val.regDt + '</span><br>' +
+                                '<div style="margin-top: 20px;">' +
+                                    '<p style="font-size: 12px;">' + val.content + '</p>' +
+                                '</div>' +
                             '</div>' +
-                            '<div class="d-inline">' +
-                            '<span style="margin-right: 30px; color: darkgray; font-size: 13px;">' + ${buyNote.writer} + '</span>' +
-                            '</div>' +
-                            '<span style="font-size: 12px; color: darkgray;">' + ${buyNote.regDt} + '</span>' +
-                            '<div style="margin-top: 20px;">' +
-                                '<p style="font-size: 12px;">' + ${buyNote.content} + '</p>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-                </c:forEach>
-            ));
+                        '</div>'));
+            });
 
 
-
-
-            <%--$.each(list, function(idx, val) {--%>
-
-            <%--    var userValue = '<c:out value="${user}"/>';--%>
-            <%--    <c:forEach items="${buyNotes}" var="buyNote">--%>
-            <%--    console.log("${buyNote.writer}");--%>
-            <%--    console.log("${buyNote.writer}" == userValue);--%>
-            <%--    </c:forEach>--%>
-            <%--    --%>
-            <%--    $('#commentDiv')--%>
-            <%--        .append($('<div class="card mt-3" >' +--%>
-            <%--                '<div class="card-body">' +--%>
-            <%--                    '<div class="d-flex d-inline">' +--%>
-            <%--                        '<p style="margin-right: 30px;">' + val.title + '</p>' +--%>
-            <%--                        <c:if test="${buyNote.writer == userValue}">--%>
-            <%--                        '<a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>' +--%>
-            <%--                        </c:if>--%>
-            <%--                    '</div>' +--%>
-            <%--                    '<div class="d-inline">' +--%>
-            <%--                        '<span style="margin-right: 30px; color: darkgray; font-size: 13px;">' + val.writer + '</span>' +--%>
-            <%--                    '</div>' +--%>
-            <%--                    '<span style="font-size: 12px; color: darkgray;">' + val.regDt + '</span><br>' +--%>
-            <%--                    '<div style="margin-top: 20px;">' +--%>
-            <%--                        '<p style="font-size: 12px;">' + val.content + '</p>' +--%>
-            <%--                    '</div>' +--%>
-            <%--                '</div>' +--%>
-            <%--            '</div>'));--%>
-            <%--});--%>
-
-
-
+            // 상품후기 개수 최신화
             document.getElementById("count").innerHTML = res.count;
+
+            // 제목, 내용 초기화
             var title = document.getElementById("title");
             var comment = document.getElementById("comment");
             title.value = null;
@@ -194,6 +195,30 @@
             }
         })
     });
+
+    function fn_buyNote_delete(id) {
+
+        console.log(id)
+
+        var isDeleted = confirm("정말 댓글을 삭제하시겠습니까?");
+        if (isDeleted == false) {
+            return;
+        }
+
+        $.ajax({
+            url: '/shop/delete/buynote/' + id,
+            method: 'post',
+            success: function (res) {
+                alert(res.msg)
+            },
+            error: function (err) {
+                alert("오류가 발생했습니다.")
+            }
+        })
+
+    }
+
+
 
 
 </script>

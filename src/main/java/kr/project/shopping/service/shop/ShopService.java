@@ -31,5 +31,7 @@ public interface ShopService {
 
     Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal);
 
-    BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItembuyNoteIdx);
+    BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItemBuyNoteIdx);
+
+    void DELETE_BUY_NOTE(Long regItemBuyNoteIdx);
 }

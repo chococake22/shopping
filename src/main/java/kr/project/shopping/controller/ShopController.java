@@ -213,6 +213,19 @@ public class ShopController {
         return map;
     }
 
+    @PostMapping("/delete/buynote/{regItembuyNoteIdx}")
+    @ResponseBody
+    public Map<String, Object> deleteBuyNote(@PathVariable Long regItembuyNoteIdx) {
 
+        Map<String, Object> map = new HashMap<String, Object>();
 
+        try {
+            shopService.DELETE_BUY_NOTE(regItembuyNoteIdx);
+            map.put("msg", "상품후기가 삭제되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
 }

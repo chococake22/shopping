@@ -137,7 +137,12 @@ public class ShopServiceImpl implements ShopService{
     }
 
     @Override
-    public BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItembuyNoteIdx) {
-        return shopMapper.SELECT_BUY_NOTE_DETAIL(regItembuyNoteIdx);
+    public BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItemBuyNoteIdx) {
+        return shopMapper.SELECT_BUY_NOTE_DETAIL(regItemBuyNoteIdx);
+    }
+
+    @Override
+    public void DELETE_BUY_NOTE(Long regItemBuyNoteIdx) {
+        shopMapper.DELETE_BUY_NOTE(regItemBuyNoteIdx);
     }
 }

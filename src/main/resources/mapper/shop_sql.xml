@@ -96,4 +96,8 @@
              LEFT OUTER JOIN TB_USER TU ON TRIBN.reg_idx = TU.user_idx
         WHERE TRIBN.reg_item_buy_note_idx = #{regItemBuyNoteIdx}
     </select>
+    <delete id="DELETE_BUY_NOTE" parameterType="Long">
+        DELETE FROM TB_REG_ITEM_BUY_NOTE
+        WHERE reg_item_buy_note_idx = #{regItemBuyNoteIdx}
+    </delete>
 </mapper>

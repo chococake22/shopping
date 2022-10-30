@@ -32,5 +32,7 @@ public interface ShopMapper {
 
     Long INSERT_BUY_NOTE(BuyNoteSaveDto dto);
 
-    BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItembuyNoteIdx);
+    BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItemBuyNoteIdx);
+
+    void DELETE_BUY_NOTE(Long regItemBuyNoteIdx);
 }
