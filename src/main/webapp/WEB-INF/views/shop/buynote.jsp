@@ -47,7 +47,6 @@
         <h3 style="margin-top: 50px;">사진 후기</h3>
         <p>마우스를 대면 사진이 일시정지합니다.</p>
         <div id="photoBox" style="align-items: center">
-
             <div class="autoplay" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}' style="border: #ecd5d5 solid 1px; width: 800px; height: 200px;">
                 <div><img src="/resources/images/mb1.webp" width="200px;" height="200px;" ></div>
                 <div><img src="/resources/images/mb2.jpeg" width="200px;" height="200px;" ></div>
@@ -66,7 +65,7 @@
                         <div class="d-flex d-inline">
                             <p style="margin-right: 30px;">${buyNote.title}</p>
                             <c:if test="${user == buyNote.writer}">
-                                <img src="/resources/images/cancel.png" onclick="fn_buyNote_delete(${buyNote.regItemBuyNoteIdx})" style="cursor: pointer;" width="20px;" height="20px;">
+                                <img src="/resources/images/cancel.png" class="deleteImg" onclick="fn_buyNote_delete(${buyNote.regItemBuyNoteIdx})" style="cursor: pointer;" width="20px;" height="20px;">
                             </c:if>
                         </div>
                         <div class="d-inline">
@@ -118,55 +117,19 @@
 
             var list = res.buyNotes;
             var userValue = '<c:out value="${user}"/>';
-            <%--<c:forEach items="${buyNotes}" var="buyNote">--%>
-            <%--console.log("${buyNote.writer}");--%>
-            <%--console.log("${buyNote.writer}" == userValue);--%>
-            <%--</c:forEach>--%>
-
-
-        <%--$('#commentDiv')--%>
-        <%--    .append($(--%>
-        <%--        <c:forEach items="${buyNotes}" var="buyNote" varStatus="status">--%>
-        <%--            '<div class="card mt-3">' +--%>
-        <%--                '<div class="card-body">' +--%>
-        <%--                    '<div class="d-flex d-inline">' +--%>
-        <%--                        '<p style="margin-right: 30px;">' + '${buyNote.title}' + '</p>' +--%>
-        <%--                        <c:if test="${user == buyNote.writer}">--%>
-        <%--                            '<a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>' +--%>
-        <%--                        </c:if>--%>
-        <%--                    '</div>' +--%>
-        <%--                    '<div class="d-inline">' +--%>
-        <%--                    '<span style="margin-right: 30px; color: darkgray; font-size: 13px;">' + '${buyNote.writer}' + '</span>' +--%>
-        <%--                    '</div>' +--%>
-        <%--                    '<span style="font-size: 12px; color: darkgray;">' + '${buyNote.regDt}' + '</span>' +--%>
-        <%--                    '<div style="margin-top: 20px;">' +--%>
-        <%--                        '<p style="font-size: 12px;">' + '${buyNote.content}' + '</p>' +--%>
-        <%--                    '</div>' +--%>
-        <%--                '</div>' +--%>
-        <%--            '</div>'--%>
-        <%--        <c:if test="${!status.last}">--%>
-        <%--            +--%>
-        <%--        </c:if>--%>
-
-
-        <%--        </c:forEach>--%>
-        <%--    ));--%>
-
-
-
 
             $.each(list, function(idx, val) {
 
                 var userValue = '<c:out value="${user}"/>';
-                var str = '<img src="/resources/images/cancel.png" onclick="fn_buyNote_delete(${buyNote.regItemBuyNoteIdx})" width="20px;" height="20px;">';
+                var str = '<img src="/resources/images/cancel.png" class="deleteImg" onclick="fn_buyNote_delete(' + val.regItemBuyNoteIdx + ')" style="cursor: pointer;" width="20px;" height="20px;">';
 
+                console.log(val.regItemBuyNoteIdx)
                 $('#commentDiv')
                     .append($('<div class="card mt-3" >' +
                             '<div class="card-body">' +
                                 '<div class="d-flex d-inline">' +
                                     '<p style="margin-right: 30px;">' + val.title + '</p>' +
                                     (userValue == val.writer ? str : '') +
-                                    // '<a href=""><img src="/resources/images/cancel.png" width="20px;" height="20px;"></a>' +
                                 '</div>' +
                                 '<div class="d-inline">' +
                                     '<span style="margin-right: 30px; color: darkgray; font-size: 13px;">' + val.writer + '</span>' +
@@ -198,8 +161,6 @@
 
     function fn_buyNote_delete(id) {
 
-        console.log(id)
-
         var isDeleted = confirm("정말 댓글을 삭제하시겠습니까?");
         if (isDeleted == false) {
             return;
@@ -209,7 +170,10 @@
             url: '/shop/delete/buynote/' + id,
             method: 'post',
             success: function (res) {
+
+                console.log(id)
                 alert(res.msg)
+
             },
             error: function (err) {
                 alert("오류가 발생했습니다.")
@@ -218,7 +182,9 @@
 
     }
 
-
-
+    $(document).on('click', '.deleteImg', function (e) {
+        console.log(e.currentTarget);
+        e.currentTarget.parentNode.parentNode.parentNode.remove();
+    })
 
 </script>
