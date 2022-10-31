@@ -6,6 +6,7 @@
 
     <select id="SELECT_COMMENT_LIST" parameterType="Long" resultType="CommentListVo">
         SELECT
+            TC.comment_idx AS commentIdx,
             TC.comment_content AS commentContent,
             DATE_FORMAT(TC.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
             TU.name AS writer
@@ -16,6 +17,7 @@
     </select>
     <select id="SELECT_COMMENT_DETAIL" parameterType="Long" resultType="CommentDetailVo">
         SELECT
+            TC.comment_idx AS commentIdx,
             TC.comment_content AS commentContent,
             DATE_FORMAT(TC.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
             TU.name AS writer
@@ -27,7 +29,7 @@
         SELECT
             COUNT(*)
         FROM TB_COMMENT TC
-                 LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
+            LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
         WHERE board_idx = #{boardIdx}
     </select>
     <insert id="INSERT_COMMENT" parameterType="CommentSaveDto">
@@ -37,6 +39,12 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+    <delete id="DELETE_COMMENT" parameterType="Long">
+        DELETE FROM TB_COMMENT
+        WHERE comment_idx = #{commentIdx}
+
+
+    </delete>
 
 
 </mapper>

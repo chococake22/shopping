@@ -19,4 +19,6 @@ public interface CommentService {
     Long COUNT_COMMENT_LIST(Long boardIdx);
 
     CommentDetailVo SELECT_COMMENT_DETAIL(Long commentIdx);
+
+    void DELETE_COMMENT(Long commentIdx);
 }

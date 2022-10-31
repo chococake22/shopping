@@ -49,14 +49,14 @@
 
     <select id="SELECT_BOARD_DETAIL" parameterType="Long" resultType="BoardDetailVo">
         SELECT
-            board_idx AS boardIdx,
-            title AS title,
-            content AS content,
+            TB.board_idx AS boardIdx,
+            TB.title AS title,
+            TB.content AS content,
             DATE_FORMAT(TB.reg_dt, '%Y-%m-%d') AS regDt,
             DATE_FORMAT(TB.mod_dt, '%Y-%m-%d') AS modDt,
             CASE
-                WHEN board_type = 'notice' THEN '공지사항'
-                WHEN board_type = 'normal' THEN '일반글'
+                WHEN TB.board_type = 'notice' THEN '공지사항'
+                WHEN TB.board_type = 'normal' THEN '일반글'
                 ELSE '기타'
             END AS boardType,
             TU.name AS writer,
@@ -70,12 +70,12 @@
 
     <select id="SELECT_BOARD_LIST" parameterType="BoardSearchDto" resultType="BoardListVo">
         SELECT
-            board_idx AS boardIdx,
-            title AS title,
+            TB.board_idx AS boardIdx,
+            TB.title AS title,
             DATE_FORMAT(TB.reg_dt, '%Y-%m-%d') AS regDt,
             CASE
-                WHEN board_type = 'notice' THEN '공지사항'
-                WHEN board_type = 'normal' THEN '일반글'
+                WHEN TB.board_type = 'notice' THEN '공지사항'
+                WHEN TB.board_type = 'normal' THEN '일반글'
                 ELSE '기타'
             END AS boardType,
             TU.name AS writer,
@@ -85,7 +85,7 @@
             LEFT OUTER JOIN TB_USER TU ON TB.reg_idx = TU.user_idx
         <include refid="BOARD_SEARCH_CONDITION"/>
         ORDER BY
-            board_idx DESC
+            TB.board_idx DESC
         LIMIT
              #{offset}, #{recordSize}
     </select>

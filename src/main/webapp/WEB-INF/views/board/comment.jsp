@@ -19,7 +19,6 @@
                     <div>
                         <button type="button" id="fn_comment_save" class="btn btn-primary" style="margin-left: 90%;">등록</button>
                     </div>
-
                 </div>
             </div>
         </c:if>
@@ -30,6 +29,9 @@
                         <div class="d-inline">
                             <span style="margin-right: 30px;">${comment.writer}</span>
                             <span style="font-size: 12px;">${comment.regDt}</span>
+                            <c:if test="${user == comment.writer}">
+                            <img src="/resources/images/cancel.png" class="deleteImg" onclick="fn_buyNote_delete(${comment.commentIdx})" style="cursor: pointer;" width="20px;" height="20px;">
+                            </c:if>
                             <p style="font-size: 12px;">${comment.commentContent}</p>
                         </div>
                     </div>
@@ -63,11 +65,20 @@
 
             var list = res.comments
 
+
+
             $.each(list, function(idx, val) {
+
+                var userValue = '<c:out value="${user}"/>';
+                var str = '<img src="/resources/images/cancel.png" class="deleteImg" onclick="fn_buyNote_delete(' + val.commentIdx + ')" style="cursor: pointer;" width="20px;" height="20px;">';
+
+                console.log(val.commentIdx);
+
                 $('#commentDiv')
                     .append($('<div class="card mt-3" ><div class="card-body">' +
                         '<div class="d-inline"><span style="margin-right: 30px;">' + val.writer + '</span>' +
-                        '<span style="font-size: 12px;">' + val.regDt + '</span><br>' +
+                        '<span style="font-size: 12px;">' + val.regDt + '</span>' +
+                        (userValue == val.writer ? str : '') +
                         '<p style="font-size: 12px;">' + val.commentContent + '</p>'));
             });
 
@@ -80,10 +91,38 @@
             error: function (err) {
                 console.log("댓글 작성 실패")
             }
-
-
         })
     });
+
+    function fn_buyNote_delete(id) {
+
+        var isDeleted = confirm("정말 댓글을 삭제하시겠습니까?");
+        if (isDeleted == false) {
+            return;
+        }
+
+        $(document).on('click', '.deleteImg', function (e) {
+            console.log(e.currentTarget);
+            console.log(e.currentTarget.parentElement)
+            console.log(e.currentTarget.parentNode)
+            e.currentTarget.parentNode.parentNode.parentNode.remove();
+        })
+
+        $.ajax({
+            url: '/comment/delete/' + id,
+            method: 'post',
+            success: function (res) {
+                alert(res.msg)
+
+            },
+            error: function (err) {
+                alert("오류가 발생했습니다.")
+            }
+        })
+
+    }
+
+
 
 
 </script>

@@ -159,9 +159,6 @@ public class ShopController {
             // 상품 정보 가져오기
             RegItemDetailVo regItemDetailVo = shopService.SELECT_REG_ITEM_DETAIL(dto.getRegItemIdx());
 
-            System.out.println(regItemDetailVo);
-            System.out.println(file);
-
             // 썸네일 사진 저장
             shopService.INSERT_REG_ITEM_THUMBNAIL(regItemDetailVo.getRegItemIdx(), file, regItemDetailVo.getRegIdx());
             map.put("regItemIdx", regItemIdx);

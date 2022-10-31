@@ -5,6 +5,7 @@ import kr.project.shopping.service.comment.CommentServiceImpl;
 import kr.project.shopping.vo.comment.CommentDetailVo;
 import kr.project.shopping.vo.comment.CommentListVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -83,5 +84,23 @@ public class CommentController {
         }
 
         return msg;
+    }
+
+    @PostMapping("/delete/{commentIdx}")
+    @ResponseBody
+    public Map<String, Object> deleteComment(@PathVariable Long commentIdx) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+
+            commentService.DELETE_COMMENT(commentIdx);
+            map.put("msg", "댓글이 삭제되었습니다.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return map;
     }
 }

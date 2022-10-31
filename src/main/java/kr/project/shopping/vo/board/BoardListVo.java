@@ -19,5 +19,6 @@ public class BoardListVo extends Page {
     private String boardType;
     private int click;
     private int likeCount;
+    private Long commentCount;
 
 }

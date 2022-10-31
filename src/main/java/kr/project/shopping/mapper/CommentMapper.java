@@ -20,4 +20,5 @@ public interface CommentMapper {
 
     CommentDetailVo SELECT_COMMENT_DETAIL(Long commentIdx);
 
+    void DELETE_COMMENT(Long commentIdx);
 }

@@ -161,17 +161,20 @@
 
     function fn_buyNote_delete(id) {
 
-        var isDeleted = confirm("정말 댓글을 삭제하시겠습니까?");
+        var isDeleted = confirm("정말 상품후기를 삭제하시겠습니까?");
         if (isDeleted == false) {
             return;
         }
+
+        $(document).on('click', '.deleteImg', function (e) {
+            console.log(e.currentTarget);
+            e.currentTarget.parentNode.parentNode.parentNode.remove();
+        })
 
         $.ajax({
             url: '/shop/delete/buynote/' + id,
             method: 'post',
             success: function (res) {
-
-                console.log(id)
                 alert(res.msg)
 
             },
@@ -182,9 +185,6 @@
 
     }
 
-    $(document).on('click', '.deleteImg', function (e) {
-        console.log(e.currentTarget);
-        e.currentTarget.parentNode.parentNode.parentNode.remove();
-    })
+
 
 </script>

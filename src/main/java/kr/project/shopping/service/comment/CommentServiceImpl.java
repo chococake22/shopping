@@ -44,4 +44,9 @@ public class CommentServiceImpl implements CommentService{
     public CommentDetailVo SELECT_COMMENT_DETAIL(Long commentIdx) {
         return commentMapper.SELECT_COMMENT_DETAIL(commentIdx);
     }
+
+    @Override
+    public void DELETE_COMMENT(Long commentIdx) {
+        commentMapper.DELETE_COMMENT(commentIdx);
+    }
 }
