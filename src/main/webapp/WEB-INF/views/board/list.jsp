@@ -78,7 +78,11 @@
             <tr>
                 <td>${board.boardIdx}</td>
                 <td>${board.boardType}</td>
-                <td><a href="/board/detail/${board.boardIdx}">${board.title}</a></td>
+                <td><a href="/board/detail/${board.boardIdx}">${board.title}</a>
+                    <c:if test="${board.commentCount != 0}">
+                        [<span>${board.commentCount}</span>]
+                    </c:if>
+                </td>
                 <td>${board.writer}</td>
                 <td>${board.regDt}</td>
                 <td>${board.click}</td>
