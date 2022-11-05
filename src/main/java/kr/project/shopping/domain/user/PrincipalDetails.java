@@ -1,8 +1,7 @@
 package kr.project.shopping.domain.user;
 
-
+import kr.project.shopping.dto.user.KakaoUserSaveDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,29 +14,19 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class User implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private Long userIdx;
-    private String userId;
-    private String password;
-    private String name;
-    private String phone;
-    private String emailYn;
-    private String addr1;
-    private String addr2;
-    private String addr3;
-    private String addrDetail;
-    private String addrTotal;
-    private String authority;
-
+    private KakaoUserSaveDto user;
     private Map<String, Object> attributes;
-    private String provider;
-    private String providerId;
 
-    public User(String userId, Map<String, Object> attributes) {
-        this.userId = userId;
-        this.attributes = attributes;
+    @Override
+    public String getName() {
+        return user.getName();
+    }
+
+    @Override
+    public Map<String, Object> getAttribute(String name) {
+        return attributes;
     }
 
     @Override
@@ -45,33 +34,35 @@ public class User implements UserDetails, OAuth2User {
         return null;
     }
 
-
+    // getUsername(), getPassword() 메소드의 리턴 값을 지정해주어야 principalName을 얻을 수 있다.
     @Override
     public String getUsername() {
-        return this.userId;
+        return user.getLoginId();
     }
+
+    @Override
     public String getPassword() {
-        return this.password;
+        return user.getPassword();
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
-
 }

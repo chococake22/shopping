@@ -1,57 +1,33 @@
 package kr.project.shopping.domain.user;
 
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class User implements UserDetails, OAuth2User {
+public class CustomIntegratedLogin implements OAuth2User, UserDetails {
 
-    private Long userIdx;
-    private String userId;
-    private String password;
-    private String name;
-    private String phone;
-    private String emailYn;
-    private String addr1;
-    private String addr2;
-    private String addr3;
-    private String addrDetail;
-    private String addrTotal;
-    private String authority;
+    private User user;
+    private OAuthAttributes oAuthAttributes;
 
-    private Map<String, Object> attributes;
-    private String provider;
-    private String providerId;
-
-    public User(String userId, Map<String, Object> attributes) {
-        this.userId = userId;
-        this.attributes = attributes;
-    }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public String getPassword() {
         return null;
     }
 
-
     @Override
     public String getUsername() {
-        return this.userId;
-    }
-    public String getPassword() {
-        return this.password;
+        return null;
     }
 
     @Override
@@ -74,4 +50,25 @@ public class User implements UserDetails, OAuth2User {
         return false;
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+        return oAuthAttributes.getAttributes();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+        collection.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return "??";
+            }
+        });
+        return collection;
+    }
+
+    @Override
+    public String getName() {
+        return oAuthAttributes.getName();
+    }
 }

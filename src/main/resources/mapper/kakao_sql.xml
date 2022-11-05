@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.project.shopping.mapper.KakaoMapper">
+    <select id="SELECT_USER_BY_EMAIL" parameterType="String" resultType="KakaoUserSaveDto">
+        SELECT * FROM TB_USER_KAKAO
+        WHERE email = #{email}
+    </select>
+
+    <select id="SELECT_USER_BY_LOGINID" parameterType="String" resultType="KakaoUserSaveDto">
+        SELECT * FROM TB_USER_KAKAO
+        WHERE login_id = #{loginId}
+    </select>
+
+    <insert id="INSERT_USER_KAKAO" parameterType="KakaoUserSaveDto">
+        INSERT INTO TB_USER_KAKAO(login_id, email, password, nickname, provider, provider_id)
+        VALUES(#{loginId}, #{email}, #{password}, #{nickname}, #{provider}, #{providerId})
+    </insert>
+
+</mapper>

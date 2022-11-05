@@ -1,5 +1,4 @@
-package kr.project.shopping.domain.user;
-
+package kr.project.shopping.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,28 +15,20 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User implements UserDetails, OAuth2User {
+public class KakaoUserSaveDto implements UserDetails, OAuth2User {
 
-    private Long userIdx;
-    private String userId;
+    private String loginId;
+    private String email;
     private String password;
-    private String name;
-    private String phone;
-    private String emailYn;
-    private String addr1;
-    private String addr2;
-    private String addr3;
-    private String addrDetail;
-    private String addrTotal;
-    private String authority;
-
-    private Map<String, Object> attributes;
     private String provider;
     private String providerId;
+    private String nickname;
 
-    public User(String userId, Map<String, Object> attributes) {
-        this.userId = userId;
-        this.attributes = attributes;
+    private Map<String, Object> attributes;
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     @Override
@@ -45,13 +36,9 @@ public class User implements UserDetails, OAuth2User {
         return null;
     }
 
-
     @Override
     public String getUsername() {
-        return this.userId;
-    }
-    public String getPassword() {
-        return this.password;
+        return null;
     }
 
     @Override
@@ -74,4 +61,8 @@ public class User implements UserDetails, OAuth2User {
         return false;
     }
 
+    @Override
+    public String getName() {
+        return this.nickname;
+    }
 }

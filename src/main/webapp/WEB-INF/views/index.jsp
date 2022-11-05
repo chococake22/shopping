@@ -16,6 +16,7 @@
         <h1>test</h1>
     </div>
 </div>
+<a href="https://kauth.kakao.com/oauth/logout?client_id=5496be38ca50070af71eab2dcbc6ec26&logout_redirect_uri=http://localhost:8080/logout/kakao">로그아웃</a>
 
 <jsp:include page="common/footer.jsp"></jsp:include>
 

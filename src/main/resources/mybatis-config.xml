@@ -29,7 +29,10 @@
         <typeAlias alias="BuyNoteSaveDto" type="kr.project.shopping.dto.shop.BuyNoteSaveDto"/>
         <typeAlias alias="BuyNoteDetailVo" type="kr.project.shopping.vo.shop.BuyNoteDetailVo"/>
 
+
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
+        <typeAlias alias="KakaoUserSaveDto" type="kr.project.shopping.dto.user.KakaoUserSaveDto"/>
+
 
         <typeAlias alias="PwdChangeDto" type="kr.project.shopping.dto.user.PwdChangeDto"/>
 

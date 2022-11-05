@@ -34,6 +34,9 @@
                 </div>
                 <div class="mb-3">
                     <span ><img src="/resources/images/kakao_login_large_wide.png"  onclick="kakaoLogin()" style="width: 300px; margin-left: 5px; cursor: pointer;"/></span>
+
+                    <a href="/oauth2/authorization/kakao">카카오용</a>
+
                     <a href="https://kauth.kakao.com/oauth/logout?client_id=5496be38ca50070af71eab2dcbc6ec26&logout_redirect_uri=http://localhost:8080/logout/kakao">로그아웃</a>
                 </div>
             </form>

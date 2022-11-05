@@ -7,10 +7,17 @@ import kr.project.shopping.mapper.UserMapper;
 import kr.project.shopping.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -96,4 +103,18 @@ public class UserServiceImpl implements UserService {
 
         return map;
     }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        final List<GlobalAuthenticationConfigurerAdapter> configurerAdapters = new ArrayList<>();
+        configurerAdapters.add(new GlobalAuthenticationConfigurerAdapter() {
+            @Override
+            public void configure(AuthenticationManagerBuilder auth) throws Exception {
+                super.configure(auth);
+            }
+        });
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+
 }

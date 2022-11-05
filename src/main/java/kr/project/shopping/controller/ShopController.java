@@ -5,7 +5,10 @@ import com.google.gson.JsonObject;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.shop.BuyNoteSaveDto;
 import kr.project.shopping.dto.shop.RegItemSaveDto;
+import kr.project.shopping.dto.user.KakaoUserSaveDto;
+import kr.project.shopping.mapper.KakaoMapper;
 import kr.project.shopping.service.shop.ShopServiceImpl;
+import kr.project.shopping.service.user.UserOAuth2Service;
 import kr.project.shopping.service.user.UserServiceImpl;
 import kr.project.shopping.vo.shop.BuyNoteListVo;
 import kr.project.shopping.vo.shop.RegItemDetailVo;
@@ -14,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -35,6 +39,7 @@ public class ShopController {
 
     private final UserServiceImpl userService;
     private final ShopServiceImpl shopService;
+    private final KakaoMapper kakaoMapper;
 
     @Value("${file.upload.path.shop}")
     private String fileDir;
@@ -79,9 +84,17 @@ public class ShopController {
         model.addAttribute("buyNotes", buyNotes);
         model.addAttribute("count", count);
 
+
         if (principal != null) {
-            User user = userService.SELECT_USER_BY_USERID(principal.getName());
-            model.addAttribute("user", user.getName());
+            System.out.println("principal : " + principal.getName());
+            String[] str = principal.getName().split("_");
+            if (str[0].equals("kakao")) {
+                KakaoUserSaveDto user = kakaoMapper.SELECT_USER_BY_LOGINID(principal.getName());
+                model.addAttribute("user", user.getName());
+            } else {
+                User user = userService.SELECT_USER_BY_USERID(principal.getName());
+                model.addAttribute("user", user.getName());
+            }
         } else {
             model.addAttribute("user", null);
         }
