@@ -34,6 +34,9 @@ public class User implements UserDetails, OAuth2User {
     private Map<String, Object> attributes;
     private String provider;
     private String providerId;
+    private String loginId;
+    private String nickname;
+    private String email;
 
     public User(String userId, Map<String, Object> attributes) {
         this.userId = userId;

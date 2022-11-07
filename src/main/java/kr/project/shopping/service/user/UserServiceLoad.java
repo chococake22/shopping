@@ -1,6 +1,7 @@
 package kr.project.shopping.service.user;
 
 import kr.project.shopping.domain.user.User;
+import kr.project.shopping.dto.user.UserSelectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +16,14 @@ public class UserServiceLoad implements UserDetailsService {
     @Override
     public User loadUserByUsername(String userId) throws UsernameNotFoundException {
 
-        User user = userService.SELECT_USER_BY_USERID(userId);
+        UserSelectDto dto = UserSelectDto.builder()
+                .userId(userId)
+                .provider("normal")
+                .build();
+
+        System.out.println(dto);
+
+        User user = userService.getUserInfo(dto.getUserId());
 
         if (user == null) {
             throw new UsernameNotFoundException("없는 회원입니다.");

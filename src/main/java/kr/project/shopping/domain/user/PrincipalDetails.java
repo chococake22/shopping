@@ -16,7 +16,7 @@ import java.util.Map;
 @NoArgsConstructor
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private KakaoUserSaveDto user;
+    private User user;
     private Map<String, Object> attributes;
 
     @Override

@@ -21,7 +21,7 @@
                 <if test="searchType == '' or searchType == null">
                     AND (TB.title LIKE CONCAT('%', #{keyword} ,'%')
                     OR TB.content LIKE CONCAT('%', #{keyword} ,'%')
-                    OR TU.name LIKE CONCAT('%', #{keyword} ,'%'))
+                    OR TU.nickname LIKE CONCAT('%', #{keyword} ,'%'))
                 </if>
                 <if test='searchType == "title"'>
                     AND TB.title LIKE CONCAT('%', #{keyword} ,'%')
@@ -30,7 +30,7 @@
                     AND TB.content LIKE CONCAT('%', #{keyword} ,'%')
                 </if>
                 <if test='searchType == "writer"'>
-                    AND TU.name LIKE CONCAT('%', #{keyword} ,'%')
+                    AND TU.nickname LIKE CONCAT('%', #{keyword} ,'%')
                 </if>
             </when>
         </choose>
@@ -59,7 +59,7 @@
                 WHEN TB.board_type = 'normal' THEN '일반글'
                 ELSE '기타'
             END AS boardType,
-            TU.name AS writer,
+            TU.nickname AS writer,
             TB.reg_idx AS regIdx,
             TB.like_count AS likeCount,
             TB.click AS click
@@ -78,7 +78,7 @@
                 WHEN TB.board_type = 'normal' THEN '일반글'
                 ELSE '기타'
             END AS boardType,
-            TU.name AS writer,
+            TU.nickname AS writer,
             TB.like_count AS likeCount,
             TB.click AS click,
             (select count(b.board_idx) from TB_BOARD b left outer join TB_COMMENT c on c.board_idx = b.board_idx where c.board_idx = TB.board_idx   order by b.board_idx desc) AS commentCount

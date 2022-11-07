@@ -3,17 +3,22 @@ package kr.project.shopping.service.user;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.user.PwdChangeDto;
 import kr.project.shopping.dto.user.UserSaveDto;
+import kr.project.shopping.dto.user.UserSelectDto;
 import kr.project.shopping.mapper.UserMapper;
 import kr.project.shopping.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CommonUtil commonUtil;
 
+    @Transactional
     public Long INSERT_USER(UserSaveDto dto) {
 
         User user = null;
@@ -49,7 +55,7 @@ public class UserServiceImpl implements UserService {
             user = User.builder()
                     .userId(dto.getUserId())
                     .password(new BCryptPasswordEncoder().encode(dto.getPassword()))
-                    .name(dto.getName())
+                    .nickname(dto.getNickname())
                     .phone(dto.getPhone())
                     .emailYn(dto.getEmailYn())
                     .addr1(addrs[0])
@@ -58,6 +64,7 @@ public class UserServiceImpl implements UserService {
                     .addrDetail(dto.getAddrDetail())
                     .addrTotal(dto.getAddr() + " " + dto.getAddrDetail())
                     .authority("USER")
+                    .provider("normal")
                     .build();
 
         } catch (Exception e) {
@@ -72,8 +79,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User SELECT_USER_BY_USERID(String userId) {
-        return userMapper.SELECT_USER_BY_USERID(userId);
+    public User SELECT_USER_BY_USERID(UserSelectDto dto) {
+        return userMapper.SELECT_USER_BY_USERID(dto);
     }
 
     @Override
@@ -82,7 +89,7 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            User user = SELECT_USER_BY_USERID(dto.getUserId());
+            User user = getUserInfo(dto.getUserId());
 
             if (!bCryptPasswordEncoder.matches(dto.getBeforePwd(), user.getPassword())) {
                 throw new RuntimeException("비밀번호가 틀립니다.");
@@ -116,5 +123,32 @@ public class UserServiceImpl implements UserService {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    // 일반 로그인 정보 가져오기
+    public User getUserInfo(String userId) {
+
+        UserSelectDto dto = UserSelectDto.builder()
+                .userId(userId)
+                .provider("normal")
+                .build();
+
+        User user = SELECT_USER_BY_USERID(dto);
+
+        return user;
+
+    }
+
+    // 소셜 로그인 정보 가져오기
+    public User getUserInfo(String userId, String provider) {
+
+        UserSelectDto dto = UserSelectDto.builder()
+                .userId(userId)
+                .provider(provider)
+                .build();
+
+        User user = SELECT_USER_BY_USERID(dto);
+
+        return user;
+
+    }
 
 }

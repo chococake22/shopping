@@ -8,6 +8,7 @@ import kr.project.shopping.dto.board.BoardSearchDto;
 import kr.project.shopping.dto.board.BoardUpdateDto;
 import kr.project.shopping.mapper.BoardMapper;
 import kr.project.shopping.mapper.UserMapper;
+import kr.project.shopping.service.user.UserServiceImpl;
 import kr.project.shopping.vo.board.BoardDetailVo;
 import kr.project.shopping.vo.board.BoardListVo;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ import java.util.UUID;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardMapper;
-    private final UserMapper userMapper;
+    private final UserServiceImpl userService;
 
     @Value("${file.upload.path.board}")
     private String fileDir;
@@ -68,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
         Board board = null;
 
         try {
-            User user = userMapper.SELECT_USER_BY_USERID(principal.getName());
+            User user = userService.getUserInfo(principal.getName());
 
             board = Board.builder()
                     .title(dto.getTitle())

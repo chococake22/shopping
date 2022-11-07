@@ -1,10 +1,12 @@
 package kr.project.shopping.controller;
 
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.dto.comment.CommentSaveDto;
 import kr.project.shopping.service.comment.CommentServiceImpl;
 import kr.project.shopping.vo.comment.CommentDetailVo;
 import kr.project.shopping.vo.comment.CommentListVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,12 +39,12 @@ public class CommentController {
 
     @PostMapping("/save")
     @ResponseBody
-    public Map<String, Object> saveComment(CommentSaveDto dto, Principal principal) {
+    public Map<String, Object> saveComment(CommentSaveDto dto, Principal principal, @AuthenticationPrincipal PrincipalDetails pd) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
-            Long commentIdx = commentService.INSERT_COMMENT(dto, principal);
+            Long commentIdx = commentService.INSERT_COMMENT(dto, principal, pd);
             CommentDetailVo comment = commentService.SELECT_COMMENT_DETAIL(dto.getCommentIdx());
             List<CommentListVo> comments =  commentService.SELECT_COMMENT_LIST(dto.getBoardIdx());
             Long count =  commentService.COUNT_COMMENT_LIST(dto.getBoardIdx());

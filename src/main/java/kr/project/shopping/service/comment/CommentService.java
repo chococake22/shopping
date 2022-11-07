@@ -1,6 +1,7 @@
 package kr.project.shopping.service.comment;
 
 
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.dto.comment.CommentSaveDto;
 import kr.project.shopping.vo.comment.CommentDetailVo;
 import kr.project.shopping.vo.comment.CommentListVo;
@@ -14,7 +15,7 @@ public interface CommentService {
 
     public List<CommentListVo> SELECT_COMMENT_LIST(Long boardIdx);
 
-    public Long INSERT_COMMENT(CommentSaveDto dto, Principal principal);
+    public Long INSERT_COMMENT(CommentSaveDto dto, Principal principal, PrincipalDetails pd);
 
     Long COUNT_COMMENT_LIST(Long boardIdx);
 

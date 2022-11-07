@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -15,8 +16,9 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class KakaoUserSaveDto implements UserDetails, OAuth2User {
+public class KakaoUserSaveDto implements UserDetails, OAuth2User, Serializable {
 
+    private Long userIdx;
     private String loginId;
     private String email;
     private String password;

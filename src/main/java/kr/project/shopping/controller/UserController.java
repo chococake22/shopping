@@ -55,7 +55,7 @@ public class UserController {
     // 마이페이지
     @GetMapping("/mypage")
     public String mypage(Model model, Principal principal) {
-        User user = userService.SELECT_USER_BY_USERID(principal.getName());
+        User user = userService.getUserInfo(principal.getName());
         model.addAttribute("user", user);
         return "user/mypage";
     }

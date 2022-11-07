@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface KakaoMapper {
 
-    void INSERT_USER_KAKAO(KakaoUserSaveDto dto);
+    void INSERT_USER_KAKAO(User user);
 
-    KakaoUserSaveDto SELECT_USER_BY_EMAIL(String email);
+    User SELECT_USER_BY_EMAIL(String email);
 
     KakaoUserSaveDto SELECT_USER_BY_LOGINID(String loginId);
 

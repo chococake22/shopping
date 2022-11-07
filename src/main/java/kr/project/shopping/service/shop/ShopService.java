@@ -1,6 +1,7 @@
 package kr.project.shopping.service.shop;
 
 
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.dto.shop.BuyNoteSaveDto;
 import kr.project.shopping.vo.shop.BuyNoteDetailVo;
 import kr.project.shopping.vo.shop.BuyNoteListVo;
@@ -29,7 +30,7 @@ public interface ShopService {
 
     Long COUNT_BUY_NOTE_LIST(Long regItemIdx);
 
-    Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal);
+    Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal, PrincipalDetails pd);
 
     BuyNoteDetailVo SELECT_BUY_NOTE_DETAIL(Long regItemBuyNoteIdx);
 

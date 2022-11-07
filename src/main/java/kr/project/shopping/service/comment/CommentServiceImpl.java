@@ -1,5 +1,6 @@
 package kr.project.shopping.service.comment;
 
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.comment.CommentSaveDto;
 import kr.project.shopping.mapper.CommentMapper;
@@ -26,9 +27,20 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public Long INSERT_COMMENT(CommentSaveDto dto, Principal principal) {
+    public Long INSERT_COMMENT(CommentSaveDto dto, Principal principal, PrincipalDetails pd) {
 
-        User user = userService.SELECT_USER_BY_USERID(principal.getName());
+        System.out.println("댓글 작성");
+
+        User user = null;
+
+        if (pd != null && !pd.getUser().getProvider().equals("normal")) {
+            user = userService.getUserInfo(pd.getUser().getUserId(), pd.getUser().getProvider());
+            dto.setRegIdx(user.getUserIdx());
+        } else {
+            user = userService.getUserInfo(principal.getName());
+            dto.setRegIdx(user.getUserIdx());
+        }
+
         dto.setRegIdx(user.getUserIdx());
 //        dto.setCommentContent(dto.getCommentContent().replace("<br>","\r\n"));
         return commentMapper.INSERT_COMMENT(dto);

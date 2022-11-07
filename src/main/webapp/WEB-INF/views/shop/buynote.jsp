@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -22,7 +24,7 @@
 </style>
     <div id="commentBox">
         <h3 style="margin-top: 100px;" >상품후기 <span id="count">${count}</span>개</h3>
-        <c:if test="${user != null}">
+        <sec:authorize access="isAuthenticated()">
             <div class="card mt-3" >
                 <div class="mt-3">
                     <div class="mb-3">
@@ -41,7 +43,7 @@
                     </div>
                 </div>
             </div>
-        </c:if>
+        </sec:authorize>
 
 
         <h3 style="margin-top: 50px;">사진 후기</h3>

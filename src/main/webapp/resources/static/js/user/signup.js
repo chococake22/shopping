@@ -49,11 +49,9 @@ $(document).ready(function () {
 
         if ((password1 == password2) && (password1 != "" && password2 != "") && (regExp.test(password1) && regExp.test(password2))) {
 
-                console.log("된다")
-                $('#chkPwdMsg').html("사용 가능한 비밀번호입니다.");
-                document.getElementById('chkPwdMsg').style.color='blue';
-
-
+            console.log("된다")
+            $('#chkPwdMsg').html("사용 가능한 비밀번호입니다.");
+            document.getElementById('chkPwdMsg').style.color='blue';
 
         } else if(password1 == "" && password2 == "") {
             $('#chkPwdMsg').html("비밀번호는 8~15자리의 문자, 숫자, 특수문자 조합");
@@ -62,7 +60,6 @@ $(document).ready(function () {
             $('#chkPwdMsg').html("두 비밀번호가 다르거나 조건에 맞지 않습니다.");
             document.getElementById('chkPwdMsg').style.color='red';
         }
-
     })
 
 
@@ -70,7 +67,7 @@ $(document).ready(function () {
 
         var password1 = $('#password').val();
         var password2 = $('#chkPwd').val();
-        var name = $('#name').val();
+        var nickname = $('#nickname').val();
 
         var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
@@ -84,7 +81,7 @@ $(document).ready(function () {
             return;
         }
 
-        if (name == "") {
+        if (nickname == "") {
             alert("이름을 입력하세요.");
             return;
         }
@@ -92,7 +89,7 @@ $(document).ready(function () {
         var dto = {
             "userId" : $('#userId').val(),
             "password" : $('#password').val(),
-            "name" : $('#name').val(),
+            "nickname" : $('#nickname').val(),
             "addr" : $('#addr').val(),
             "addrDetail" : $('#addrDetail').val(),
             "emailYn" : $("input:checkbox[id='emailYn']").is("checked") == true ? "Y": "N",

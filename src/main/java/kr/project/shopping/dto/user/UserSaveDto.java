@@ -15,7 +15,7 @@ public class UserSaveDto {
     private String userId;
     private String password;
     private String chkPwd;
-    private String name;
+    private String nickname;
     private String phone;
     private String addr;
     private String addr1;
@@ -26,5 +26,8 @@ public class UserSaveDto {
     private String emailYn;
     private String authority;
 
-
+    private String loginId;
+    private String email;
+    private String provider;
+    private String providerId;
 }

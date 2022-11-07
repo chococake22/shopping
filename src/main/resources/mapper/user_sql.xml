@@ -4,8 +4,8 @@
 
 <mapper namespace="kr.project.shopping.mapper.UserMapper">
     <insert id="INSERT_USER" parameterType="User">
-        INSERT INTO TB_USER(user_id, password, name, phone, email_yn, addr1, addr2, addr3, addr_detail, authority, reg_dt, addr_total)
-        VALUES(#{userId}, #{password}, #{name}, #{phone}, #{emailYn}, #{addr1}, #{addr2}, #{addr3}, #{addrDetail}, #{authority}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{addrTotal})
+        INSERT INTO TB_USER(user_id, password, nickname, phone, email_yn, addr1, addr2, addr3, addr_detail, authority, reg_dt, addr_total, provider, email)
+        VALUES(#{userId}, #{password}, #{nickname}, #{phone}, #{emailYn}, #{addr1}, #{addr2}, #{addr3}, #{addrDetail}, #{authority}, DATE_FORMAT(now(), '%Y%m%d%h%i%s'), #{addrTotal}, #{provider}, #{email})
         <selectKey resultType="Long" keyProperty="userIdx" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -17,10 +17,10 @@
         WHERE user_id = #{userId}
     </select>
 
-    <select id="SELECT_USER_BY_USERID" parameterType="String" resultType="USER">
+    <select id="SELECT_USER_BY_USERID" parameterType="UserSelectDto" resultType="USER">
         SELECT *
         FROM TB_USER
-        WHERE user_id = #{userId}
+        WHERE user_id = #{userId} AND provider = #{provider}
     </select>
     <update id="UPDATE_PWD" parameterType="PwdChangeDto">
         UPDATE TB_USER

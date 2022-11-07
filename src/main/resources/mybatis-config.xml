@@ -31,6 +31,9 @@
 
 
         <typeAlias alias="User" type="kr.project.shopping.domain.user.User"/>
+        <typeAlias alias="UserSelectDto" type="kr.project.shopping.dto.user.UserSelectDto"/>
+
+
         <typeAlias alias="KakaoUserSaveDto" type="kr.project.shopping.dto.user.KakaoUserSaveDto"/>
 
 

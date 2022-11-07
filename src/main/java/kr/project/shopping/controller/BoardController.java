@@ -3,6 +3,7 @@ package kr.project.shopping.controller;
 
 import kr.project.shopping.domain.board.BoardFile;
 import kr.project.shopping.domain.common.Page;
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.board.BoardSaveDto;
 import kr.project.shopping.dto.board.BoardSearchDto;
@@ -15,6 +16,7 @@ import kr.project.shopping.vo.board.BoardListVo;
 import kr.project.shopping.vo.comment.CommentListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -45,7 +47,8 @@ public class BoardController {
     public Map<String, Object> getBoardList(@RequestParam(required = false, value = "nowPage") Integer nowPage,
                                             Model model,
                                             BoardSearchDto dto,
-                                            Principal principal) {
+                                            Principal principal,
+                                            @AuthenticationPrincipal PrincipalDetails pd) {
 
         if (nowPage == null) {
             nowPage = 1;
@@ -73,7 +76,14 @@ public class BoardController {
         User user = null;
         // 로그인이 되어있는 경우
         if (principal != null) {
-            user = userService.SELECT_USER_BY_USERID(principal.getName());
+            // 소셜 로그인
+            if (pd != null &&  pd.getUser().getProvider().equals("kakao")) {
+                user = userService.getUserInfo(pd.getUser().getUserId(), pd.getUser().getProvider());
+            }
+            // 일반 로그인
+            else {
+                user = userService.getUserInfo(principal.getName());
+            }
             map.put("user", user.getName());
         } else {
             map.put("user", null);
@@ -106,7 +116,7 @@ public class BoardController {
         User user = null;
         // 로그인이 되어있는 경우
         if (principal != null) {
-            user = userService.SELECT_USER_BY_USERID(principal.getName());
+            user = userService.getUserInfo(principal.getName());
             model.addAttribute("user", user.getName());
         } else {
             model.addAttribute("user", null);
@@ -116,7 +126,7 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{boardIdx}")
-    public String getBoardDetail(@PathVariable Long boardIdx, Model model, Principal principal) {
+    public String getBoardDetail(@PathVariable Long boardIdx, Model model, Principal principal, @AuthenticationPrincipal PrincipalDetails pd) {
 
         BoardDetailVo boardVo = boardService.SELECT_BOARD_DETAIL(boardIdx);
         List<BoardFile> files = boardService.SELECT_BOARD_FILES(boardIdx);
@@ -125,8 +135,18 @@ public class BoardController {
         User user = null;
         // 로그인이 되어있는 경우
         if (principal != null) {
-            user = userService.SELECT_USER_BY_USERID(principal.getName());
-            model.addAttribute("user", user.getName());
+            // 소셜 계정으로 로그인한 경우
+            if (pd != null && !pd.getUser().getProvider().equals(null)) {
+                System.out.println("pd: " + pd);
+                user = userService.getUserInfo(pd.getUser().getUserId(), pd.getUser().getProvider());
+                model.addAttribute("user", user.getNickname());
+            }
+            // 일반 계정으로 로그인한 경우
+            else {
+                System.out.println("principal: " + principal);
+                user = userService.getUserInfo(principal.getName());
+                model.addAttribute("user", user.getNickname());
+            }
         }
 
         List<CommentListVo> comments = commentService.SELECT_COMMENT_LIST(boardIdx);
@@ -220,6 +240,7 @@ public class BoardController {
         FileInputStream fis = null;
 
         try {
+            // 해당 경로에 저장된 파일을 읽기 위해 InputStream을 사용한다.
             fis = new FileInputStream(boardFile.getFilePath());
             FileCopyUtils.copy(fis, response.getOutputStream());
             response.getOutputStream().flush();

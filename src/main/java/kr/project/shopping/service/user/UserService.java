@@ -4,6 +4,7 @@ package kr.project.shopping.service.user;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.user.PwdChangeDto;
 import kr.project.shopping.dto.user.UserSaveDto;
+import kr.project.shopping.dto.user.UserSelectDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ public interface UserService {
 
     public int IF_USER_EXIST(String userId);
 
-    public User SELECT_USER_BY_USERID(String userId);
+    public User SELECT_USER_BY_USERID(UserSelectDto dto);
 
     public Map<String, Object> UPDATE_PWD(PwdChangeDto dto);
 

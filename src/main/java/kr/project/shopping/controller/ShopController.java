@@ -2,6 +2,7 @@ package kr.project.shopping.controller;
 
 
 import com.google.gson.JsonObject;
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.shop.BuyNoteSaveDto;
 import kr.project.shopping.dto.shop.RegItemSaveDto;
@@ -17,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -74,7 +77,7 @@ public class ShopController {
     }
 
     @GetMapping("/detail/{regItemIdx}")
-    public String getItemDetail(@PathVariable Long regItemIdx, Model model, Principal principal) {
+    public String getItemDetail(@PathVariable Long regItemIdx, Model model, Principal principal, @AuthenticationPrincipal PrincipalDetails pd) {
 
         RegItemDetailVo item = shopService.SELECT_REG_ITEM_DETAIL(regItemIdx);
         List<BuyNoteListVo> buyNotes = shopService.SELECT_BUY_NOTE_LIST(regItemIdx);
@@ -89,11 +92,11 @@ public class ShopController {
             System.out.println("principal : " + principal.getName());
             String[] str = principal.getName().split("_");
             if (str[0].equals("kakao")) {
-                KakaoUserSaveDto user = kakaoMapper.SELECT_USER_BY_LOGINID(principal.getName());
-                model.addAttribute("user", user.getName());
+                User user = userService.getUserInfo(pd.getUser().getEmail(), pd.getUser().getProvider());
+                model.addAttribute("user", user.getNickname());
             } else {
-                User user = userService.SELECT_USER_BY_USERID(principal.getName());
-                model.addAttribute("user", user.getName());
+                User user = userService.getUserInfo(principal.getName());
+                model.addAttribute("user", user.getNickname());
             }
         } else {
             model.addAttribute("user", null);
@@ -121,7 +124,6 @@ public class ShopController {
 
             String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
 
-
             if(!extArr.contains(ext)) {
                 throw new RuntimeException("유효하지 않은 확장자입니다.");
             }
@@ -130,7 +132,7 @@ public class ShopController {
                 throw new RuntimeException("파일 크기는 최대 1MB입니다.");
             }
 
-            User user = userService.SELECT_USER_BY_USERID(principal.getName());
+            User user = userService.getUserInfo(principal.getName());
 
             uuid = UUID.randomUUID();
 
@@ -198,14 +200,14 @@ public class ShopController {
     @PostMapping("/save/buynote")
     @ResponseBody
     public Map<String, Object> saveBuyNote(HttpServletRequest request, BuyNoteSaveDto dto,
-                                           Principal principal) {
+                                           Principal principal, @AuthenticationPrincipal PrincipalDetails pd) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
 
             // 상품 저장
-            shopService.INSERT_BUY_NOTE(request, dto, principal);
+            shopService.INSERT_BUY_NOTE(request, dto, principal, pd);
             shopService.SELECT_BUY_NOTE_DETAIL(dto.getRegItembuyNoteIdx());
 
             List<BuyNoteListVo> buyNotes = shopService.SELECT_BUY_NOTE_LIST(dto.getRegItemIdx());

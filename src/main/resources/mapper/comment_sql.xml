@@ -9,7 +9,7 @@
             TC.comment_idx AS commentIdx,
             TC.comment_content AS commentContent,
             DATE_FORMAT(TC.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
-            TU.name AS writer
+            TU.nickname AS writer
         FROM TB_COMMENT TC
                  LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
         WHERE board_idx = #{boardIdx}
@@ -20,7 +20,7 @@
             TC.comment_idx AS commentIdx,
             TC.comment_content AS commentContent,
             DATE_FORMAT(TC.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
-            TU.name AS writer
+            TU.nickname AS writer
         FROM TB_COMMENT TC
                  LEFT OUTER JOIN TB_USER TU ON TC.reg_idx = TU.user_idx
         WHERE comment_idx = #{commentIdx}

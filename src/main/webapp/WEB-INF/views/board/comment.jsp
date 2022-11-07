@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -10,7 +12,7 @@
 
     <div id="commentBox">
         <h3 style="margin-top: 100px;" >댓글 <span id="count">${count}</span>개</h3>
-        <c:if test="${user != null}">
+        <sec:authorize access="isAuthenticated()">
             <div class="card mt-3" >
                 <div class="mt-3">
                     <div class="form-floating d-flex justify-content-center" style="margin-top: 10px; width: 95%; height: 120px;">
@@ -21,7 +23,7 @@
                     </div>
                 </div>
             </div>
-        </c:if>
+        </sec:authorize>
         <div class="card mt-3" id="commentDiv" style="border: none;">
             <c:forEach items="${comments}" var="comment">
                 <div class="card mt-3" >
@@ -64,8 +66,6 @@
             document.getElementById('commentDiv').replaceChildren();
 
             var list = res.comments
-
-
 
             $.each(list, function(idx, val) {
 
@@ -113,6 +113,11 @@
             method: 'post',
             success: function (res) {
                 alert(res.msg)
+
+                var count = '<c:out value="${count}"/>';
+
+                console.log(count)
+                document.getElementById("count").innerHTML = count;
 
             },
             error: function (err) {

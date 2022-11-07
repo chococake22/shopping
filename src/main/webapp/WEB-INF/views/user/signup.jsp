@@ -40,8 +40,8 @@
             <h6 id="chkPwdMsg"></h6>
         </div>
         <div class="mb-3">
-            <label for="name" class="form-label">이름<span style="color: red">*</span></label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="이름" required>
+            <label for="nickname" class="form-label">이름<span style="color: red">*</span></label>
+            <input type="text" class="form-control" id="nickname" name="nickname" placeholder="이름" required>
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">전화번호</label>

@@ -1,8 +1,11 @@
 package kr.project.shopping.service.shop;
 
 import kr.project.shopping.domain.item.RegItemFile;
+import kr.project.shopping.domain.user.PrincipalDetails;
 import kr.project.shopping.domain.user.User;
 import kr.project.shopping.dto.shop.BuyNoteSaveDto;
+import kr.project.shopping.dto.user.KakaoUserSaveDto;
+import kr.project.shopping.mapper.KakaoMapper;
 import kr.project.shopping.service.user.UserServiceImpl;
 import kr.project.shopping.vo.shop.BuyNoteDetailVo;
 import kr.project.shopping.vo.shop.BuyNoteListVo;
@@ -13,7 +16,9 @@ import kr.project.shopping.vo.shop.RegItemListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +37,7 @@ public class ShopServiceImpl implements ShopService{
 
     private final ShopMapper shopMapper;
     private final UserServiceImpl userService;
+    private final KakaoMapper kakaoMapper;
 
     @Value("${file.upload.path.shop}")
     private String fileDir;
@@ -45,9 +51,10 @@ public class ShopServiceImpl implements ShopService{
 
     // 상품 등록
     @Override
+    @Transactional
     public Long INSERT_REG_ITEM(HttpServletRequest request, RegItemSaveDto dto, Principal principal) {
 
-        User user = userService.SELECT_USER_BY_USERID(principal.getName());
+        User user = userService.getUserInfo(principal.getName());
         dto.setRegIdx(user.getUserIdx());
         return shopMapper.INSERT_REG_ITEM(dto);
     }
@@ -128,11 +135,18 @@ public class ShopServiceImpl implements ShopService{
         return shopMapper.COUNT_BUY_NOTE_LIST(regItemIdx);
     }
 
-    public Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal) {
+    public Long INSERT_BUY_NOTE(HttpServletRequest request, BuyNoteSaveDto dto, Principal principal, PrincipalDetails pd) {
 
-        User user = userService.SELECT_USER_BY_USERID(principal.getName());
+        System.out.println("댓글 등록 아이디 : " + principal.getName());
 
-        dto.setRegIdx(user.getUserIdx());
+        if (pd != null && !pd.getUser().getProvider().equals("normal")) {
+            User user = userService.getUserInfo(pd.getUser().getUserId(), pd.getUser().getProvider());
+            dto.setRegIdx(user.getUserIdx());
+        } else {
+            User user = userService.getUserInfo(principal.getName());
+            dto.setRegIdx(user.getUserIdx());
+        }
+
         return shopMapper.INSERT_BUY_NOTE(dto);
     }
 

@@ -3,14 +3,9 @@ package kr.project.shopping.service.user;
 import kr.project.shopping.domain.user.KakaoUserInfo;
 import kr.project.shopping.domain.user.OAuthAttributes;
 import kr.project.shopping.domain.user.PrincipalDetails;
-import kr.project.shopping.dto.user.KakaoUserSaveDto;
+import kr.project.shopping.domain.user.User;
 import kr.project.shopping.mapper.KakaoMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -18,6 +13,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -26,6 +22,7 @@ import java.util.Map;
 public class UserOAuth2Service extends DefaultOAuth2UserService {
 
     private final KakaoMapper kakaoMapper;
+    private final UserServiceImpl userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -34,6 +31,7 @@ public class UserOAuth2Service extends DefaultOAuth2UserService {
     // Oauth 로그인 처리는 이 클래스에서 진행함
 
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         System.out.println("OAuth2 로그인 시작");
@@ -62,14 +60,16 @@ public class UserOAuth2Service extends DefaultOAuth2UserService {
         System.out.println("loginId : " + loginId);
 
         // DB에서 카카오로 가입된 회원이 있는지 조회하기
-        KakaoUserSaveDto user = kakaoMapper.SELECT_USER_BY_EMAIL(email);
+        User user = userService.getUserInfo(email, provider);
 
         // 없으면 계정 생성
         if (user == null) {
-            user = KakaoUserSaveDto.builder()
+            user = User.builder()
+                    .userId(email)
                     .loginId(loginId)
                     .password(password)
                     .nickname(nickname)
+                    .authority("USER")
                     .email(email)
                     .provider(provider)
                     .providerId(providerId)

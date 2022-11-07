@@ -16,7 +16,7 @@
             TRI.reg_item_idx AS regItemIdx,
             TRI.reg_idx AS regIdx,
             DATE_FORMAT(TRI.reg_dt, '%Y-%m-%d') AS regDt,
-            TU.name AS writer,
+            TU.nickname AS writer,
             TRI.item_info AS itemInfo,
             TRI.item_type AS itemType,
             TRI.item_name AS itemName,
@@ -41,7 +41,7 @@
             TRI.reg_item_idx AS regItemIdx,
             TRI.reg_idx AS regIdx,
             DATE_FORMAT(TRI.reg_dt, '%Y-%m-%d') AS regDt,
-            TU.name AS writer,
+            TU.nickname AS writer,
             TRI.item_info AS itemInfo,
             TRI.item_type AS itemType,
             TRI.item_name AS itemName,
@@ -60,7 +60,7 @@
         SELECT
             TRIBN.reg_item_buy_note_idx AS regItemBuyNoteIdx,
             TRIBN.reg_idx AS regIdx,
-            TU.name AS writer,
+            TU.nickname AS writer,
             DATE_FORMAT(TRIBN.reg_dt, '%Y-%m-%d %H:%i:%s') AS regDt,
             TRIBN.title AS title,
             TRIBN.content AS content,
@@ -91,7 +91,7 @@
             TRIBN.title AS title,
             TRIBN.content AS content,
             TRIBN.reg_item_idx AS regItemIdx,
-            TU.name AS writer
+            TU.nickname AS writer
         FROM TB_REG_ITEM_BUY_NOTE TRIBN
              LEFT OUTER JOIN TB_USER TU ON TRIBN.reg_idx = TU.user_idx
         WHERE TRIBN.reg_item_buy_note_idx = #{regItemBuyNoteIdx}
